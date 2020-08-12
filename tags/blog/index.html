@@ -1,35 +1,37 @@
+{% extends '_layout.swig' %}
+{% import '_macro/post-collapse.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/28/my-first-blog/" class="archive-article-date">
-  <time datetime="2018-01-28T12:58:45.000Z" itemprop="datePublished">Jan 28</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/28/my-first-blog/">my first blog</a>
-    </h1>
-  
+{% block title %}{{ __('title.tag') }}: {{ page.tag }} | {{ config.title }}{% endblock %}
 
-    </header>
+{% block content %}
+
+  {#################}
+  {### TAG BLOCK ###}
+  {#################}
+  <div class="post-block tag">
+
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <{% if theme.seo %}h2{% else %}h1{% endif %}>{#
+        #}{{ page.tag }}{#
+        #}<small>{{  __('title.tag')  }}</small>
+        </{% if theme.seo %}h2{% else %}h1{% endif %}>
+      </div>
+
+      {% for post in page.posts %}
+        {{ post_template.render(post) }}
+      {% endfor %}
+    </div>
+
   </div>
-</article>
-  
-  
-    </div></section>
-  
+  {#####################}
+  {### END TAG BLOCK ###}
+  {#####################}
 
+  {% include '_partials/pagination.swig' %}
+{% endblock %}
 
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}

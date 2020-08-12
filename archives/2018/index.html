@@ -1,73 +1,62 @@
+{% extends '_layout.swig' %}
+{% import '_macro/post-collapse.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/08/04/Nonecms-v1-3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2018-7219%EF%BC%89/" class="archive-article-date">
-  <time datetime="2018-08-04T09:42:21.000Z" itemprop="datePublished">Aug 4</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/04/Nonecms-v1-3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2018-7219%EF%BC%89/">Nonecms v1.3后台CSRF漏洞（CVE-2018-7219）</a>
-    </h1>
-  
+{% block title %}{{ __('title.archive') }} | {{ config.title }}{% endblock %}
 
-    </header>
+{% block page_class %}page-archive{% endblock %}
+
+{% block content %}
+
+  {#####################}
+  {### ARCHIVE BLOCK ###}
+  {#####################}
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
+
+      <span class="archive-page-counter">
+        {% set cheers %}
+        {% set posts_length = site.posts.length %}
+        {% if posts_length > 210 %} {% set cheers = 'excellent' %}
+          {% elif posts_length > 130 %} {% set cheers = 'great' %}
+          {% elif posts_length > 80 %} {% set cheers = 'good' %}
+          {% elif posts_length > 50 %} {% set cheers = 'nice' %}
+          {% elif posts_length > 30 %} {% set cheers = 'ok' %}
+        {% else %}
+          {% set cheers = 'um' %}
+        {% endif %}
+        {{ __('cheers.' + cheers) }}! {{ _p("counter.archive_posts", site.posts.length) }} {{ __('keep_on') }}
+      </span>
+
+      {% for post in page.posts %}
+
+        {# Show year #}
+        {% set year %}
+        {% set post.year = date(post.date, 'YYYY') %}
+
+        {% if post.year !== year %}
+          {% set year = post.year %}
+          <div class="collection-title">
+            <{% if theme.seo %}h2{% else %}h1{% endif %} class="archive-year" id="archive-year-{{ year }}">{{ year }}</{% if theme.seo %}h2{% else %}h1{% endif %}>
+          </div>
+        {% endif %}
+        {# endshow #}
+
+        {{ post_template.render(post) }}
+
+      {% endfor %}
+
+    </div>
   </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/30/Sublime-text3-with-PHP/" class="archive-article-date">
-  <time datetime="2018-01-30T08:28:25.000Z" itemprop="datePublished">Jan 30</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/30/Sublime-text3-with-PHP/">Sublime text3 with PHP</a>
-    </h1>
-  
+  {#########################}
+  {### END ARCHIVE BLOCK ###}
+  {#########################}
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2018/01/28/my-first-blog/" class="archive-article-date">
-  <time datetime="2018-01-28T12:58:45.000Z" itemprop="datePublished">Jan 28</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/01/28/my-first-blog/">my first blog</a>
-    </h1>
-  
+  {% include '_partials/pagination.swig' %}
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+{% endblock %}
 
-
+{% block sidebar %}
+  {{ sidebar_template.render(false) }}
+{% endblock %}
