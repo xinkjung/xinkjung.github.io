@@ -110,7 +110,7 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ hexo s -g         #生成并本地预览</span><br><span class="line">$ hexo d -g         #生成并上传</span><br><span class="line">$ hexo s --debug    #进入调试模式</span><br></pre></td></tr></table></figure>
 
 <h1 id="上传博客"><a href="#上传博客" class="headerlink" title="上传博客"></a>上传博客</h1><p>一般完整格式为：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: postName #文章页面上的显示名称，一般是中文</span><br><span class="line">date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改</span><br><span class="line">categories: 默认分类 #分类</span><br><span class="line">tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格</span><br><span class="line">description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description里面</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">以下是正文</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: postName #文章页面上的显示名称，一般是中文</span><br><span class="line">date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改</span><br><span class="line">categories: 默认分类 #分类 只能归于一个分类下</span><br><span class="line">tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格</span><br><span class="line">description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description里面</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">以下是正文</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>新建编辑</p>
@@ -353,5 +353,17 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 
 
 ]]></content>
+  </entry>
+  <entry>
+    <title>打造我的博客之Hexo的NexT主题美化</title>
+    <url>/2020/08/16/%E6%89%93%E9%80%A0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B9%8BHexo%E7%9A%84NexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><h2 id="添加页面"><a href="#添加页面" class="headerlink" title="添加页面"></a>添加页面</h2><h2 id="侧边栏社交"><a href="#侧边栏社交" class="headerlink" title="侧边栏社交"></a>侧边栏社交</h2><h2 id="腾讯公益404"><a href="#腾讯公益404" class="headerlink" title="腾讯公益404"></a>腾讯公益404</h2><h1 id="美化完善"><a href="#美化完善" class="headerlink" title="美化完善"></a>美化完善</h1><h2 id="添加网易云音乐播放器"><a href="#添加网易云音乐播放器" class="headerlink" title="添加网易云音乐播放器"></a>添加网易云音乐播放器</h2><h2 id="更改底部状态栏"><a href="#更改底部状态栏" class="headerlink" title="更改底部状态栏"></a>更改底部状态栏</h2><h2 id="设置文章结尾"><a href="#设置文章结尾" class="headerlink" title="设置文章结尾"></a>设置文章结尾</h2><h2 id="访客统计"><a href="#访客统计" class="headerlink" title="访客统计"></a>访客统计</h2><h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><h2 id="版权信息"><a href="#版权信息" class="headerlink" title="版权信息"></a>版权信息</h2><h2 id="DaoVoice在线联系"><a href="#DaoVoice在线联系" class="headerlink" title="DaoVoice在线联系"></a>DaoVoice在线联系</h2><h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h2>]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>blog</tag>
+        <tag>hexo</tag>
+      </tags>
   </entry>
 </search>
