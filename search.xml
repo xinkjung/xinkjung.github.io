@@ -358,8 +358,63 @@ $ hexo d # == hexo deploy 上传 </code></pre>
   <entry>
     <title>打造我的博客之Hexo的NexT主题美化</title>
     <url>/2020/08/16/%E6%89%93%E9%80%A0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B9%8BHexo%E7%9A%84NexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><h2 id="添加页面"><a href="#添加页面" class="headerlink" title="添加页面"></a>添加页面</h2><h2 id="侧边栏社交"><a href="#侧边栏社交" class="headerlink" title="侧边栏社交"></a>侧边栏社交</h2><h2 id="腾讯公益404"><a href="#腾讯公益404" class="headerlink" title="腾讯公益404"></a>腾讯公益404</h2><h1 id="美化完善"><a href="#美化完善" class="headerlink" title="美化完善"></a>美化完善</h1><h2 id="更换博客logo"><a href="#更换博客logo" class="headerlink" title="更换博客logo"></a>更换博客logo</h2><h2 id="添加网易云音乐播放器"><a href="#添加网易云音乐播放器" class="headerlink" title="添加网易云音乐播放器"></a>添加网易云音乐播放器</h2><h2 id="更改底部状态栏"><a href="#更改底部状态栏" class="headerlink" title="更改底部状态栏"></a>更改底部状态栏</h2><h2 id="设置文章结尾"><a href="#设置文章结尾" class="headerlink" title="设置文章结尾"></a>设置文章结尾</h2><h2 id="增加访客统计"><a href="#增加访客统计" class="headerlink" title="增加访客统计"></a>增加访客统计</h2><h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><h2 id="显示版权信息"><a href="#显示版权信息" class="headerlink" title="显示版权信息"></a>显示版权信息</h2><h2 id="DaoVoice在线联系"><a href="#DaoVoice在线联系" class="headerlink" title="DaoVoice在线联系"></a>DaoVoice在线联系</h2><h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h2><h2 id="支持代码复制"><a href="#支持代码复制" class="headerlink" title="支持代码复制"></a>支持代码复制</h2><h2 id="添加打赏功能"><a href="#添加打赏功能" class="headerlink" title="添加打赏功能"></a>添加打赏功能</h2><hr>
-<h3 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h3><ol>
+    <content><![CDATA[<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><blockquote>
+<p>下载并启用主题</p>
+</blockquote>
+<p>再三挑选还是觉得Next最好看，简洁明了，符合我的审美～<br>安装方式很简单，直接在博客根目录下打开终端执行以下命令（这是最新的，之前好像不是这个换了地址）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;theme-next&#x2F;hexo-theme-next themes&#x2F;next</span><br></pre></td></tr></table></figure>
+<p>下载完成后打开站点的配置文件_config.yml，找到theme字段将其值改为next：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">theme: next                                     &#x2F;&#x2F;(注意冒号后是有一个空格的哦)</span><br></pre></td></tr></table></figure>
+<p>到此安装完成了，我们要验证一下主题是否有正确启用啦。<br>打开位于博客站点所在根目录的终端窗口，输入命令 hexo s –debug (打开调试模式)。启动过程中注意观察命令行是否有任何异常信息，如果报错会存在错误提示。当命令行中输出提示：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000&#x2F;. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+<p>此时就可以使用浏览器访问 <a href="http://localhost:4000/">http://localhost:4000</a> ，可以进行预览检查站点是否正常运行，没有问题就可以对其进行部署了，执行命令 hexo d -g<br>这里附上 <a href="http://theme-next.iissnan.com/">NexT使用文档</a></p>
+<blockquote>
+<p>主题设定</p>
+</blockquote>
+<p>目前NexT支持四种Scheme：</p>
+<ul>
+<li>Muse - 默认 Scheme，这是 NexT 最初的版本，黑白主调，大量留白，单栏外观</li>
+<li>Mist - Muse 的紧凑版本，整洁有序的单栏外观，工具栏在最上方</li>
+<li>Pisces - 双栏 Scheme，小家碧玉似的清新</li>
+<li>Gemini - Pisces的改善版本，单独框列每个模块<br>可以通过更改主题的配置文件(themes/next/_config.yml)中scheme关键字的值来进行切换，如：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">scheme: Muse                                        &#x2F;&#x2F;我使用的就是默认主题没有更改</span><br><span class="line">#scheme: Mist</span><br><span class="line">#scheme: Pisces</span><br><span class="line">#scheme: Gemini</span><br></pre></td></tr></table></figure>
+接下来应该设置语言了，可以打开你的themes/next/languages文件夹，里面列出来主题所支持的语言，选好你要使用的语言然后对博客的站点配置文件(Blog/_config.yml)进行设置，找到language字段，将其值改为 zh-CN：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">language: zh-CN</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<blockquote>
+<p>设置菜单</p>
+</blockquote>
+<p>包括三个部分：菜单项（名称和链接）、菜单项显示文本、菜单项对应图标</p>
+<ol>
+<li>设定菜单项内容和对应图标<br>打开主题配置文件，找到字段menu，对其编辑，不需要的项目用#号注释掉就好了， || 后的是对应菜单项所使用的图标名称（是Font Awesome 图标的名字），具体实现像这样：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: &#x2F; || fa fa-home</span><br><span class="line">  about: &#x2F;about&#x2F; || fa fa-user</span><br><span class="line">  tags: &#x2F;tags&#x2F; || fa fa-tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || fa fa-th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || fa fa-archive</span><br><span class="line">  #schedule: &#x2F;schedule&#x2F; || fa fa-calendar</span><br><span class="line">  #sitemap: &#x2F;sitemap.xml || fa fa-sitemap</span><br><span class="line">  commonweal: &#x2F;404&#x2F; || fa fa-heartbeat</span><br><span class="line"></span><br><span class="line"> # ps: 若你的站点运行在子目录中，就将链接前缀的 &#x2F; 去掉</span><br></pre></td></tr></table></figure>
+其中只有首页和归档页是自动配置好的，其他页面都需要我们手动进行创建，后面再来。</li>
+<li>设置菜单项的显示文本<br>上一步中设置的菜单的名称并不直接用于界面上的展示，它会自动将使用这个名称查找对应的语言翻译然后提取显示文本，翻译文本位于languages/{language}.yml文件中。<br>以简体中文为例，如果添加菜单项，比如 something，那么就需要修改简体中文对应的翻译文件 languages/zh-CN.yml，在 menu 字段下添加一项：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  search: 搜索</span><br><span class="line">  commonweal: 公益404</span><br><span class="line">  something: 有料</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p>设置侧栏</p>
+</blockquote>
+<p>主题包含侧栏显示个人信息，默认情况下，侧栏仅在文章页面（拥有目录列表）时才显示，并放置于右侧位置。可以通过修改主题配置文件中的sidebar字段来控制侧栏的行为，侧栏的设置包括两个部分，其一是侧栏的位置， 其二是侧栏显示的时机。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sidebar:</span><br><span class="line">  # Sidebar Position.</span><br><span class="line">  position: left</span><br><span class="line">  # position: right</span><br><span class="line"></span><br><span class="line">  # Sidebar Display (only for Muse | Mist), available values:</span><br><span class="line">  #  - post    expand on posts automatically. Default.</span><br><span class="line">  #  - always  expand for all pages automatically.</span><br><span class="line">  #  - hide    expand only when click on the sidebar toggle icon.</span><br><span class="line">  #  - remove  totally remove sidebar including sidebar toggle.</span><br><span class="line">  display: hide #post</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>设置个人信息</p>
+</blockquote>
+<ol>
+<li>头像<br>编辑主题配置文件，修改字段url的值为头像的链接地址：</li>
+</ol>
+<ul>
+<li>绝对路径：完整的互联网url，如[<a href="http://example.com/avatar.png]">http://example.com/avatar.png]</a></li>
+<li>相对路径：放置在 source/images/ 目录下，如[/images/avatar.png]<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Sidebar Avatar</span><br><span class="line">avatar: </span><br><span class="line">  # Replace the default image and set the url here.</span><br><span class="line">  url: &#x2F;images&#x2F;avatar.png #&#x2F;images&#x2F;avatar.gif</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>站点基本配置<br>编辑站点配置文件，示例设置如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Site</span><br><span class="line">title: xinkjung                                  &#x2F;&#x2F;站点名称</span><br><span class="line">subtitle: &#39;&#39;                                     &#x2F;&#x2F;子标题</span><br><span class="line">description: &#39;Just be happy.&#39;                    &#x2F;&#x2F;站点描述</span><br><span class="line">keywords:                                        &#x2F;&#x2F;关键词</span><br><span class="line">author: xxx                                      &#x2F;&#x2F;作者昵称</span><br><span class="line">language: zh-CN                                  &#x2F;&#x2F;站点语言</span><br><span class="line">timezone: &#39;&#39;                                     &#x2F;&#x2F;时区</span><br></pre></td></tr></table></figure>
+搞定！第一部分的简单主题下载安装配置就到这里啦～</li>
+</ol>
+<h2 id="添加页面"><a href="#添加页面" class="headerlink" title="添加页面"></a>添加页面</h2><h2 id="侧边栏社交"><a href="#侧边栏社交" class="headerlink" title="侧边栏社交"></a>侧边栏社交</h2><h2 id="腾讯公益404"><a href="#腾讯公益404" class="headerlink" title="腾讯公益404"></a>腾讯公益404</h2><h1 id="美化完善"><a href="#美化完善" class="headerlink" title="美化完善"></a>美化完善</h1><h2 id="更换博客logo"><a href="#更换博客logo" class="headerlink" title="更换博客logo"></a>更换博客logo</h2><h2 id="添加网易云音乐播放器"><a href="#添加网易云音乐播放器" class="headerlink" title="添加网易云音乐播放器"></a>添加网易云音乐播放器</h2><h2 id="更改底部状态栏"><a href="#更改底部状态栏" class="headerlink" title="更改底部状态栏"></a>更改底部状态栏</h2><h2 id="设置文章结尾"><a href="#设置文章结尾" class="headerlink" title="设置文章结尾"></a>设置文章结尾</h2><h2 id="增加访客统计"><a href="#增加访客统计" class="headerlink" title="增加访客统计"></a>增加访客统计</h2><h2 id="添加搜索功能"><a href="#添加搜索功能" class="headerlink" title="添加搜索功能"></a>添加搜索功能</h2><h2 id="显示版权信息"><a href="#显示版权信息" class="headerlink" title="显示版权信息"></a>显示版权信息</h2><h2 id="DaoVoice在线联系"><a href="#DaoVoice在线联系" class="headerlink" title="DaoVoice在线联系"></a>DaoVoice在线联系</h2><h2 id="添加评论"><a href="#添加评论" class="headerlink" title="添加评论"></a>添加评论</h2><h2 id="支持代码复制"><a href="#支持代码复制" class="headerlink" title="支持代码复制"></a>支持代码复制</h2><h2 id="添加打赏功能"><a href="#添加打赏功能" class="headerlink" title="添加打赏功能"></a>添加打赏功能</h2><hr>
+<h1 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h1><ol>
 <li><p><a href=""></a></p>
 </li>
 <li><p><a href=""></a></p>
