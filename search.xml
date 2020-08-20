@@ -502,4 +502,45 @@ $ hexo d # == hexo deploy 上传 </code></pre>
         <tag>hexo</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Mac中文输入法提示框消失解决办法</title>
+    <url>/2020/08/20/Mac%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E6%8F%90%E7%A4%BA%E6%A1%86%E6%B6%88%E5%A4%B1%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>百度搜了一圈发现好像还蛮经常出现的？ 解决办法如下：<br>（建议先切到其他输入法或英文状态）</p>
+<h1 id="解决方案1⃣️"><a href="#解决方案1⃣️" class="headerlink" title="解决方案1⃣️"></a>解决方案1⃣️</h1><ol>
+<li>按f4 [先摁fn触摸栏显示后选择f4]</li>
+<li>选择【Launchpad】-&gt;【其他】-&gt;【活动监视器】</li>
+<li>打开监视器后找到 <code>简体中文输入法</code> 这一选项，选中之后变蓝，点击左上一个小叉叉（不是退出窗口！）</li>
+<li>选择【退出】</li>
+<li>重新切换到中文输入法！ 搞定啦！！！</li>
+</ol>
+<p>看网上很多人都这样解决的，但我试了好几次都不行，然后摁了f4突然就好了！！！</p>
+<h1 id="解决方案2⃣️"><a href="#解决方案2⃣️" class="headerlink" title="解决方案2⃣️"></a>解决方案2⃣️</h1><ol>
+<li>打开【系统偏好设置】-&gt;【键盘】-&gt;【输入法】</li>
+<li>然后左边将 <code>简体拼音</code> 这一输入法移除，再重新添加～</li>
+<li>之后保存设置退出，重新切换输入法状态就发现输入提示框重新出现啦～</li>
+</ol>
+]]></content>
+      <categories>
+        <category>解决方案</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《网络安全》学习之扫描技术（一） - nmap</title>
+    <url>/2020/08/20/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%89%AB%E6%8F%8F%E6%8A%80%E6%9C%AF%EF%BC%88%E4%B8%80%EF%BC%89-nmap/</url>
+    <content><![CDATA[<a id="more"></a>
+
+
+
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>nmap</tag>
+        <tag>网络安全</tag>
+      </tags>
+  </entry>
 </search>
