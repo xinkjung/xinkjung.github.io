@@ -572,13 +572,31 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 <h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
 <li>Wireshark 抓包配合nmap使用，筛选过滤命令如：<code>ip.addr == 10.105.1 and tcp.port == 80</code></li>
 </ul>
-<h2 id="网络漏洞扫描"><a href="#网络漏洞扫描" class="headerlink" title="网络漏洞扫描"></a>网络漏洞扫描</h2>]]></content>
+<h2 id="网络漏洞扫描"><a href="#网络漏洞扫描" class="headerlink" title="网络漏洞扫描"></a>网络漏洞扫描</h2><p>网络漏洞扫描指利用一些自动化工具发现网络上各类主机设备的安全漏洞，这些自动化工具通常称为“<br>漏洞扫描器“，常用的扫描器有Nessus、NeXpose、OpenVAS等。<br>漏洞扫描还可以分为两类：</p>
+<ul>
+<li>黑盒扫描<br>  黑盒扫描一般都是通过远程识别服务等类型和版本，对服务是否存在漏洞进行判定，在一些最新的漏洞扫描软件中应用了更高级的一些技术，如模拟渗透攻击等。</li>
+<li>白盒扫描<br>  白盒扫描技术在具有主机操作权限的情况下进行漏洞扫描。比如微软的补丁更新程序会定期对你的操作系统进行扫描，查找存在的安全漏洞，并向你推送相应的操作系统补丁。</li>
+</ul>
+<h2 id="Web漏洞扫描简述"><a href="#Web漏洞扫描简述" class="headerlink" title="Web漏洞扫描简述"></a>Web漏洞扫描简述</h2><p>如何及时、快速发现Web应用安全漏洞，并且修补漏洞，减轻或消除Web安全风险成为安全行业的重要课题。我们借助自动化工具帮助审计员去发现Web安全漏洞，这些工具就是“Web漏洞扫描器”，常见如IBM公司的AppScan、商业化Web漏洞扫描器AWVS等。<br>进行Web漏洞扫描的时候，大概分为几个步骤：</p>
+<ol>
+<li>爬行网站目录</li>
+<li>使用漏洞脚本扫描</li>
+<li>保存扫描结果  </li>
+</ol>
+<h2 id="关于漏洞"><a href="#关于漏洞" class="headerlink" title="关于漏洞"></a>关于漏洞</h2><ul>
+<li>漏洞的名称</li>
+<li>漏洞的风险等级： 高危｜中危｜低危｜信息泄露</li>
+<li>漏洞描述</li>
+<li>漏洞的危害</li>
+<li>修复建议</li>
+</ul>
+]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
         <tag>nmap</tag>
-        <tag>网络安全</tag>
+        <tag>网络安全，漏洞扫描</tag>
       </tags>
   </entry>
 </search>
