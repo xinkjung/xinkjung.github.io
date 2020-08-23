@@ -63,6 +63,31 @@
       </tags>
   </entry>
   <entry>
+    <title>Mac中文输入法提示框消失解决办法</title>
+    <url>/2020/08/20/Mac%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E6%8F%90%E7%A4%BA%E6%A1%86%E6%B6%88%E5%A4%B1%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>百度搜了一圈发现好像还蛮经常出现的？ 解决办法如下：<br>（建议先切到其他输入法或英文状态）</p>
+<h1 id="解决方案1⃣️"><a href="#解决方案1⃣️" class="headerlink" title="解决方案1⃣️"></a>解决方案1⃣️</h1><ol>
+<li>按f4 [先摁fn触摸栏显示后选择f4]</li>
+<li>选择【Launchpad】-&gt;【其他】-&gt;【活动监视器】</li>
+<li>打开监视器后找到 <code>简体中文输入法</code> 这一选项，选中之后变蓝，点击左上一个小叉叉（不是退出窗口！）</li>
+<li>选择【退出】</li>
+<li>重新切换到中文输入法！ 搞定啦！！！</li>
+</ol>
+<p>看网上很多人都这样解决的，但我试了好几次都不行，然后摁了f4突然就好了！！！</p>
+<h1 id="解决方案2⃣️"><a href="#解决方案2⃣️" class="headerlink" title="解决方案2⃣️"></a>解决方案2⃣️</h1><ol>
+<li>打开【系统偏好设置】-&gt;【键盘】-&gt;【输入法】</li>
+<li>然后左边将 <code>简体拼音</code> 这一输入法移除，再重新添加～</li>
+<li>之后保存设置退出，重新切换输入法状态就发现输入提示框重新出现啦～</li>
+</ol>
+]]></content>
+      <categories>
+        <category>解决方案</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nonecms v1.3后台CSRF漏洞（CVE-2018-7219）</title>
     <url>/2018/08/04/Nonecms-v1-3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E%EF%BC%88CVE-2018-7219%EF%BC%89/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
@@ -370,6 +395,87 @@ $ hexo d # == hexo deploy 上传 </code></pre>
       </tags>
   </entry>
   <entry>
+    <title>《网络安全》学习之口令破解</title>
+    <url>/2020/08/23/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8F%A3%E4%BB%A4%E7%A0%B4%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="口令安全概述"><a href="#口令安全概述" class="headerlink" title="口令安全概述"></a>口令安全概述</h2>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>《网络安全》学习之扫描技术</title>
+    <url>/2020/08/20/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%89%AB%E6%8F%8F%E6%8A%80%E6%9C%AF/</url>
+    <content><![CDATA[<h2 id="扫描技术"><a href="#扫描技术" class="headerlink" title="扫描技术"></a>扫描技术</h2><ul>
+<li>扫描 </li>
+<li>自动化</li>
+<li>提高效率</li>
+</ul>
+<h2 id="资产发现"><a href="#资产发现" class="headerlink" title="资产发现"></a>资产发现</h2><ul>
+<li>发现目标环境中有哪些资产，联网设备，主机，服务器，各种服务等。</li>
+<li>资产整理、发现、收集。</li>
+</ul>
+<h3 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h3><p>有哪些主机在线，IP地址</p>
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><ol>
+<li>开启的端口</li>
+<li>端口上的服务</li>
+</ol>
+<blockquote>
+<p>扫描方式</p>
+</blockquote>
+<ul>
+<li>TCP 全链接扫描</li>
+<li>SYN 半链接扫描</li>
+<li>隐蔽扫描：Null扫描、Xmas扫描、FIN扫描</li>
+</ul>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>使用nmap进行操作时所使用的参数如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-sP &#x2F; -sn             &#x2F;&#x2F; 不进行端口扫描</span><br><span class="line">-p                    &#x2F;&#x2F; 指定端口</span><br><span class="line">    -p 80</span><br><span class="line">    -p 1-80</span><br><span class="line">    -p 80,3389,22,21</span><br><span class="line">    -p 1-80,3389,8080</span><br><span class="line">    -p 1-65535</span><br><span class="line">    -p-</span><br><span class="line">-sT                   &#x2F;&#x2F; TCP 全链接扫描 ： 建立完整三次握手过程</span><br><span class="line">-sS                   &#x2F;&#x2F; SYN 半链接扫描 ： 只进行三次握手的前两次</span><br><span class="line">-sN                   &#x2F;&#x2F; Null 扫描</span><br><span class="line">-sX                   &#x2F;&#x2F; Xmax 扫描</span><br><span class="line">-sF                   &#x2F;&#x2F; Fin 扫描        </span><br><span class="line">-sV                   &#x2F;&#x2F; 显示服务的详细版本 </span><br><span class="line">-O                    &#x2F;&#x2F; 操作系统类型（不太准确）</span><br><span class="line">-oN &#x2F; -oX             &#x2F;&#x2F; 保存扫描结果， txt&#x2F;xml</span><br><span class="line">-A                    &#x2F;&#x2F; 全面扫描 </span><br><span class="line">-T0 ~ -T5             &#x2F;&#x2F; 时序选项</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>使用nmap常见命令操作示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nmap</span><br><span class="line">nmap 127.0.0.1</span><br><span class="line">nmap 10.0.105.0&#x2F;24 -sP</span><br><span class="line">nmap 127.0.0.1 -p-</span><br><span class="line">nmap 10.0.105.1 -p 80 -sT</span><br><span class="line">nmap 10.0.105.1 -p 80 -sS</span><br><span class="line">nmap 10.0.105.1 -p 80 -sX</span><br><span class="line">nmap 10.0.105.1 -p 80 -sN</span><br><span class="line">nmap 10.0.105.1 -p 80 -sF</span><br><span class="line">nmap -sV 127.0.0.1 -p 22</span><br><span class="line">nmap -p- -A 127.0.0.1 -oN result.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="端口状态"><a href="#端口状态" class="headerlink" title="端口状态"></a>端口状态</h2><p>大概分为以下几种：</p>
+<ol>
+<li>开放</li>
+<li>关闭</li>
+<li>过滤</li>
+<li>未过滤 </li>
+<li>开放 | 过滤</li>
+<li>关闭 | 过滤</li>
+</ol>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li>Wireshark 抓包配合nmap使用，筛选过滤命令如：<code>ip.addr == 10.105.1 and tcp.port == 80</code></li>
+</ul>
+<h2 id="网络漏洞扫描"><a href="#网络漏洞扫描" class="headerlink" title="网络漏洞扫描"></a>网络漏洞扫描</h2><p>网络漏洞扫描指利用一些自动化工具发现网络上各类主机设备的安全漏洞，这些自动化工具通常称为“<br>漏洞扫描器“，常用的扫描器有Nessus、NeXpose、OpenVAS等。<br>漏洞扫描还可以分为两类：</p>
+<ul>
+<li>黑盒扫描<br>  黑盒扫描一般都是通过远程识别服务等类型和版本，对服务是否存在漏洞进行判定，在一些最新的漏洞扫描软件中应用了更高级的一些技术，如模拟渗透攻击等。</li>
+<li>白盒扫描<br>  白盒扫描技术在具有主机操作权限的情况下进行漏洞扫描。比如微软的补丁更新程序会定期对你的操作系统进行扫描，查找存在的安全漏洞，并向你推送相应的操作系统补丁。</li>
+</ul>
+<h2 id="Web漏洞扫描简述"><a href="#Web漏洞扫描简述" class="headerlink" title="Web漏洞扫描简述"></a>Web漏洞扫描简述</h2><p>如何及时、快速发现Web应用安全漏洞，并且修补漏洞，减轻或消除Web安全风险成为安全行业的重要课题。我们借助自动化工具帮助审计员去发现Web安全漏洞，这些工具就是“Web漏洞扫描器”，常见如IBM公司的AppScan、商业化Web漏洞扫描器AWVS等。<br>进行Web漏洞扫描的时候，大概分为几个步骤：</p>
+<ol>
+<li>爬行网站目录</li>
+<li>使用漏洞脚本扫描</li>
+<li>保存扫描结果  </li>
+</ol>
+<h2 id="关于漏洞"><a href="#关于漏洞" class="headerlink" title="关于漏洞"></a>关于漏洞</h2><ul>
+<li>漏洞的名称</li>
+<li>漏洞的风险等级： 高危｜中危｜低危｜信息泄露</li>
+<li>漏洞描述</li>
+<li>漏洞的危害</li>
+<li>修复建议</li>
+</ul>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>nmap</tag>
+        <tag>网络安全，漏洞扫描</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>打造我的博客之Hexo的NexT主题美化</title>
     <url>/2020/08/16/%E6%89%93%E9%80%A0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B9%8BHexo%E7%9A%84NexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><blockquote>
@@ -500,103 +606,6 @@ $ hexo d # == hexo deploy 上传 </code></pre>
       <tags>
         <tag>blog</tag>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mac中文输入法提示框消失解决办法</title>
-    <url>/2020/08/20/Mac%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95%E6%8F%90%E7%A4%BA%E6%A1%86%E6%B6%88%E5%A4%B1%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>百度搜了一圈发现好像还蛮经常出现的？ 解决办法如下：<br>（建议先切到其他输入法或英文状态）</p>
-<h1 id="解决方案1⃣️"><a href="#解决方案1⃣️" class="headerlink" title="解决方案1⃣️"></a>解决方案1⃣️</h1><ol>
-<li>按f4 [先摁fn触摸栏显示后选择f4]</li>
-<li>选择【Launchpad】-&gt;【其他】-&gt;【活动监视器】</li>
-<li>打开监视器后找到 <code>简体中文输入法</code> 这一选项，选中之后变蓝，点击左上一个小叉叉（不是退出窗口！）</li>
-<li>选择【退出】</li>
-<li>重新切换到中文输入法！ 搞定啦！！！</li>
-</ol>
-<p>看网上很多人都这样解决的，但我试了好几次都不行，然后摁了f4突然就好了！！！</p>
-<h1 id="解决方案2⃣️"><a href="#解决方案2⃣️" class="headerlink" title="解决方案2⃣️"></a>解决方案2⃣️</h1><ol>
-<li>打开【系统偏好设置】-&gt;【键盘】-&gt;【输入法】</li>
-<li>然后左边将 <code>简体拼音</code> 这一输入法移除，再重新添加～</li>
-<li>之后保存设置退出，重新切换输入法状态就发现输入提示框重新出现啦～</li>
-</ol>
-]]></content>
-      <categories>
-        <category>解决方案</category>
-      </categories>
-      <tags>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>《网络安全》学习之扫描技术 - nmap</title>
-    <url>/2020/08/20/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%89%AB%E6%8F%8F%E6%8A%80%E6%9C%AF-nmap/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<h2 id="扫描技术"><a href="#扫描技术" class="headerlink" title="扫描技术"></a>扫描技术</h2><ul>
-<li>扫描 </li>
-<li>自动化</li>
-<li>提高效率</li>
-</ul>
-<h2 id="资产发现"><a href="#资产发现" class="headerlink" title="资产发现"></a>资产发现</h2><ul>
-<li>发现目标环境中有哪些资产，联网设备，主机，服务器，各种服务等。</li>
-<li>资产整理、发现、收集。</li>
-</ul>
-<h3 id="主机发现"><a href="#主机发现" class="headerlink" title="主机发现"></a>主机发现</h3><p>有哪些主机在线，IP地址</p>
-<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><ol>
-<li>开启的端口</li>
-<li>端口上的服务</li>
-</ol>
-<blockquote>
-<p>扫描方式</p>
-</blockquote>
-<ul>
-<li>TCP 全链接扫描</li>
-<li>SYN 半链接扫描</li>
-<li>隐蔽扫描：Null扫描、Xmas扫描、FIN扫描</li>
-</ul>
-<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><p>使用nmap进行操作时所使用的参数如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-sP &#x2F; -sn             &#x2F;&#x2F; 不进行端口扫描</span><br><span class="line">-p                    &#x2F;&#x2F; 指定端口</span><br><span class="line">    -p 80</span><br><span class="line">    -p 1-80</span><br><span class="line">    -p 80,3389,22,21</span><br><span class="line">    -p 1-80,3389,8080</span><br><span class="line">    -p 1-65535</span><br><span class="line">    -p-</span><br><span class="line">-sT                   &#x2F;&#x2F; TCP 全链接扫描 ： 建立完整三次握手过程</span><br><span class="line">-sS                   &#x2F;&#x2F; SYN 半链接扫描 ： 只进行三次握手的前两次</span><br><span class="line">-sN                   &#x2F;&#x2F; Null 扫描</span><br><span class="line">-sX                   &#x2F;&#x2F; Xmax 扫描</span><br><span class="line">-sF                   &#x2F;&#x2F; Fin 扫描        </span><br><span class="line">-sV                   &#x2F;&#x2F; 显示服务的详细版本 </span><br><span class="line">-O                    &#x2F;&#x2F; 操作系统类型（不太准确）</span><br><span class="line">-oN &#x2F; -oX             &#x2F;&#x2F; 保存扫描结果， txt&#x2F;xml</span><br><span class="line">-A                    &#x2F;&#x2F; 全面扫描 </span><br><span class="line">-T0 ~ -T5             &#x2F;&#x2F; 时序选项</span><br></pre></td></tr></table></figure>
-
-<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>使用nmap常见命令操作示例如下：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nmap</span><br><span class="line">nmap 127.0.0.1</span><br><span class="line">nmap 10.0.105.0&#x2F;24 -sP</span><br><span class="line">nmap 127.0.0.1 -p-</span><br><span class="line">nmap 10.0.105.1 -p 80 -sT</span><br><span class="line">nmap 10.0.105.1 -p 80 -sS</span><br><span class="line">nmap 10.0.105.1 -p 80 -sX</span><br><span class="line">nmap 10.0.105.1 -p 80 -sN</span><br><span class="line">nmap 10.0.105.1 -p 80 -sF</span><br><span class="line">nmap -sV 127.0.0.1 -p 22</span><br><span class="line">nmap -p- -A 127.0.0.1 -oN result.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="端口状态"><a href="#端口状态" class="headerlink" title="端口状态"></a>端口状态</h2><p>大概分为以下几种：</p>
-<ol>
-<li>开放</li>
-<li>关闭</li>
-<li>过滤</li>
-<li>未过滤 </li>
-<li>开放 | 过滤</li>
-<li>关闭 | 过滤</li>
-</ol>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
-<li>Wireshark 抓包配合nmap使用，筛选过滤命令如：<code>ip.addr == 10.105.1 and tcp.port == 80</code></li>
-</ul>
-<h2 id="网络漏洞扫描"><a href="#网络漏洞扫描" class="headerlink" title="网络漏洞扫描"></a>网络漏洞扫描</h2><p>网络漏洞扫描指利用一些自动化工具发现网络上各类主机设备的安全漏洞，这些自动化工具通常称为“<br>漏洞扫描器“，常用的扫描器有Nessus、NeXpose、OpenVAS等。<br>漏洞扫描还可以分为两类：</p>
-<ul>
-<li>黑盒扫描<br>  黑盒扫描一般都是通过远程识别服务等类型和版本，对服务是否存在漏洞进行判定，在一些最新的漏洞扫描软件中应用了更高级的一些技术，如模拟渗透攻击等。</li>
-<li>白盒扫描<br>  白盒扫描技术在具有主机操作权限的情况下进行漏洞扫描。比如微软的补丁更新程序会定期对你的操作系统进行扫描，查找存在的安全漏洞，并向你推送相应的操作系统补丁。</li>
-</ul>
-<h2 id="Web漏洞扫描简述"><a href="#Web漏洞扫描简述" class="headerlink" title="Web漏洞扫描简述"></a>Web漏洞扫描简述</h2><p>如何及时、快速发现Web应用安全漏洞，并且修补漏洞，减轻或消除Web安全风险成为安全行业的重要课题。我们借助自动化工具帮助审计员去发现Web安全漏洞，这些工具就是“Web漏洞扫描器”，常见如IBM公司的AppScan、商业化Web漏洞扫描器AWVS等。<br>进行Web漏洞扫描的时候，大概分为几个步骤：</p>
-<ol>
-<li>爬行网站目录</li>
-<li>使用漏洞脚本扫描</li>
-<li>保存扫描结果  </li>
-</ol>
-<h2 id="关于漏洞"><a href="#关于漏洞" class="headerlink" title="关于漏洞"></a>关于漏洞</h2><ul>
-<li>漏洞的名称</li>
-<li>漏洞的风险等级： 高危｜中危｜低危｜信息泄露</li>
-<li>漏洞描述</li>
-<li>漏洞的危害</li>
-<li>修复建议</li>
-</ul>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>nmap</tag>
-        <tag>网络安全，漏洞扫描</tag>
       </tags>
   </entry>
 </search>
