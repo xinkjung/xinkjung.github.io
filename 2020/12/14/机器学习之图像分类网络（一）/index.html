@@ -25,19 +25,22 @@
 
 -->
 
-  <meta name="description" content="参加了一个拍照识别的项目，开始深入加紧学习啦">
+  <meta name="description" content="学习图像分类过程笔记">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习之图像分类网络（一）">
 <meta property="og:url" content="https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/index.html">
 <meta property="og:site_name" content="xinkjung">
-<meta property="og:description" content="参加了一个拍照识别的项目，开始深入加紧学习啦">
+<meta property="og:description" content="学习图像分类过程笔记">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/%E5%9B%BE%E7%89%87%E5%9C%B0%E5%9D%80">
+<meta property="og:image" content="https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/%E5%9B%BE%E7%89%87%E5%9C%B0%E5%9D%80">
 <meta property="article:published_time" content="2020-12-14T15:54:02.000Z">
-<meta property="article:modified_time" content="2020-12-15T12:33:45.246Z">
+<meta property="article:modified_time" content="2020-12-17T13:42:54.762Z">
 <meta property="article:author" content="xxx">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="图像分类">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/%E5%9B%BE%E7%89%87%E5%9C%B0%E5%9D%80">
 
 <link rel="canonical" href="https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/">
 
@@ -235,7 +238,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-15 20:33:45" itemprop="dateModified" datetime="2020-12-15T20:33:45+08:00">2020-12-15</time>
+                <time title="修改时间：2020-12-17 21:42:54" itemprop="dateModified" datetime="2020-12-17T21:42:54+08:00">2020-12-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -269,7 +272,7 @@
   </span>
   
   
-            <div class="post-description">参加了一个拍照识别的项目，开始深入加紧学习啦</div>
+            <div class="post-description">学习图像分类过程笔记</div>
 
         </div>
       </header>
@@ -288,26 +291,56 @@
 <li>嵌入式设备上运行</li>
 <li>选择结构简单、参数少的网络</li>
 </ul>
-<h3 id="使用VGGNet、ResNet、Inception和Xception分类图像"><a href="#使用VGGNet、ResNet、Inception和Xception分类图像" class="headerlink" title="使用VGGNet、ResNet、Inception和Xception分类图像"></a><a target="_blank" rel="noopener" href="https://xercis.blog.csdn.net/article/details/88717074">使用VGGNet、ResNet、Inception和Xception分类图像</a></h3><blockquote>
+<h2 id="使用VGGNet、ResNet、Inception和Xception分类图像"><a href="#使用VGGNet、ResNet、Inception和Xception分类图像" class="headerlink" title="使用VGGNet、ResNet、Inception和Xception分类图像"></a><a target="_blank" rel="noopener" href="https://xercis.blog.csdn.net/article/details/88717074">使用VGGNet、ResNet、Inception和Xception分类图像</a></h2><blockquote>
 <p>简介    </p>
 </blockquote>
 <ol>
-<li><p>VGGNet<br>2014年。该网络使用3×3卷积核的卷积层堆叠并交替最大池化层，有两个4096维的全连接层，然后是softmax分类器。16和19分别代表网络中权重层的数量。</p>
-</li>
-<li><p>ResNet<br>2015年。该网络使用残差模块来组成更复杂的网络（网络中的网络），使用标准随机梯度下降法训练。与VGG相比，ResNet更深，但是由于使用全局平均池操作而不是全连接密集层，所以模型的尺寸更小。</p>
-</li>
-<li><p>Inception<br>2015年。该网络使用多个尺度的卷积核提取特征，并在同一模块中同时计算1×1、3×3、5×5卷积，然后将这些滤波器的输出沿通道维度堆叠并传递到下一层。<br>Inception-v4编写于2016年。</p>
-</li>
-<li><p>Xception<br>2016年。该网络是Inception网络的扩展，使用了深度可分离卷积运算。其参数数量与Inception-v3相同，由于更高效地利用模型参数，该网络性能获得提升并在大型图像分类数据集胜过Inception-v3。<br>Xception是Google继Inception后提出的对inception v3对另一种改进，主要采用深度可分离卷积（depthwise separable convolution）来替换原来Inception v3重的卷积操作。<br>Xception主要目的不在于模型压缩，而是提高性能。</p>
-<hr>
-</li>
+<li>VGGNet<br>2014年。该网络使用3×3卷积核的卷积层堆叠并交替最大池化层，有两个4096维的全连接层，然后是softmax分类器。16和19分别代表网络中权重层的数量。</li>
+<li>ResNet<br>2015年。该网络使用残差模块来组成更复杂的网络（网络中的网络），使用标准随机梯度下降法训练。与VGG相比，ResNet更深，但是由于使用全局平均池操作而不是全连接密集层，所以模型的尺寸更小。</li>
+<li>Inception<br>2015年。该网络使用多个尺度的卷积核提取特征，并在同一模块中同时计算1×1、3×3、5×5卷积，然后将这些滤波器的输出沿通道维度堆叠并传递到下一层。<br>Inception-v4编写于2016年。</li>
+<li>Xception<br>2016年。该网络是Inception网络的扩展，使用了深度可分离卷积运算。其参数数量与Inception-v3相同，由于更高效地利用模型参数，该网络性能获得提升并在大型图像分类数据集胜过Inception-v3。<br>Xception是Google继Inception后提出的对inception v3对另一种改进，主要采用深度可分离卷积（depthwise separable convolution）来替换原来Inception v3重的卷积操作。<br>Xception主要目的不在于模型压缩，而是提高性能。</li>
 </ol>
+<blockquote>
+<p>结果</p>
+</blockquote>
 <p>我的选择 : Xception; ResNet；</p>
 <hr>
 <h1 id="VGG16-RESNET50-INCEPTION-v3和-v4"><a href="#VGG16-RESNET50-INCEPTION-v3和-v4" class="headerlink" title="VGG16, RESNET50, INCEPTION-v3和-v4"></a>VGG16, RESNET50, INCEPTION-v3和-v4</h1><blockquote>
 <p>要求：</p>
 </blockquote>
-<p>找到这几种图像识别的网络，搭建环境试着训练一下小型数据集(cifar-10)</p>
+<p>找到这几种图像识别的网络，搭建环境试着训练一下小型数据集(cifar-10)或MNIST数据集，主攻RESNET50研究测试</p>
+<p>今天在GitHub下载了几个ResNet的文件，等服务器好了测试试试吧。</p>
+<hr>
+<p>好的，新开了个服务器给我们专用，能连了但是运行的python环境什么都没有，等配上了再PyCharm连接测试代码。</p>
+<hr>
+<h1 id="RESNET50"><a href="#RESNET50" class="headerlink" title="RESNET50"></a>RESNET50</h1><p>按组分配了不同任务，我负责学习RESNET50这一块，进行深入学习研究并编写分类测试代码。</p>
+<h2 id="残差网络"><a href="#残差网络" class="headerlink" title="残差网络"></a>残差网络</h2><ol>
+<li>残差指什么？</li>
+</ol>
+<p>非常非常深的神经网络是很难训练的，因为存在梯度消失和梯度爆炸问题，深度残差网络的设计就是为了克服由于网络深度加深而产生的学习效率变低与准确率无法有效提升的问题。<br>其中ResNet提出了两种mapping：一种是<code>identity mapping</code>，指的就是图1中”弯弯的曲线”，另一种<code>residual mapping</code>，指的就是除了”弯弯的曲线“那部分，所以最后的输出是 <code>y=F(x)+x</code><br><code>identity mapping</code>顾名思义，就是指本身，也就是公式中的x，而<code>residual mapping</code>指的是“差”，也就是，所以残差指的就是F(x)部分。</p>
+<ol start="2">
+<li>残差结构 ———— ResidualNet（残差网络）</li>
+</ol>
+<p>它使用了一种连接方式叫做<code>“shortcut connection”</code>，顾名思义，shortcut就是“抄近道”的意思。<br>将靠前的若干层的某一层数据输出直接跳过多层引入到后面数据层的输入部分，这意味着后面的特征层的内容会有一部分由前面的某一层（直接）线性贡献。<br><img src="%E5%9B%BE%E7%89%87%E5%9C%B0%E5%9D%80" alt="shortconnection"><br>上图我们可以看到一个“弯弯的弧线“这个就是所谓的<code>”shortcut connection“</code>，也是文中提到<code>identity mapping</code>，这张图也诠释了ResNet的真谛，当然大家可以放心，真正在使用的ResNet模块并不是这么单一，文章就提出了两种方式：<br><img src="%E5%9B%BE%E7%89%87%E5%9C%B0%E5%9D%80" alt="2resnetdesign"><br>这两种结构分别针对ResNet34（左图）和ResNet50/101/152（右图），一般称整个结构为一个<code>”building block“</code>。其中右图又称为<code>”bottleneck design”</code>，目的一目了然，就是为了降低参数的数目，第一个1x1的卷积把256维channel降到64维，然后在最后通过1x1卷积恢复，整体上用的参数数目：1x1x256x64 + 3x3x64x64 + 1x1x64x256 = 69632，而不使用bottleneck的话就是两个3x3x256的卷积，参数数目: 3x3x256x256x2 = 1179648，差了16.94倍。<br>对于常规ResNet，可以用于34层或者更少的网络中，对于Bottleneck Design的ResNet通常用于更深的如101这样的网络中，目的是减少计算和参数量（实用目的）。</p>
+<ol start="3">
+<li>ResNets50原理</li>
+</ol>
+<p>ResNets是由残差块（Residual block）构建的，首先解释一下什么是残差块。<br><img src="" alt="residualblock1"><br><img src="" alt="residualblock2"><br><img src="" alt="residualblock3"><br><img src="" alt="residualblock4"><br><img src="" alt="residualblock5"><br>但有了ResNets就不一样了，即使网络再深，训练的表现却不错，比如说训练误差减少，就算是训练深达100层的网络也不例外。有人甚至在1000多层的神经网络中做过实验，尽管目前我还没有看到太多实际应用。但是对x的激活，或者这些中间的激活能够到达网络的更深层。这种方式确实有助于解决梯度消失和梯度爆炸问题，让我们在训练更深网络的同时，又能保证良好的性能。也许从另外一个角度来看，随着网络越来深，网络连接会变得臃肿，但是ResNet确实在训练深度网络方面非常有效。 </p>
+<ol start="4">
+<li>RESNET50模型基本构成</li>
+</ol>
+<p><img src="" alt="resnet50"><br>ResNet50有两个基本的块，分别名为<code>Conv Block</code>和<code>Identity Block</code><br><em>Conv Block</em> 输入和输出的维度（通道数和size）是不一样的，所以它们直接不能串联，它的作用是改变网络的维度；<br><em>Identity Block</em> 输入维度和输出维度（通道数和size）相同，互相之间可以串联，用于加深网络。<br>  ps: 通道数：即是卷积核的个数（进行卷积的过滤器的层数）<br><img src="" alt="convblock"><br><img src="" alt="identityblock"></p>
+<ol start="5">
+<li>总体的网络结构</li>
+</ol>
+<p><img src="" alt="结构"></p>
+<hr>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ywheunji/p/14135776.html">常用卷积神经网络精炼总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/085f4c8256f1">RESNET18 50网络结构以及pytorch实现代码</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lanran2/article/details/79057994">ResNet解析</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1154y1S7WC?t=133">史上最详细ResNet50复现解析（B站）</a></li>
+</ul>
 
     </div>
 
@@ -341,7 +374,7 @@
   <p><span>文章作者:</span><a href="/" title="访问xinkjung的个人博客">xinkjung</a></p>
   
   <p><span>发布时间:</span>2020年12月14日 - 23:54</p>
-  <p><span>最后更新:</span>2020年12月15日 - 20:33</p>
+  <p><span>最后更新:</span>2020年12月17日 - 21:42</p>
 
   <p><span>原始链接:</span><a href="/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/" title="机器学习之图像分类网络（一）">https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://xinkjung.github.io/2020/12/14/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB%E7%BD%91%E7%BB%9C%EF%BC%88%E4%B8%80%EF%BC%89/"  aria-label="复制成功！"></i></span>
@@ -378,7 +411,10 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/12/17/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%A5%E9%97%A8/" rel="prev" title="机器学习之卷积神经网络（CNN）入门">
+      <i class="fa fa-chevron-left"></i> 机器学习之卷积神经网络（CNN）入门
+    </a></div>
       <div class="post-nav-item">
     <a href="/2020/08/28/%E3%80%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E3%80%8B%E5%AD%A6%E4%B9%A0%E4%B9%8BXSS/" rel="next" title="《网络安全》学习之XSS">
       《网络安全》学习之XSS <i class="fa fa-chevron-right"></i>
@@ -442,7 +478,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Xception-VGG16-ResNet-Inception-DenseNet-MobileNet-NASNet"><span class="nav-number">1.</span> <span class="nav-text">Xception&#x2F;VGG16&#x2F;ResNet&#x2F;Inception&#x2F;DenseNet&#x2F;MobileNet&#x2F;NASNet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8VGGNet%E3%80%81ResNet%E3%80%81Inception%E5%92%8CXception%E5%88%86%E7%B1%BB%E5%9B%BE%E5%83%8F"><span class="nav-number">1.0.1.</span> <span class="nav-text">使用VGGNet、ResNet、Inception和Xception分类图像</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VGG16-RESNET50-INCEPTION-v3%E5%92%8C-v4"><span class="nav-number">2.</span> <span class="nav-text">VGG16, RESNET50, INCEPTION-v3和-v4</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Xception-VGG16-ResNet-Inception-DenseNet-MobileNet-NASNet"><span class="nav-number">1.</span> <span class="nav-text">Xception&#x2F;VGG16&#x2F;ResNet&#x2F;Inception&#x2F;DenseNet&#x2F;MobileNet&#x2F;NASNet</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8VGGNet%E3%80%81ResNet%E3%80%81Inception%E5%92%8CXception%E5%88%86%E7%B1%BB%E5%9B%BE%E5%83%8F"><span class="nav-number">1.1.</span> <span class="nav-text">使用VGGNet、ResNet、Inception和Xception分类图像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VGG16-RESNET50-INCEPTION-v3%E5%92%8C-v4"><span class="nav-number">2.</span> <span class="nav-text">VGG16, RESNET50, INCEPTION-v3和-v4</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RESNET50"><span class="nav-number">3.</span> <span class="nav-text">RESNET50</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AE%8B%E5%B7%AE%E7%BD%91%E7%BB%9C"><span class="nav-number">3.1.</span> <span class="nav-text">残差网络</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -458,7 +494,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -471,7 +507,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
