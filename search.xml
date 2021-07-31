@@ -74,17 +74,17 @@ $ hexo d # == hexo deploy 上传
 <p>提交之后网页可能打不开，这是因为代码仓库中少了一个名为CNAME的文件，手动添加一个文件再刷新几次就能打开了。（必须为命名为 ‘CNAME’，内容为你的网站域名,如：xinkjung.github.io）</p>
 <p>为了避免此类现象，一些非md文件可以把它们放到根目录的source文件夹下，这里的所有文件都会原样复制（除了md文件）到public目录的，由于hexo默认会把所有md文件都转换成html，包括README.md，所有需要每次生成之后、上传之前，手动将README.md复制到public目录，并删除README.html。</p>
 <p>其他参考<br><a href="http://www.cnblogs.com/MuYunyun/p/5927491.html">http://www.cnblogs.com/MuYunyun/p/5927491.html</a><br><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa</a></p>
-<h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo new &quot;postName&quot;          #新建文章 $ hexo new page &quot;pageName&quot;     #新建页面 $ hexo generate                #生成静态页面至public目录 $ hexo server                  #开启预览访问端口（默认4000，&#x27;ctrl+c&#x27;关闭server） $ hexo deploy                  #部署到Github，上传 $ hexo help                    #查看帮助 $ hexo version                 #查看hexo版本</span><br></pre></td></tr></table></figure>
+<h1 id="常用hexo命令"><a href="#常用hexo命令" class="headerlink" title="常用hexo命令"></a>常用hexo命令</h1><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo new &quot;postName&quot;          #新建文章 </span><br><span class="line">$ hexo new page &quot;pageName&quot;     #新建页面 </span><br><span class="line">$ hexo generate                #生成静态页面至public目录 </span><br><span class="line">$ hexo server                  #开启预览访问端口（默认4000，&#x27;ctrl+c&#x27;关闭server） </span><br><span class="line">$ hexo deploy                  #部署到Github，上传 </span><br><span class="line">$ hexo help                    #查看帮助 </span><br><span class="line">$ hexo version                 #查看hexo版本</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>命令缩写 </p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo n == hexo new $ hexo g == hexo generate $ hexo s == hexo server $ hexo d == hexo deploy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo n == hexo new </span><br><span class="line">$ hexo g == hexo generate </span><br><span class="line">$ hexo s == hexo server </span><br><span class="line">$ hexo d == hexo deploy</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>组合命令</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo s -g         #生成并本地预览 $ hexo d -g         #生成并上传 $ hexo s --debug    #进入调试模式</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo s -g         #生成并本地预览 </span><br><span class="line">$ hexo d -g         #生成并上传 </span><br><span class="line">$ hexo s --debug    #进入调试模式</span><br></pre></td></tr></table></figure>
 
 <h1 id="上传博客"><a href="#上传博客" class="headerlink" title="上传博客"></a>上传博客</h1><p>一般完整格式为：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---title: postName #文章页面上的显示名称，一般是中文date: 2013-12-02 15:30:16 #文章生成时间，一般不改，当然也可以任意修改categories: 默认分类 #分类tags: [tag1,tag2,tag3] #文章标签，可空，多标签请用格式，注意:后面有个空格description: 附加一段文章摘要，字数最好在140字以内，会出现在meta的description里面---以下是正文</span><br></pre></td></tr></table></figure>
@@ -115,6 +115,9 @@ $ hexo d # == hexo deploy 上传
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">代码格式如下：  [网页链接说明](https://..... url)</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>博客搭建</category>
+      </categories>
       <tags>
         <tag>blog</tag>
         <tag>github</tag>
