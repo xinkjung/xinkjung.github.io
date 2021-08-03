@@ -426,7 +426,6 @@ $ hexo d # == hexo deploy 上传
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo s -g         # 生成并本地预览 </span><br><span class="line">$ hexo d -g         # 生成并上传 </span><br><span class="line">$ hexo s --debug    # 进入调试模式</span><br></pre></td></tr></table></figure>
 
-
 <h1 id="Hexo-内置标签"><a href="#Hexo-内置标签" class="headerlink" title="Hexo 内置标签"></a>Hexo 内置标签</h1><div class="note info">
             <p>fa-info 标签内的可变参数均用 <code>[]</code> 括起来了，实际使用时去掉括号填写对应参数即可。</p>
           </div>
