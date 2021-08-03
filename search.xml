@@ -157,9 +157,9 @@ $ hexo d # == hexo deploy 上传
         <category>博客</category>
       </categories>
       <tags>
+        <tag>Hexo</tag>
         <tag>Blog</tag>
         <tag>GitHub</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -261,24 +261,6 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/07/26/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>hexo博客搭建之写作格式</title>
     <url>/2021/07/31/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E5%86%99%E4%BD%9C%E6%A0%BC%E5%BC%8F/</url>
     <content><![CDATA[<p>本文介绍 Hexo 博客的写作格式规范。</p>
@@ -343,7 +325,6 @@ $ hexo d # == hexo deploy 上传
 <div class="note info">
             <p>如果出现预览成功但最后网页显示不成功的情况可以先用 hexo clean 清楚缓存，再进行部署</p>
           </div>
-
 
 <h1 id="语法与命令"><a href="#语法与命令" class="headerlink" title="语法与命令"></a>语法与命令</h1><h3 id="Markdown-基本语法"><a href="#Markdown-基本语法" class="headerlink" title="Markdown 基本语法"></a>Markdown 基本语法</h3><table>
 <thead>
@@ -463,7 +444,7 @@ $ hexo d # == hexo deploy 上传
 
 <p>发现软件预览效果与网页预览效果实际不同，最后以实际网页预览测试为准。</p>
 <h3 id="代码块进阶"><a href="#代码块进阶" class="headerlink" title="代码块进阶"></a>代码块进阶</h3><p>可以通过为代码块附加参数的形式为其添加更丰富的信息提示，效果如下：</p>
-<figure class="highlight python"><figcaption><span>Hello World  URL</span><a href="https://xinkjung.github.io">link</a></figcaption><table><tr><td class="code"><pre><span class="line">printf(<span class="string">&quot;Hello World!&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><figcaption><span>Hello World    url</span><a href="https://xinkjung.github.io">link</a></figcaption><table><tr><td class="code"><pre><span class="line">printf(<span class="string">&quot;Hello World!&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>代码块进阶语法规则：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1. 三个反引号：</span><br><span class="line">``` [language] [title] [url] [link text]</span><br><span class="line">code snippet </span><br><span class="line">``` `</span><br><span class="line">2. 标签方式（或简写为code）：</span><br><span class="line">&#123;% codeblock [title] [lang:language] [url] [link text] %&#125;</span><br><span class="line">code snippet</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
@@ -538,10 +519,10 @@ $ hexo d # == hexo deploy 上传
 <li>title：鼠标悬停时的工具提示</li>
 </ul>
 <p>使用示例如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% btn #, Home, fa-fw, 返回主页 %&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% btn #, Home, %&#125;</span><br></pre></td></tr></table></figure>
 
-<a class="btn" href="#" title="返回主页">
-            <i class="fa-fw"></i>Home
+<a class="btn" href="#">
+            <i class="fa fa-"></i>Home
           </a>
 
 <h3 id="tabs-选项标签"><a href="#tabs-选项标签" class="headerlink" title="tabs 选项标签"></a>tabs 选项标签</h3><p>tabs 标签用于快速创建 tabs 选项卡，语法如下：</p>
@@ -557,7 +538,7 @@ $ hexo d # == hexo deploy 上传
 <p>使用示例如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% tabs Unique name, [index] %&#125;</span><br><span class="line">&lt;!-- tab [Tab caption] [@icon] --&gt;</span><br><span class="line">**This is Tab 1.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- tab Solution 2 --&gt;</span><br><span class="line">**This is Tab 2.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- tab Solution 3 @paw --&gt;</span><br><span class="line">**This is Tab 3.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line">&#123;% endtabs %&#125;</span><br></pre></td></tr></table></figure>
 
-<div class="tabs" id="unique-name"><ul class="nav-tabs"><li class="tab active"><a href="#unique-name-1"><i class="fa fa-icon]"></i>[Tab caption] [</a></li><li class="tab"><a href="#unique-name-2">Solution 2</a></li><li class="tab"><a href="#unique-name-3"><i class="fa fa-paw"></i>Solution 3</a></li></ul><div class="tab-content"><div class="tab-pane active" id="unique-name-1"><p><strong>This is Tab 1.</strong></p></div><div class="tab-pane" id="unique-name-2"><p><strong>This is Tab 2.</strong></p></div><div class="tab-pane" id="unique-name-3"><p><strong>This is Tab 3.</strong></p></div></div></div>
+<div class="tabs" id="unique-name"><ul class="nav-tabs"><li class="tab"><a href="#unique-name-1"><i class="fa fa-github"></i></a></li><li class="tab active"><a href="#unique-name-2">Solution 2</a></li><li class="tab"><a href="#unique-name-3"><i class="fa fa-paw"></i>Solution 3</a></li></ul><div class="tab-content"><div class="tab-pane" id="unique-name-1"><p><strong>This is Tab 1.</strong></p></div><div class="tab-pane active" id="unique-name-2"><p><strong>This is Tab 2.</strong></p></div><div class="tab-pane" id="unique-name-3"><p><strong>This is Tab 3.</strong></p></div></div></div>
 
 <h3 id="video-标签"><a href="#video-标签" class="headerlink" title="video 标签"></a>video 标签</h3><p>我们还可以在网页中插入 video ，语法如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% video [url] %&#125;</span><br></pre></td></tr></table></figure>
@@ -589,27 +570,12 @@ $ hexo d # == hexo deploy 上传
 <h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p>若要在网页中添加流程图，可使用 <code>mermaid</code> 标签来描述：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% mermaid type%&#125;</span><br><span class="line">流程图内容</span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
 
-<p>使用示例如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;% mermaid sequenceDiagram %&#125;</span><br><span class="line">Alice -&gt;&gt; Bob: Hello Bob, how are you?</span><br><span class="line">Bob--&gt;&gt;John: How about you John?</span><br><span class="line">Bob--x Alice: I am good thanks!</span><br><span class="line">Bob-x John: I am good thanks!</span><br><span class="line">Note right of John: Bob thinks a long long time, so long &lt;br/&gt;that the text does not fit on a row.</span><br><span class="line">Bob--&gt;&gt;Alice: Checking with John...</span><br><span class="line">Alice-&gt;&gt;John: Yes... John, how are you?</span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
-
-<pre class="mermaid" style="text-align: center;">
-            sequenceDiagram
-            Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long long time, so long <br/>that the text does not fit on a row.
-Bob-->>Alice: Checking with John...
-Alice->>John: Yes... John, how are you?
-          </pre>
-
-
 <h1 id="Markdown-写作工具"><a href="#Markdown-写作工具" class="headerlink" title="Markdown 写作工具"></a>Markdown 写作工具</h1><blockquote>
 <p>Sublime Text3</p>
 </blockquote>
 <p>Sublime Text 是一款流行的代码编辑器软件，也是 HTML 和散文先进的文本编辑器，可运行在 Linux ， Windows 和 Mac OS X 。也是许多程序员喜欢使用的一款文本编辑器软件。</p>
 <p>经同学推荐在学习PHP的时候爱上了这款编辑器，除了python语言会使用PyCharm平时全都用的Sublime Text3，它包含丰富插件，可以作为文档编辑器，同时支持 Markdown 语法，搭配 Markdown Editing 和 MarkdownLivePreview 插件可进一步方便我们 Markdown 写作并在线预览。</p>
-<p>![Sublime Text3 界面](/images/Sublime Text3)</p>
+<p><img src="/images/SublimeText3" alt="Sublime Text3 界面"></p>
 <blockquote>
 <p>Typora</p>
 </blockquote>
@@ -644,12 +610,14 @@ Alice->>John: Yes... John, how are you?
 <li>支持数学公式、Echarts、mermaid</li>
 </ul>
 <p>搜索 Mweb 时发现的，都是由 ou lvhai 开发的，轻量级的选择是 One Markdown，功能完善且强大的选择是 MWeb 。</p>
-<p>![One Markdwon 界面](/images/One Makrdown)</p>
+<p><img src="/images/OneMakrdown" alt="One Markdwon 界面"></p>
 <blockquote>
 <p><a href="https://dillinger.io/">Dillinger</a></p>
 </blockquote>
 <p>Dillinger 是一款支持云的、移动就绪的、兼容离线存储的、<br>AngularJS 驱动的在线 HTML5 Markdown 编辑器，界面简洁，可在线实时预览。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="/images/Dillinger" alt="Dillinger 界面"></h2><h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ol>
+<p><img src="/images/Dillinger" alt="Dillinger 界面"></p>
+<hr>
+<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ol>
 <li><a href="https://theme-next.iissnan.com/getting-started.html">开始使用 - NexT 使用文档</a></li>
 <li><a href="http://yearito.cn/posts/hexo-writing-skills.html">Hexo 搭建个人博客系列：写作技巧篇 - Yearito’s Blog</a></li>
 <li><a href="https://wilenwu.github.io/posts/hexo/Hexo-tag-plugins.html">Hexo 标签插件的使用 - Wilen’s Blog</a></li>
@@ -660,9 +628,50 @@ Alice->>John: Yes... John, how are you?
         <category>博客</category>
       </categories>
       <tags>
-        <tag>Blog</tag>
         <tag>Hexo</tag>
+        <tag>Blog</tag>
         <tag>Markdown</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/07/26/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2021/08/02/test/</url>
+    <content><![CDATA[<blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>blah blah blah</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote> 
+
+<div class="note warning">
+            <p><strong>info</strong> note tag </p>
+          </div> 
+
+<div class="note success">
+            <p>success note tag</p>
+          </div>
+
+<span class="label success">I believe</span> I am  
+
+<p><img src="/images/icon_photo.png" alt="pic"></p>
+]]></content>
   </entry>
 </search>
