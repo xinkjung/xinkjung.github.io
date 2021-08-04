@@ -31,13 +31,13 @@
 <meta property="og:description" content="记录一些基本的博客写作格式规范">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/icon_photo.png">
-<meta property="og:image" content="http://example.com/images/SublimeText3">
-<meta property="og:image" content="http://example.com/images/Typora">
-<meta property="og:image" content="http://example.com/images/MWeb">
-<meta property="og:image" content="http://example.com/images/OneMakrdown">
-<meta property="og:image" content="http://example.com/images/Dillinger">
+<meta property="og:image" content="http://example.com/images/SublimeText3.png">
+<meta property="og:image" content="http://example.com/images/Typora.png">
+<meta property="og:image" content="http://example.com/images/MWeb.png">
+<meta property="og:image" content="http://example.com/images/OneMarkdown.png">
+<meta property="og:image" content="http://example.com/images/Dillinger.png">
 <meta property="article:published_time" content="2021-07-31T10:17:20.000Z">
-<meta property="article:modified_time" content="2021-08-03T04:28:16.199Z">
+<meta property="article:modified_time" content="2021-08-04T09:41:46.842Z">
 <meta property="article:author" content="xxx">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="Blog">
@@ -241,7 +241,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-03 12:28:16。" itemprop="dateModified" datetime="2021-08-03T12:28:16+08:00">2021-08-03</time>
+                <time title="修改时间：2021-08-04 17:41:46。" itemprop="dateModified" datetime="2021-08-04T17:41:46+08:00">2021-08-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,7 +277,7 @@
 <p>第二章中介绍了一些基本的 Markdown 写作语法 和 Hexo 常用命令。</p>
 <p>第三章中介绍了 Hexo 中常用的内置标签，包括 note 标签、label 标签、button 标签、tab 标签以及代码块的高级用法，通过使用写作标签可以快速编写样式丰富的文档片段。</p>
 <p>第四章中介绍了几款优雅实用的 Markdown 写作工具。</p>
-<h1 id="开始写作"><a href="#开始写作" class="headerlink" title="开始写作"></a>开始写作</h1><p>本章先做一些基本概念的介绍，这样会利于理解最后的如何发表文章（命令）。</p>
+<h2 id="开始写作"><a href="#开始写作" class="headerlink" title="开始写作"></a>开始写作</h2><p>本章先做一些基本概念的介绍，这样会利于理解最后的如何发表文章（命令）。</p>
 <h3 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h3><p>首先要熟悉我们本地的hexo文件夹包括哪些内容，每个文件夹的存储内容及其作用。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">.</span><br><span class="line">└───  本地hexo目录</span><br><span class="line">   ├──  public            // 存放上传部署于GitHub上的文件（即显示为博客内面内容的html文件们）</span><br><span class="line">   ├──  source            // 存放要发表的各个页面原md文件</span><br><span class="line">     ├──  _posts          // 已经发表的md文件原稿</span><br><span class="line">     ├──  _drafts         // 等待发表的md文件草稿</span><br><span class="line">     ├──  about           // about 页面（包含index.md文件）</span><br><span class="line">     ├──  tags            // tags 页面</span><br><span class="line">     ├──  categories      // categories 页面</span><br><span class="line">     └──  404             // 404公益 页面</span><br><span class="line">   ├──  themes            // 存放各主题文件夹</span><br><span class="line">      ├── landscape       // 默认landscape主题</span><br><span class="line">      └──  next           // 当前所使用Next主题，next文件夹下的_config.yml就是next主题的配置文件</span><br><span class="line">   ├──  scaffolds         // 存放各默认模版的设置文件</span><br><span class="line">      ├──  _draft.md</span><br><span class="line">      ├──  _post.md</span><br><span class="line">      └──  _page.md</span><br><span class="line">   └──  _config.yml       // 博客网站配置文件</span><br><span class="line">     ...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -332,10 +332,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 <p>无报错后登陆网站查看就可以看到新博文已经发表成功啦！！！</p>
 <div class="note info">
-            <p>如果出现预览成功但最后网页显示不成功的情况可以先用 hexo clean 清楚缓存，再进行部署</p>
+            <p><i class="fa fa-info-circle"></i> 如果出现预览成功但最后网页显示不成功的情况可以先用 hexo clean 清楚缓存，再进行部署</p>
           </div>
 
-<h1 id="语法与命令"><a href="#语法与命令" class="headerlink" title="语法与命令"></a>语法与命令</h1><h3 id="Markdown-基本语法"><a href="#Markdown-基本语法" class="headerlink" title="Markdown 基本语法"></a>Markdown 基本语法</h3><table>
+<h2 id="语法与命令"><a href="#语法与命令" class="headerlink" title="语法与命令"></a>语法与命令</h2><h3 id="Markdown-基本语法"><a href="#Markdown-基本语法" class="headerlink" title="Markdown 基本语法"></a>Markdown 基本语法</h3><table>
 <thead>
 <tr>
 <th>元素</th>
@@ -413,6 +413,11 @@
 <td><code>```code snippet```</code></td>
 <td><code>code snippet</code></td>
 </tr>
+<tr>
+<td>插入图标</td>
+<td><code>&lt;i class=&quot;fa fa-bolt&quot;&gt;&lt;/i&gt;</code></td>
+<td><i class="fa fa-bolt"></i></td>
+</tr>
 </tbody></table>
 <p>关于插入图片的 url 地址，有三种不同路径链接：</p>
 <ul>
@@ -420,6 +425,7 @@
 <li>本地绝对路径：图片统一放在 <code>source/images</code> 文件夹中，<code>url</code> 为 <code>/images/name.jpg</code></li>
 <li>本地相对路径：将 <code>_config.yml</code> 文件中的配置项 <code>post_asset_folder</code> 设为 <code>true</code> 后，新建文章时会自动在 <code>source/_posts</code> 中会生成文章 <code>post_name.md</code> 和同名文件夹 <code>post_name</code> ，将图片资源放在文章自己的目录 <code>post_name</code> 中，文章就可以使用相对路径引用图片资源了，这时 <code>url</code> 为 <code>name.jpg</code></li>
 </ul>
+<p>插入的图标皆为 <a target="_blank" rel="noopener" href="http://www.fontawesome.com.cn/">FontAwesome图标</a> 库中的，将代码 <code>fa fa-bolt</code> 替换为对应图标名称即可。</p>
 <h3 id="Hexo-常用命令"><a href="#Hexo-常用命令" class="headerlink" title="Hexo 常用命令"></a>Hexo 常用命令</h3><blockquote>
 <p>基本命令</p>
 </blockquote>
@@ -435,8 +441,8 @@
 </blockquote>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s -g         # 生成并本地预览 </span><br><span class="line">$ hexo d -g         # 生成并上传 </span><br><span class="line">$ hexo s --debug    # 进入调试模式</span><br></pre></td></tr></table></figure>
 
-<h1 id="Hexo-内置标签"><a href="#Hexo-内置标签" class="headerlink" title="Hexo 内置标签"></a>Hexo 内置标签</h1><div class="note info">
-            <p>fa-info 标签内的可变参数均用 <code>[]</code> 括起来了，实际使用时去掉括号填写对应参数即可。</p>
+<h2 id="Hexo-内置标签"><a href="#Hexo-内置标签" class="headerlink" title="Hexo 内置标签"></a>Hexo 内置标签</h2><div class="note info">
+            <p><i class="fa fa-info-circle"></i>  标签内的可变参数均用 [] 括起来了，实际使用时去掉括号填写对应参数即可</p>
           </div>
 
 <h3 id="文本居中"><a href="#文本居中" class="headerlink" title="文本居中"></a>文本居中</h3><p>一般在引用单行文本时使用，如作为文章开篇题词。居中标签效果如下：</p>
@@ -452,7 +458,7 @@
 
 <p>发现软件预览效果与网页预览效果实际不同，最后以实际网页预览测试为准。</p>
 <h3 id="代码块进阶"><a href="#代码块进阶" class="headerlink" title="代码块进阶"></a>代码块进阶</h3><p>可以通过为代码块附加参数的形式为其添加更丰富的信息提示，效果如下：</p>
-<figure class="highlight python"><figcaption><span>Hello World    url</span><a target="_blank" rel="noopener" href="https://xinkjung.github.io">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">&quot;Hello World!&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><figcaption><span>Hello World.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printf(<span class="string">&quot;Hello World!&quot;</span>)</span><br></pre></td></tr></table></figure>
 
 <p>代码块进阶语法规则：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1. 三个反引号：</span><br><span class="line">``` [language] [title] [url] [link text]</span><br><span class="line">code snippet </span><br><span class="line">``` `</span><br><span class="line">2. 标签方式（或简写为code）：</span><br><span class="line">&#123;% codeblock [title] [lang:language] [url] [link text] %&#125;</span><br><span class="line">code snippet</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure>
@@ -522,8 +528,8 @@
 <p>其中各参数含义如下：</p>
 <ul>
 <li>url：绝对或相对路径</li>
-<li>text：按钮文字或FontAwesome图标</li>
-<li>icon class：FontAwesome图标包括 fa-fw | fa-lg | fa-2x | fa-3x | fa-4x | fa-5x 等</li>
+<li>text：按钮文字</li>
+<li>icon class：FontAwesome 图标包括 fa-fw | fa-lg | fa-2x | fa-3x | fa-4x | fa-5x 等</li>
 <li>title：鼠标悬停时的工具提示</li>
 </ul>
 <p>使用示例如下：</p>
@@ -544,17 +550,12 @@
 <li>icon: 在标签页标题中添加 FontAwesome 图标</li>
 </ul>
 <p>使用示例如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% tabs Unique name, [index] %&#125;</span><br><span class="line">&lt;!-- tab [Tab caption] [@icon] --&gt;</span><br><span class="line">**This is Tab 1.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- tab Solution 2 --&gt;</span><br><span class="line">**This is Tab 2.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- tab Solution 3 @paw --&gt;</span><br><span class="line">**This is Tab 3.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line">&#123;% endtabs %&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;% tabs Example , 2 %&#125;</span><br><span class="line">&lt;!-- tab  @fab fa-github --&gt;</span><br><span class="line">**This is Tab 1.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- tab Solution 2 --&gt;</span><br><span class="line">**This is Tab 2.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- tab Solution 3 @paw --&gt;</span><br><span class="line">**This is Tab 3.**</span><br><span class="line">&lt;!-- endtab --&gt;</span><br><span class="line">&#123;% endtabs %&#125;</span><br></pre></td></tr></table></figure>
 
-<div class="tabs" id="unique-name"><ul class="nav-tabs"><li class="tab"><a href="#unique-name-1"><i class="fa fa-github"></i></a></li><li class="tab active"><a href="#unique-name-2">Solution 2</a></li><li class="tab"><a href="#unique-name-3"><i class="fa fa-paw"></i>Solution 3</a></li></ul><div class="tab-content"><div class="tab-pane" id="unique-name-1"><p><strong>This is Tab 1.</strong></p></div><div class="tab-pane active" id="unique-name-2"><p><strong>This is Tab 2.</strong></p></div><div class="tab-pane" id="unique-name-3"><p><strong>This is Tab 3.</strong></p></div></div></div>
+<div class="tabs" id="example-"><ul class="nav-tabs"><li class="tab"><a href="#example--1"><i class="fab fa-github"></i></a></li><li class="tab active"><a href="#example--2">Solution 2</a></li><li class="tab"><a href="#example--3"><i class="fa fa-paw"></i>Solution 3</a></li></ul><div class="tab-content"><div class="tab-pane" id="example--1"><p><strong>This is Tab 1.</strong></p></div><div class="tab-pane active" id="example--2"><p><strong>This is Tab 2.</strong></p></div><div class="tab-pane" id="example--3"><p><strong>This is Tab 3.</strong></p></div></div></div>
 
 <h3 id="video-标签"><a href="#video-标签" class="headerlink" title="video 标签"></a>video 标签</h3><p>我们还可以在网页中插入 video ，语法如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% video [url] %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用示例可如下所示：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% video https://example.com/sample.mp4 %&#125;</span><br></pre></td></tr></table></figure>
-
-<video src="https://example.com/sample.mp4" preload="metadata" controls playsinline poster="">Sorry, your browser does not support the video tag.</video>
 
 <h3 id="突破容器限制宽度的图片"><a href="#突破容器限制宽度的图片" class="headerlink" title="突破容器限制宽度的图片"></a>突破容器限制宽度的图片</h3><p>当使用此标签引用图片时，图片将自动扩大 26% ，并突破文章容器的宽度。此标签使用于需要突出显示的图片, 图片的扩大与容器的偏差从视觉上提升图片的吸引力。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># HTML方式:</span><br><span class="line">&lt;img src=&quot;[imageurl]&quot; class=&quot;full-image&quot; /&gt;</span><br><span class="line"></span><br><span class="line"># 标签 方式</span><br><span class="line">&#123;% fullimage [image-url], [alt], [title] %&#125;</span><br></pre></td></tr></table></figure>
@@ -568,28 +569,28 @@
 <li>post_link：将会渲染为链接</li>
 <li>title：指定链接标题</li>
 </ul>
-<p>如以下标签将会生成 <code>/_posts/hexo-writing-skills.html</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_path hexo-writing-skills %&#125;</span><br></pre></td></tr></table></figure>
+<p>如以下标签将会生成 <code>/_posts/My-First-Blog.html</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_path My-First-Blog %&#125;</span><br></pre></td></tr></table></figure>
 
-<p>而以下标签则会生成 <a href="#">Post not found: hexo-writing-skills 链接标题</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_link hexo-writing-skills 链接标题 %&#125;</span><br></pre></td></tr></table></figure>
+<p>而以下标签则会生成 <a href="/2021/07/31/My-First-Blog/" title="MyFirstBlog">MyFirstBlog</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% post_link My-First-Blog MyFirstBlog %&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这种站内引用方式比直接使用 url 引用的形式更为可靠，因为即使修改了 <code>permalink</code> 格式，或者修改了文章的路由地址，只要 Markdown 文件名没有发生改变，引用链接都不会失效。</p>
 <h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p>若要在网页中添加流程图，可使用 <code>mermaid</code> 标签来描述：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% mermaid type%&#125;</span><br><span class="line">流程图内容</span><br><span class="line">&#123;% endmermaid %&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="Markdown-写作工具"><a href="#Markdown-写作工具" class="headerlink" title="Markdown 写作工具"></a>Markdown 写作工具</h1><blockquote>
+<h2 id="Markdown-写作工具"><a href="#Markdown-写作工具" class="headerlink" title="Markdown 写作工具"></a>Markdown 写作工具</h2><blockquote>
 <p>Sublime Text3</p>
 </blockquote>
 <p>Sublime Text 是一款流行的代码编辑器软件，也是 HTML 和散文先进的文本编辑器，可运行在 Linux ， Windows 和 Mac OS X 。也是许多程序员喜欢使用的一款文本编辑器软件。</p>
 <p>经同学推荐在学习PHP的时候爱上了这款编辑器，除了python语言会使用PyCharm平时全都用的Sublime Text3，它包含丰富插件，可以作为文档编辑器，同时支持 Markdown 语法，搭配 Markdown Editing 和 MarkdownLivePreview 插件可进一步方便我们 Markdown 写作并在线预览。</p>
-<p><img src="/images/SublimeText3" alt="Sublime Text3 界面"></p>
+<p><img src="/images/SublimeText3.png" alt="Sublime Text3 界面"></p>
 <blockquote>
 <p>Typora</p>
 </blockquote>
 <p>Typora 是我新发现的一款md文件编辑器，可以为我们提供作为读者和作者的无缝体验，它删除了预览窗口、模式切换器、markdown 源代码的语法符号以及所有其他不必要的干扰，转而提供了真正的实时预览功能，可帮助我们专注于内容本身。</p>
 <p>其默认显示预览效果，可选择显示为 <code>源代码模式</code> 查看Markdown 语法下的源代码方便我们编辑。</p>
-<p><img src="/images/Typora" alt="Typora 界面"></p>
+<p><img src="/images/Typora.png" alt="Typora 界面"></p>
 <blockquote>
 <p>Mweb</p>
 </blockquote>
@@ -604,7 +605,7 @@
 <li>支持一键发布到各大博客平台和笔记软件中，拥有及其强大的发布功能</li>
 </ul>
 <p>这款是最初发表博客时发现的，可以在 Mac Apple Store 花费 ¥128 购买，iPad倒是下载了感观来说瞧着不错的样子但平时都使用电脑在进行操作。</p>
-<p><img src="/images/MWeb" alt="MWeb 界面"></p>
+<p><img src="/images/MWeb.png" alt="MWeb 界面"></p>
 <blockquote>
 <p>One Markdown</p>
 </blockquote>
@@ -618,14 +619,16 @@
 <li>支持数学公式、Echarts、mermaid</li>
 </ul>
 <p>搜索 Mweb 时发现的，都是由 ou lvhai 开发的，轻量级的选择是 One Markdown，功能完善且强大的选择是 MWeb 。</p>
-<p><img src="/images/OneMakrdown" alt="One Markdwon 界面"></p>
+<p><img src="/images/OneMarkdown.png" alt="One Markdown 界面"></p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://dillinger.io/">Dillinger</a></p>
 </blockquote>
 <p>Dillinger 是一款支持云的、移动就绪的、兼容离线存储的、<br>AngularJS 驱动的在线 HTML5 Markdown 编辑器，界面简洁，可在线实时预览。</p>
-<p><img src="/images/Dillinger" alt="Dillinger 界面"></p>
+<p><img src="/images/Dillinger.png" alt="Dillinger 界面"></p>
 <hr>
-<h4 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h4><ol>
+<h4> 参考链接   </h4>
+
+<ol>
 <li><a target="_blank" rel="noopener" href="https://theme-next.iissnan.com/getting-started.html">开始使用 - NexT 使用文档</a></li>
 <li><a target="_blank" rel="noopener" href="http://yearito.cn/posts/hexo-writing-skills.html">Hexo 搭建个人博客系列：写作技巧篇 - Yearito’s Blog</a></li>
 <li><a target="_blank" rel="noopener" href="https://wilenwu.github.io/posts/hexo/Hexo-tag-plugins.html">Hexo 标签插件的使用 - Wilen’s Blog</a></li>
@@ -772,7 +775,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%86%99%E4%BD%9C"><span class="nav-text">开始写作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="nav-text">基本介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%B8%83%E5%B1%80"><span class="nav-text">三种布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="nav-text">标签与分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%8D%9A%E5%AE%A2"><span class="nav-text">上传博客</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%91%BD%E4%BB%A4"><span class="nav-text">语法与命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-text">Markdown 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">Hexo 常用命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo-%E5%86%85%E7%BD%AE%E6%A0%87%E7%AD%BE"><span class="nav-text">Hexo 内置标签</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%B1%85%E4%B8%AD"><span class="nav-text">文本居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E8%BF%9B%E9%98%B6"><span class="nav-text">代码块进阶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#note-%E6%A0%87%E7%AD%BE"><span class="nav-text">note 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#label-%E6%A0%87%E7%AD%BE"><span class="nav-text">label 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#button-%E6%8C%89%E9%92%AE"><span class="nav-text">button 按钮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tabs-%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE"><span class="nav-text">tabs 选项标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#video-%E6%A0%87%E7%AD%BE"><span class="nav-text">video 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AA%81%E7%A0%B4%E5%AE%B9%E5%99%A8%E9%99%90%E5%88%B6%E5%AE%BD%E5%BA%A6%E7%9A%84%E5%9B%BE%E7%89%87"><span class="nav-text">突破容器限制宽度的图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5"><span class="nav-text">引用站内链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">流程图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Markdown-%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7"><span class="nav-text">Markdown 写作工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-text">参考链接</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%86%99%E4%BD%9C"><span class="nav-text">开始写作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BB%8B%E7%BB%8D"><span class="nav-text">基本介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%B8%83%E5%B1%80"><span class="nav-text">三种布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E4%B8%8E%E5%88%86%E7%B1%BB"><span class="nav-text">标签与分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%8D%9A%E5%AE%A2"><span class="nav-text">上传博客</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%91%BD%E4%BB%A4"><span class="nav-text">语法与命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown-%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-text">Markdown 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-text">Hexo 常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-%E5%86%85%E7%BD%AE%E6%A0%87%E7%AD%BE"><span class="nav-text">Hexo 内置标签</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%B1%85%E4%B8%AD"><span class="nav-text">文本居中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97%E8%BF%9B%E9%98%B6"><span class="nav-text">代码块进阶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#note-%E6%A0%87%E7%AD%BE"><span class="nav-text">note 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#label-%E6%A0%87%E7%AD%BE"><span class="nav-text">label 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#button-%E6%8C%89%E9%92%AE"><span class="nav-text">button 按钮</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tabs-%E9%80%89%E9%A1%B9%E6%A0%87%E7%AD%BE"><span class="nav-text">tabs 选项标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#video-%E6%A0%87%E7%AD%BE"><span class="nav-text">video 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AA%81%E7%A0%B4%E5%AE%B9%E5%99%A8%E9%99%90%E5%88%B6%E5%AE%BD%E5%BA%A6%E7%9A%84%E5%9B%BE%E7%89%87"><span class="nav-text">突破容器限制宽度的图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%94%A8%E7%AB%99%E5%86%85%E9%93%BE%E6%8E%A5"><span class="nav-text">引用站内链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">流程图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown-%E5%86%99%E4%BD%9C%E5%B7%A5%E5%85%B7"><span class="nav-text">Markdown 写作工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text"> 参考链接   </span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
