@@ -281,7 +281,7 @@ $ hexo d # == hexo deploy 上传
   </entry>
   <entry>
     <title>hexo博客搭建之写作格式</title>
-    <url>/2021/07/31/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E5%86%99%E4%BD%9C%E6%A0%BC%E5%BC%8F/</url>
+    <url>/2021/08/04/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E5%86%99%E4%BD%9C%E6%A0%BC%E5%BC%8F/</url>
     <content><![CDATA[<p>本文介绍 Hexo 博客的写作格式规范。</p>
 <p>第一章中介绍了 Hexo 中写作相关的基本概念，包括基本介绍、三种布局、标签与分类、以及如何上传博客。</p>
 <p>第二章中介绍了一些基本的 Markdown 写作语法 和 Hexo 常用命令。</p>

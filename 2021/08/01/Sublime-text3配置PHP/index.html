@@ -388,10 +388,10 @@
           <div class="post-tags">
               
               
-              <a href="/tags/PHP/" rel="tag"><i class="fa fa-tags"></i> PHP</a>
+              <a href="/tags/PHP/" rel="tag"><i class="fa fa-tag"></i> PHP</a>
               
               
-              <a href="/tags/Sublime-text3/" rel="tag"><i class="fa fa-tags"></i> Sublime text3</a>
+              <a href="/tags/Sublime-text3/" rel="tag"><i class="fa fa-tag"></i> Sublime text3</a>
           </div>
 
         
@@ -593,6 +593,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   
