@@ -922,4 +922,77 @@ $ hexo d # == hexo deploy 上传
         <tag>笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Windows转Mac继续管理GitHub博客</title>
+    <url>/2021/08/24/Windows%E8%BD%ACMac%E7%BB%A7%E7%BB%AD%E7%AE%A1%E7%90%86GitHub%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="变！"><a href="#变！" class="headerlink" title="变！"></a>变！</h2><p>从 Windwos 换了 Mac，怎么在 Mac 上继续使用 git 在 GitHub 上传自己的项目呢？</p>
+<p>解决方案：</p>
+<ol>
+<li>在 Mac 上下载 git 、 node.js 和 hexo</li>
+<li>在 Mac 上 clone 自己的项目到目录</li>
+</ol>
+<blockquote>
+<p>第一步：下载和安装</p>
+</blockquote>
+<p>这里使用 homebrew 进行安装<br>(1) 安装 homebrew</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 下载 git 和 node.js </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install node</span><br><span class="line">npm install hexo g </span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <code>git</code> 或 <code>git -verison</code> 命令来验证 git 版本。</p>
+<p>(3) 初始化 hexo 目录</p>
+<p>新建一个 hexo 目录用于存放博客相关文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir bolg</span><br></pre></td></tr></table></figure>
+
+<p>在博客根目录打开终端窗口，对目录进行初始化操作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>再用 <code>hexo s</code> 测试是否成功，打开 <code>localhost:4000</code> 即可查看本地预览 </p>
+<blockquote>
+<p>第二步： SSH 配置 git</p>
+</blockquote>
+<p>(1) 设置 <code>username</code> 和 <code>email</code> （github每次commit都会记录他们） </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;登录账号名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱账号&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 先查看本地是否已存在 <code>SSH key</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~/.ssh</span><br></pre></td></tr></table></figure>
+
+<p>我的新电脑是没有的，直接通过终端命令创建 <code>ssh key</code> ，然后一直回车，输入 <code>用户名 + 密码</code>（ GitHub 登录的），最后会生成一串密钥。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C “邮箱账号&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(3) 登陆 GitHub ，找到 Settings ，点击 SSH AND GPG Keys –&gt; New SSH key ，把刚刚看到的 key 复制粘贴进去，title 随便写</p>
+<figure class="highlight plaintext"><figcaption><span>复制id_rsa.pub</span></figcaption><table><tr><td class="code"><pre><span class="line">cat .ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>保存后，GitHub 会向邮箱发送一个验证链接，记得要登录邮箱进行验证，不然之后会导致部署不成功</p>
+<p>(4) 验证一下，如果出现 <code>hi +用户名</code> 即为成功 ~</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第三步: clone 项目 / 文件配置转移</p>
+</blockquote>
+<p>把原来的项目复制下来，可以随便添加点东西去测试是否可以上传</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  clone https://wxxxx.git</span><br></pre></td></tr></table></figure>
+
+<p>这里我是直接复制原来 Windows 下的博客根目录 hexo 过来的，然后找到该目录下的：<code>_config.yml</code> 、 <code>scaffolds</code> 、 <code>source</code> 、 <code>themes</code> 这四个文件夹，把它们复制到<br>Mac 下的博客根目录 hexo，直接覆盖替换相同的文件文件夹就可以了。</p>
+<h2 id="problems-？"><a href="#problems-？" class="headerlink" title="problems ？"></a>problems ？</h2><h3 id="Mac-终端-shell-类型切换方法"><a href="#Mac-终端-shell-类型切换方法" class="headerlink" title="Mac 终端 shell 类型切换方法"></a>Mac 终端 shell 类型切换方法</h3><p>可以执行命令 <code>echo $SHELL</code>，先查看终端类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash: /bin/bash</span><br><span class="line">zsh: /bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>切换到bash，输入命令：<br><code>chsh -s /bin/bash</code></p>
+<p>切换到zsh，输入命令：<br><code>chsh -s /bin/zsh</code></p>
+<p>ps: 注意需要重启终端生效（强制退出后再打开）</p>
+<h3 id="GitHub-网站打不开或访问慢怎么解决"><a href="#GitHub-网站打不开或访问慢怎么解决" class="headerlink" title="GitHub 网站打不开或访问慢怎么解决"></a>GitHub 网站打不开或访问慢怎么解决</h3><p>查询 <code>github.com</code> 的有效IP，可以使用<a href="http://tool.chinaz.com/dns">站长工具</a><br>然后将查询到的 IP 地址复制到自己的 <code>hosts</code> 文件里即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Host Database</span><br><span class="line"># localhost is used to configure the loopback interface</span><br><span class="line"># when the system is booting.  Do not change this entry.</span><br><span class="line">##</span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">255.255.255.255	broadcasthost</span><br><span class="line">::1             localhost</span><br><span class="line">203.208.39.104 github.com</span><br><span class="line">13.114.40.48 github.com</span><br><span class="line">52.69.186.44 github.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mac如何编辑-hosts-系统文件"><a href="#Mac如何编辑-hosts-系统文件" class="headerlink" title="Mac如何编辑 hosts 系统文件"></a>Mac如何编辑 hosts 系统文件</h3><p><code>前往 -&gt; 前往文件夹 -&gt; （输入）/etc/hosts</code> ，回车找到 <code>hosts</code> 文件，然后打开对其进行编辑会提示没有权限并询问是否复制，点击复制按钮，然后在新的窗口里可以编辑文件，编辑完成后保存窗口显示文件名是未命名的 <code>hosts副本.txt</code> ，我们将名称改为 <code>hosts</code> (记得去除后缀名txt)，然后保存并替换原来的 <code>hosts</code> 文件。</p>
+<h3 id="Mac-的-ssh-文件在哪里"><a href="#Mac-的-ssh-文件在哪里" class="headerlink" title="Mac 的 .ssh 文件在哪里"></a>Mac 的 .ssh 文件在哪里</h3><p>鼠标点击一下桌面回到 🍎 菜单栏， <code>前往 -&gt; 前往文件夹 -&gt; （输入） ~/.ssh</code> 回车即可。<br>即：shift+command+G -&gt; 输入 ~/.ssh</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Blog</tag>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
 </search>
