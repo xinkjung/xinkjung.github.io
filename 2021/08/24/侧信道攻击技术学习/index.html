@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/star.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="简单介绍侧信道攻击技术的一些基本知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="侧信道攻击技术学习">
+<meta property="og:url" content="http://example.com/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="xinkjung&#39;s Blog">
+<meta property="og:description" content="简单介绍侧信道攻击技术的一些基本知识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%961.png">
+<meta property="og:image" content="http://example.com/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%962.png">
+<meta property="og:image" content="http://example.com/images/%E6%A8%A1%E6%9D%BF%E6%9E%84%E5%BB%BA.png">
+<meta property="og:image" content="http://example.com/images/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D.png">
+<meta property="article:published_time" content="2021-08-24T09:31:37.000Z">
+<meta property="article:modified_time" content="2021-08-24T09:34:25.602Z">
+<meta property="article:author" content="xxx">
+<meta property="article:tag" content="侧信道">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%961.png">
+
+<link rel="canonical" href="http://example.com/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>侧信道攻击技术学习 | xinkjung's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xinkjung's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xin.jpg">
+      <meta itemprop="name" content="xxx">
+      <meta itemprop="description" content=" Be happy. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinkjung's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          侧信道攻击技术学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-24 17:31:37。 / 修改时间：17:34:25。" itemprop="dateCreated datePublished" datetime="2021-08-24T17:31:37+08:00">2021-08-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <div class="post-description">简单介绍侧信道攻击技术的一些基本知识</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><p>侧信道攻击(side channel attack 简称SCA)，又称边信道攻击或旁路攻击，密码学中是指绕过对加密算法的繁琐分析，利用密码算法的硬件实现的运算中泄露的信息，如执行时间、功耗、电磁辐射等，结合统计理论快速的破解密码系统。其核心思想是通过加密软件或硬件运行时产生的各种泄漏信息获取密文信息。</p>
+<p>密码芯片在运算过程中会产生多种类型的泄露信息，而传统的密码分析则忽略了这些“细微”的信息对密码系统安全性的影响。这类新发现的物理泄漏信息被研究学者称为旁路信息(side-chalinelLeakage)，与之对应的攻击方法被称为旁路攻击(side-channel Attack)。</p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在狭义上讲，边信道攻击特指针对密码算法的非侵入式攻击，通过加密电子设备在运行过程中的边信道信息泄露破解密码算法，狭义的边信道攻击主要包括针对密码算法的计时攻击、能量分析攻击、电磁分析攻击等，这类新型攻击的有效性远高于密码分析的数学方法，因此给密码设备带来了严重的威胁。</p>
+<p>从广义上讲，针对安全设备的侵入式、半侵入式、非侵入式攻击等任何“旁门左道”的攻击方法都属于边信道攻击的范畴。广义上的边信道攻击往往脑洞大开，攻击方式也五花八门，如针对键盘敲击内容的边信道攻击有声音分析攻击、电磁分析攻击、通过WiFi信道状态进行的攻击（WiKey），以及通过内核使用状态和进程信息进行的攻击等。</p>
+<h3 id="攻击条件"><a href="#攻击条件" class="headerlink" title="攻击条件"></a>攻击条件</h3><p>要成功对集成电路芯片进行旁路攻击必须满足两条： </p>
+<ul>
+<li>在泄漏的物理信号与处理的数据之间建立联系； </li>
+<li>在信息泄漏模型中处理的数据与芯片中处理的数据之间建立联系。</li>
+</ul>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>密码学中侧信道攻击的理念最早在1996年由Paul Kocher提出，此后成为密码学中一种重要的密钥恢复方法。它通过利用密码设备在运行密码算法时所泄露的电磁、功耗、声音等物理信息来进行密钥恢复。对于一些设计良好的密码算法，侧信道攻击可能是实际中恢复密钥的唯一可行办法。<br>所有的攻击类型都利用了加密/解密系统在进行加密/解密操作时算法逻辑没有被发现缺陷，但是通过物理效应提供了有用的额外信息（这也是称为“旁路”的缘由），而这些物理信息往往包含了密钥、密码、密文等隐密数据。根据借助的介质或攻击者利用信息的种类，侧信道攻击分为多个大类，主要分为时间攻击、功耗分析攻击、电磁辐射攻击、故障注入攻击等。</p>
+<ul>
+<li>故障攻击/注入</li>
+</ul>
+<p>利用错误计算的结果（或考虑篡改设备上的密码系统），观察密码设备的一些错误操作，从错误行为的结果中分析推导出秘密参数。<br>错误可能导致程序或者设计错误（例如 Intel著名的FDIV错误），或者被攻击者诱导的错误（例如，能量故障，时钟故障，温度变化，离子束注入等）。</p>
+<ul>
+<li>计时攻击</li>
+</ul>
+<p>通过分析加密算法的时间执行来推导出密码，是利用密码系统的密钥与运行时间的关系来进行攻击的方法，与其它侧信道攻击相比，这种攻击方法几乎不需要什么特殊设备。<br>每一个逻辑运算在计算机需要时间来执行，根据输入不同，精确测量执行时间，根据执行时间反推出密码。例如：通过设备运算的用时来推断出所使用的运算操作，或者通过对比运算的时间推定数据位于哪个存储设备，或者利用通信的时间差进行数据窃取。</p>
+<ul>
+<li>功耗/能量攻击</li>
+</ul>
+<p>通过分析密码设备的能量消耗这一物理特性来恢复设备内部的秘密信息获得其密钥。<br>功耗攻击是目前最强有力的侧信道攻击手段之一，包括简单功耗分析攻击（SimplePower Analysis attacks,SPA）和差分功耗分析攻击（Differential　Power　Analysis　attacks,DPA），与传统密码分析学相比，这些攻击手段攻击效果显著。</p>
+<ul>
+<li>电磁攻击</li>
+</ul>
+<p>通过高精度电磁探头多次采集目标产品（设备）工作时泄漏电磁辐射的强度变化，经过得当分析的话可解析出这些泄漏的电磁辐射中包含的信息（比如文本、声音、图像等），这种攻击方式除了用于密码学攻击以外也被用于非密码学攻击等窃听行为，如TEMPEST攻击（例如范·埃克窃听、辐射监测）。</p>
+<ul>
+<li>缓存攻击</li>
+</ul>
+<p>通过获取对缓存的访问权而获取缓存内的一些敏感信息，例如攻击者获取云主机物理主机的访问权而获取存储器的访问权。 </p>
+<ul>
+<li>其他</li>
+</ul>
+<p>基于扫描的攻击、光学辐射攻击、基于频率的攻击、组合攻击、声音攻击等。</p>
+<h3 id="能量攻击（功耗分析攻击）"><a href="#能量攻击（功耗分析攻击）" class="headerlink" title="能量攻击（功耗分析攻击）"></a>能量攻击（功耗分析攻击）</h3><p>1999 年，Kocher 等人提出了功耗分析的理念，该攻击方式是非入侵式，在攻击过程中不需要破坏密码设备，通过利用密码芯片执行过程中泄露的功耗信息来获取中间值，从而进行密钥恢复。功耗分析主要包括简单功耗分析(Simple Power Analysis，SPA)、差分功耗分析(Differential Power Analysis，DPA)、相关功耗分析(Correlation Power Analysis，CPA)等。</p>
+<ol>
+<li>简单功耗分析， SPA</li>
+</ol>
+<p>简单功耗分析是利用加密操作实现细节与功耗之间的关系，直接从测量的功耗轨迹获取密钥信息。在执行算法时，电路在不同时期处于不同的状态，比如存取数据、算术或逻辑运算等，假设将电路的运行时间分成对应不同于电路状态的时间段，那么在每个时间段中电路功耗不尽相同。SPA本质上就是从功耗轨迹（对密码设备在运算时的功耗情况进行采样所获取的曲线）上进行猜测，在一个特定时间执行了什么特定指令以及指令中设计的秘密参量。</p>
+<ol start="2">
+<li>差分功耗分析， DPA</li>
+</ol>
+<p>差分功耗分析是功耗分析中比较方便有效的一种，主要是通过利用不同的明文输入所对应的功耗曲线不同，然后结合统计分析和误差修正技术，从大量的功耗曲线中推测出密码算法中与密钥信息具有相关性的中间结果，最终实现对密码算法的破解，与简单功耗分析攻击(SPA)相比具有更高的攻击强度，对密码芯片造成的安全威胁更大。</p>
+<ol start="3">
+<li>相关功耗分析， CPA</li>
+</ol>
+<p>相关功耗分析是采用统计学的方法对模拟功耗和真实功耗进行相关系数计算。该方法首先在加密设备进行数据加密时进行实际功耗信息的测量即真实功耗，而后利用功耗攻击模型对攻击电路进行理论功耗的预测即模拟功耗，再将实测功耗与预测的理论功耗进行计算得出对应的相关系数。在猜测密钥正确的条件下，功耗攻击模型计算出预测的理论功耗与实测功耗具有很大程度上的相关性。根据相关性的大小对猜测密钥的准确率进行判断，相关系数越大，表明此时猜测密钥越接近真实密钥，反之猜测密钥与真实密钥相差越大，当相关系数为最大值时，猜测密钥即为所需的正确密钥。</p>
+<h3 id="差分故障攻击"><a href="#差分故障攻击" class="headerlink" title="差分故障攻击"></a>差分故障攻击</h3><p>差分故障攻击是将故障注入和传统的密码分析方法差分分析结合起来的一种新型侧信道攻击。<br>其核心思想是通过分析密码设备产生的正确密文和故障注入后错误密文之间的关系，从而恢复出算法的原始密钥。</p>
+<p>故障注入就是在某个合适的时间改变密码芯片的工作条件，使得密码芯片运行的中间状态发生改变，进而产生错误的输出或异常的旁路泄漏。根据攻击者侵入密码设备接口和运行环境的程度，可讲故障注入分为非侵入式故障注入、半侵入式故障注入和侵入式故障注入三种。后两种方式是基于存储数据的修改，而不是传输过程故障，所以都需要在物理上接触密码芯片，还需要昂贵的用于剖片处理的设备和化学用品，以及用于注入故障的特殊设备。而非侵入式故障注入则是通过外界干扰的方式，如时钟、电压或磁场等，让密码芯片执行出错，相比于其他两种 方式具有更高的可行性。</p>
+<h3 id="模板攻击"><a href="#模板攻击" class="headerlink" title="模板攻击"></a>模板攻击</h3><p>模板攻击就是指攻击者在目标设备的同类型设备或者其复制品上创建一个”profile”，随后利用这一”profile”快速恢复目标设备的密钥。<br>相较于CPA，模板攻击对攻击者的要求更高。模板攻击要求攻击者拥有一个和目标同样的实验设备，这个设备是攻击者可控的，能够控制输入数据且能够获取大量的能量迹。攻击者需要对目标设备的复制品具有完全的控制权，并且进行大量的前期工作以建立模板，不过，一旦模板建立，攻击者能够以很小的代价完成攻击。在模板足够好的情况下（如建模所用的能量迹数量足够大），攻击者仅需一条能量迹即可恢复密钥。</p>
+<p>模板攻击分为以下四步：</p>
+<ul>
+<li>利用一个可以完全控制的目标设备的复制品，使用不同的输入（明文和密钥）进行计算并采集曲线，确保采集的曲线足够提供给攻击者每一种密钥猜测对应的信息</li>
+<li>创建模板，模板是一种POIs(points of interest)的多元分布</li>
+<li>在目标设备上，使用少量的不同明文加密获取相应的曲线（目标设备的密钥不受攻击者控制）</li>
+<li>利用模板进行攻击，找到最可能正确的密钥猜测值</li>
+</ul>
+<p>我们也可以概括为三个主要步骤：</p>
+<ul>
+<li>兴趣点提取</li>
+<li>模板构建</li>
+<li>模板匹配</li>
+</ul>
+<p>一、 兴趣点提取：</p>
+<p><img src="/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%961.png" alt="兴趣点提取"></p>
+<p><img src="/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%962.png" alt="兴趣点提取"></p>
+<p>二、 常见模板构建策略：</p>
+<ul>
+<li>数据和密钥对模板构建</li>
+<li>中间值模板构建</li>
+<li>基于能量模型的模板构建（汉明重量）</li>
+</ul>
+<p><img src="/images/%E6%A8%A1%E6%9D%BF%E6%9E%84%E5%BB%BA.png" alt="模板构建"></p>
+<p>三、 模板匹配</p>
+<p><img src="/images/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D.png" alt="模板匹配"></p>
+<h4> 参考链接 </h4>
+
+<ol>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%97%81%E8%B7%AF%E6%94%BB%E5%87%BB/1464885">旁路攻击_百度百科</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%BE%B9%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/7342042?fr=aladdin">边信道攻击_百度百科</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_46661122/article/details/109740368">关于侧信道攻击 - CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhuowangy2k/p/12242774.html">第三十九个知识点:侧信道攻击和故障攻击有什么区别</a></li>
+</ol>
+
+    </div>
+
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-paw"></i>本文结束感谢您的阅读<i class="fa fa-paw"></i>-------------</div>
+    
+</div>
+
+     
+    </div>
+
+
+    
+    
+    
+        <div class="reward-container">
+  <div>请我喝杯奶茶吧～</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="xxx 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="xxx 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>xxx
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" title="侧信道攻击技术学习">http://example.com/2021/08/24/侧信道攻击技术学习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              
+              <a href="/tags/%E4%BE%A7%E4%BF%A1%E9%81%93/" rel="tag"><i class="fa fa-tag"></i> 侧信道</a>
+              
+              
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/04/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" rel="prev" title="Hexo博客搭建之NexT主题美化">
+      <i class="fa fa-chevron-left"></i> Hexo博客搭建之NexT主题美化
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB"><span class="nav-text">侧信道攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%9D%A1%E4%BB%B6"><span class="nav-text">攻击条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E9%87%8F%E6%94%BB%E5%87%BB%EF%BC%88%E5%8A%9F%E8%80%97%E5%88%86%E6%9E%90%E6%94%BB%E5%87%BB%EF%BC%89"><span class="nav-text">能量攻击（功耗分析攻击）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E6%95%85%E9%9A%9C%E6%94%BB%E5%87%BB"><span class="nav-text">差分故障攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%94%BB%E5%87%BB"><span class="nav-text">模板攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-text"> 参考链接 </span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xxx"
+      src="/images/xin.jpg">
+  <p class="site-author-name" itemprop="name">xxx</p>
+  <div class="site-description" itemprop="description"> Be happy. </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xinkjung" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xinkjung" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xinkjung@163.com" title="E-Mail → mailto:xinkjung@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/xinkjung" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;xinkjung" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xxx</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
