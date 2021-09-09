@@ -30,11 +30,30 @@
 <meta property="og:site_name" content="xinkjung&#39;s Blog">
 <meta property="og:description" content="记录一些关于学习B站李宏毅老师的机器学习视频的笔记  Day1">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/1.LinearModels.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/2.sigmoid.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/3.redcurve.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/4.sigmoid_1.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/5.sigmoid_2.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/6.sigmoid_3.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/7.sigmoid_4.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/8.sigmoid_5.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/9.newmodel.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/10.newmodel_loss.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/11.optimization_of_newmodel.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/12.Example.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/12.ReLU.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/14.ActivationFunction.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/15.Hyperparameters.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/16.NeutralNetwork.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/17.DeepLearning.png">
+<meta property="og:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/18.Overfitting.png">
 <meta property="article:published_time" content="2021-09-06T12:14:13.000Z">
-<meta property="article:modified_time" content="2021-09-09T01:11:49.339Z">
+<meta property="article:modified_time" content="2021-09-09T10:40:07.536Z">
 <meta property="article:author" content="xxx">
 <meta property="article:tag" content="MachineLearning">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/09/06/Machine-Learning-2021-Spring/1.LinearModels.png">
 
 <link rel="canonical" href="http://example.com/2021/09/06/Machine-Learning-2021-Spring/">
 
@@ -234,7 +253,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-09-09 09:11:49。" itemprop="dateModified" datetime="2021-09-09T09:11:49+08:00">2021-09-09</time>
+                <time title="修改时间：2021-09-09 18:40:07。" itemprop="dateModified" datetime="2021-09-09T18:40:07+08:00">2021-09-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,7 +295,7 @@
 <h3 id="Different-types-of-Functions"><a href="#Different-types-of-Functions" class="headerlink" title="Different types of Functions"></a>Different types of Functions</h3><p><strong><u>Regression</u></strong>: outputs a scalar.  它的输出是一个数值。</p>
 <p><strong><u>Classification</u></strong>: outputs the correct one from given options(classes).  从设定好的选项里面选择一个当作输出。</p>
 <p><strong><u>Structured Learning</u></strong>: create something with structure(image, document).   机器学会创造这件事。</p>
-<h3 id="机器学习找函数式的过程-——-三个步骤"><a href="#机器学习找函数式的过程-——-三个步骤" class="headerlink" title="机器学习找函数式的过程 —— 三个步骤"></a>机器学习找函数式的过程 —— 三个步骤</h3><blockquote>
+<h3 id="Linear-Models-之机器学习找函数式的过程-——-三个步骤"><a href="#Linear-Models-之机器学习找函数式的过程-——-三个步骤" class="headerlink" title="Linear Models 之机器学习找函数式的过程 —— 三个步骤"></a>Linear Models 之机器学习找函数式的过程 —— 三个步骤</h3><blockquote>
 <ol>
 <li>Function with Unknown Parameters</li>
 </ol>
@@ -295,7 +314,7 @@
 </blockquote>
 <p>定义一个loss函数，输入是Model里面的参数 </p>
 <p><i class="fa fa-arrow-circle-right"></i> Loss is a function of parameters  $L(b, w)$</p>
-<p><i class="fa fa-arrow-circle-right"></i> Loss: how good a set of values is.  当未知参数被设定时，评估输出的这笔数值好还是不好</p>
+<p><i class="fa fa-arrow-circle-right"></i> Loss means how good a set of values is.  当未知参数被设定时，评估输出的这笔数值好还是不好</p>
 <p>对每一次的预测估计都有 $e = \mid y - \widehat{y} \mid$<br>最后计算得到结果 <strong>Loss</strong>  $L = \frac{1}{N} \sum_{i=1}^{n}{e_n} $</p>
 <ul>
 <li>$\widehat{y}$ : label, 真实的值（正确的数值）</li>
@@ -349,6 +368,58 @@
 <div class="note info">
             <p>feature <code>x</code> * weight <code>w</code> + bias <code>b</code> 模型称作  <em><strong><u>Linear models</u></strong></em> </p>
           </div>
+
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/1.LinearModels.png" alt="Linear Models"></p>
+<h3 id="New-Model-More-Features"><a href="#New-Model-More-Features" class="headerlink" title="New Model : More Features"></a>New Model : More Features</h3><p>但是linear models过于简单且有一定的限制，这个东西叫做 <em><strong>Model Bias</strong></em> ，由此产生了一个更复杂且含有未知参数的function</p>
+<p>All Piecewise Linear Curves = constant + sum of a set</p>
+<blockquote>
+<p>Sigmoid Function —— S型曲线</p>
+</blockquote>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/2.sigmoid.png" alt="Sigmoid Function"><br>$$<br>\begin{align}<br>y &amp; = c \ \frac{1}{1+e^{-(b+wx_1)}}  \<br>&amp; = c \ sigmoid \ (b+wx_1) \<br>\end{align}<br>$$</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/3.redcurve.png" alt="Sigmoid Function - sum of a set + constant"></p>
+<p>第一行为Linear Models，第二行为函数式，</p>
+<p>$$<br>\begin{align}<br>y &amp; = b + \sum_j w_jx_j \<br>y &amp; = b + \sum_i c_i \ sigmoid \ (b_i + \sum_j w_{i,j}x_j)<br>\end{align}<br>$$</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/4.sigmoid_1.png" alt="sigmoid 解析"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/5.sigmoid_2.png" alt="sigmoid 解析"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/6.sigmoid_3.png" alt="sigmoid 解析"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/7.sigmoid_4.png" alt="sigmoid 解析"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/8.sigmoid_5.png" alt="sigmoid 解析"></p>
+<h3 id="Back-to-ML-Framework"><a href="#Back-to-ML-Framework" class="headerlink" title="Back to ML Framework"></a>Back to ML Framework</h3><blockquote>
+<p>Step 1: function with unknown</p>
+</blockquote>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/9.newmodel.png" alt="function with unknown"></p>
+<blockquote>
+<p>Step 2: define loss from traning data</p>
+</blockquote>
+<p><i class="fa fa-arrow-circle-right"></i> Loss is a function of parameters  $L(\theta)$</p>
+<p><i class="fa fa-arrow-circle-right"></i> Loss means how good a set of values is. </p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/10.newmodel_loss.png" alt="Loss"></p>
+<p><strong>Loss</strong>  $L = \frac{1}{N} \sum_ne_n $</p>
+<blockquote>
+<p>Step 3: optimization</p>
+</blockquote>
+<p>$$<br>\begin{align}<br>\theta &amp;=<br>    \begin{bmatrix}<br>        \theta_1 \<br>        \theta_2 \<br>        \theta_3 \<br>         \vdots  \<br>    \end{bmatrix}<br>\end{align}<br>$$</p>
+<p>$$\theta^* = arg\ min_\theta\ L $$</p>
+<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $\theta^0$</p>
+<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^0) $</p>
+<p>$$<br>g_{gradient} = \begin{bmatrix}<br>                \frac{\partial L} {\partial \theta_1} |<em>{\theta = \theta^0} \<br>                \frac{\partial L} {\partial \theta_2} |</em>{\theta = \theta^0} \<br>                \vdots<br>               \end{bmatrix} \</p>
+<p>$$</p>
+<p>计算所有参数 $\theta^1、\theta^2、\theta^3$ 在 $\theta^0$ 的位置对 $L$ 的微分作为Gradient 向量。</p>
+<p>$$<br>\begin{bmatrix}<br>    \theta_1^1 \<br>    \theta_2^1 \<br>      \vdots   \<br>\end{bmatrix}<br> =<br>\begin{bmatrix}<br>    \theta_1^0 \<br>    \theta_2^0 \<br>      \vdots   \<br>\end{bmatrix}<br> -<br>\begin{bmatrix}<br>    \eta  \frac{\partial{L}}{\partial{\theta_1}}|<em>{\theta=\theta^0} \<br>    \eta  \frac{\partial{L}}{\partial{\theta_2}}|</em>{\theta=\theta^0} \<br>      \vdots   \<br>\end{bmatrix}<br>$$</p>
+<p><strong>Update</strong>  $ \theta^1 \leftarrow \theta^0 - \eta g $</p>
+<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^1) $</p>
+<p><strong>Update</strong> $ \theta^2 \leftarrow \theta^1 - \eta g $</p>
+<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^2) $</p>
+<p><strong>Update</strong> $ \theta^3 \leftarrow \theta^2 - \eta g $</p>
+<p>以此类推，通常做到不想做之后停下来</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/11.optimization_of_newmodel.png" alt="optimization"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/12.Example.png" alt="Example"></p>
+<h3 id="Deep-Learning"><a href="#Deep-Learning" class="headerlink" title="Deep Learning"></a>Deep Learning</h3><blockquote>
+<p>Sigmoid ➡️ ReLU （Rectified Linear Unit ）</p>
+</blockquote>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/12.ReLU.png" alt="Sigmoid-ReLU"><br>$$<br>y  = b + \sum_{2i} c_i \ max \ (0, b_i + \sum_j w_{i,j}x_j)<br>$$</p>
+<p>我们称 sigmoid 和 max 为 Activation function<br><img src="/2021/09/06/Machine-Learning-2021-Spring/14.ActivationFunction.png" alt="Activation function"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/15.Hyperparameters.png" alt="Hyperparameters"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/16.NeutralNetwork.png" alt="Neutral Network"><br><img src="/2021/09/06/Machine-Learning-2021-Spring/17.DeepLearning.png" alt="Deep Learning"></p>
+<blockquote>
+<p>Overfitting</p>
+</blockquote>
+<p>更多的层数并没有更好的效率</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring/18.Overfitting.png" alt="Overfitting"></p>
+
     </div>
 
 
@@ -480,7 +551,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">一、机器学习基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Different-types-of-Functions"><span class="nav-text">Different types of Functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%89%BE%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E8%BF%87%E7%A8%8B-%E2%80%94%E2%80%94-%E4%B8%89%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="nav-text">机器学习找函数式的过程 —— 三个步骤</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">一、机器学习基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Different-types-of-Functions"><span class="nav-text">Different types of Functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linear-Models-%E4%B9%8B%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E6%89%BE%E5%87%BD%E6%95%B0%E5%BC%8F%E7%9A%84%E8%BF%87%E7%A8%8B-%E2%80%94%E2%80%94-%E4%B8%89%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="nav-text">Linear Models 之机器学习找函数式的过程 —— 三个步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#New-Model-More-Features"><span class="nav-text">New Model : More Features</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Back-to-ML-Framework"><span class="nav-text">Back to ML Framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deep-Learning"><span class="nav-text">Deep Learning</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
