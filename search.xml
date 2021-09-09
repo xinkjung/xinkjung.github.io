@@ -996,8 +996,8 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>Machine Learning 2021 Spring Day1</title>
-    <url>/2021/09/06/Machine-Learning-2021-Spring-Day1/</url>
+    <title>Machine Learning 2021 Spring</title>
+    <url>/2021/09/06/Machine-Learning-2021-Spring/</url>
     <content><![CDATA[<h2 id="一、机器学习基本概念"><a href="#一、机器学习基本概念" class="headerlink" title="一、机器学习基本概念"></a>一、机器学习基本概念</h2><blockquote class="blockquote-center">
             <i class="fa fa-quote-left"></i>
             <p>Machine Learning  $\approx$  Looking for Function</p>
