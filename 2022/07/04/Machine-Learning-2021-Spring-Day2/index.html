@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/128x128.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/16x16.png">
+  <link rel="mask-icon" href="/images/star.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Framework of ML通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。  就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：  General Guide按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：  如果发现你的 training data 的 l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Machine Learning 2021 Spring - Day2">
+<meta property="og:url" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/index.html">
+<meta property="og:site_name" content="xinkjung&#39;s Blog">
+<meta property="og:description" content="Framework of ML通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。  就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：  General Guide按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：  如果发现你的 training data 的 l">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/3.GeneralGuide.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/4.Solution.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/5.OptimizationIssue.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/6.Bias-ConplexityTradeOff.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/7.N-foldCrossValidation.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/8.Mismatch.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/9.CriticalPoint.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/10.EmpiricalStudy.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png">
+<meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png">
+<meta property="article:published_time" content="2022-07-04T09:11:09.000Z">
+<meta property="article:modified_time" content="2022-07-04T10:19:34.214Z">
+<meta property="article:author" content="xxx">
+<meta property="article:tag" content="MachineLearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png">
+
+<link rel="canonical" href="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Machine Learning 2021 Spring - Day2 | xinkjung's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">xinkjung's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/xin.jpg">
+      <meta itemprop="name" content="xxx">
+      <meta itemprop="description" content=" Be happy. ">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xinkjung's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Machine Learning 2021 Spring - Day2
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-07-04 17:11:09。 / 修改时间：18:19:34。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:11:09+08:00">2022-07-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <span id="more"></span>
+
+<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
+<p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>
+<h2 id="General-Guide"><a href="#General-Guide" class="headerlink" title="General Guide"></a>General Guide</h2><p>按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/3.GeneralGuide.png" alt="General Guide"></p>
+<p>如果发现你的 training data 的 loss 很大，显然它在训练资料上面也没有学好，然后接下来分析是什么原因造成了在训练资料上没有学好呢？这边有两个可能：</p>
+<h3 id="model-bias"><a href="#model-bias" class="headerlink" title="model bias"></a>model bias</h3><p>就好比在一个根本没有针的大海里捞针。</p>
+<ul>
+<li><p>由 model 过于简单而造成</p>
+</li>
+<li><p>解决方案：重新定义 model 使其更加灵活</p>
+</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/4.Solution.png" alt="Solution"></p>
+<h3 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h3><p>这就好像是在大海捞针，但你不能找到它。</p>
+<ul>
+<li>巨大的损失也并不只是 model bias 造成的，也有别的可能，比如 optimization</li>
+</ul>
+<h3 id="Model-Bias-v-s-Optimization-Issue"><a href="#Model-Bias-v-s-Optimization-Issue" class="headerlink" title="Model Bias v.s. Optimization Issue"></a>Model Bias v.s. Optimization Issue</h3><ul>
+<li>Ganing the insights from comparison</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/5.OptimizationIssue.png" alt="Optimization Issue"></p>
+<ul>
+<li>Start from shallower networks(or other models), which are easier to optimize.</li>
+<li>If deeper networks do not obtain smaller loss on <strong>traning data</strong> ,then there is optimization issue.</li>
+<li>Solution: More powerful optimization technology(next lecture)…</li>
+</ul>
+<h3 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a>Overfitting</h3><ul>
+<li>训练集数据的损失小，而测试集数据的损失大 </li>
+</ul>
+<p>举一个特殊的极端例子，function 的 $x$ 当作输入的时候，比对其有没有出现在训练资料里面，如果有，就直接把他对应的 $\widehat y$ 当作输出，；如果没有，则输出一个随机的值。 这个例子的训练资料的损失就是0，而测试集数据的损失却很大。</p>
+<p>如果 model 自由度很大的话，会造成训练资料上的结果好，但是测试资料上的 loss 很大。</p>
+<ul>
+<li>解决方法：增加训练资料 ；给模型一些限制<ul>
+<li>Less parameters(or deeplearning,less neurons), sharing parameters</li>
+<li>Less features</li>
+<li>Early stopping</li>
+<li>Regularization</li>
+<li>Dropout (deeplearning)</li>
+</ul>
+</li>
+</ul>
+<p>但是对于更多特征或更多参数的复杂的 model，会造成越复杂training loss越小，但testing loss经过最低值后会变大的情况，这时选择中间合适的点来作为model。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/6.Bias-ConplexityTradeOff.png" alt="Bias-ComplexityTradeOff"> </p>
+<p>也可以对 training set 进行一个划分，划成 training 和 validation 数据集，然后计算损失误差值，取平均值再选择最好的一个用于 testing set 的训练。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/7.N-foldCrossValidation.png" alt="N-foldCrossValidation"></p>
+<h3 id="Mismatch"><a href="#Mismatch" class="headerlink" title="Mismatch"></a>Mismatch</h3><ul>
+<li>另一种错误的形式：模型认为根据以往数据应该是最低点，但实际不是而形成的不匹配</li>
+<li>训练资料和测试资料分布不同</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/8.Mismatch.png" alt="Mismatch"></p>
+<h2 id="类神经网络训练不起来怎么办？"><a href="#类神经网络训练不起来怎么办？" class="headerlink" title="类神经网络训练不起来怎么办？"></a>类神经网络训练不起来怎么办？</h2><p>当参数对 loss 的微分为0的时候，gradient descent 就没有办法再 update 参数了，这时 training 就停下来了。</p>
+<ul>
+<li>local minima (局部最小值): gradient is close to zero，没有解决办法</li>
+<li>saddle point (鞍点): gradient is close to zero，可以找到方法使 loss 更低</li>
+<li>critical point: gradient 为0的点的统称</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/9.CriticalPoint.png" alt="Critical Point"></p>
+<h3 id="Local-Minima-v-s-Saddle-Point"><a href="#Local-Minima-v-s-Saddle-Point" class="headerlink" title="Local Minima v.s. Saddle Point"></a>Local Minima v.s. Saddle Point</h3><p>我们可以通过 minimum ratio 的比例大小来判断具体是局部最小值还是鞍点：</p>
+<ul>
+<li>如果所有 eigen value 都是正的，代表这个 critical point 是 local minima</li>
+<li>如果 eigen value 有正有负，代表是 saddle point</li>
+</ul>
+<p>ps:但我们实际上会发现几乎找不到完全所有 eigen value 都是正的 critical point</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/10.EmpiricalStudy.png" alt="Empirical Study"></p>
+<p>经验来讲，local minima 并不那么常见，多数时候训练到一定时候发现 gradient 很小了，参数也不 update 往往是因为卡在了 saddle point 。</p>
+<h3 id="Batch-v-s-Momentum"><a href="#Batch-v-s-Momentum" class="headerlink" title="Batch v.s. Momentum"></a>Batch v.s. Momentum</h3><blockquote>
+<p>Batch</p>
+</blockquote>
+<p>先来回顾一下 Optimization with Batch:<br>    每一个 Batch 的大小就是一个大B（一大笔资料），每次 update 参数时，就是拿大B出来计算 loss 和 gradient 。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png" alt="Review: Optimization with Batch"></p>
+<ul>
+<li>所有的 Batch 看过一遍，叫做一个 Epoch</li>
+<li>在每一个 Epoch 开始之前，会分一次 Batch ，而且每一次 Epoch 的 Batch 都不一样（重新划分），哪些资料在同一个 Batch 里面每一个 Epoch 都不一样这件事情，叫做 Shuffle </li>
+</ul>
+<span class="label info"> Tips：将Shuffle理解为洗牌，Epoch理解为发牌</span>
+
+<p>这里举两个极端的例子来看看我们为什么要使用 Batch 以及 Batch 对 training 带来了什么样的帮助</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png" alt="Small Batch v.s. Large Batch"></p>
+<p>上图中可以看到，左边是不使用 Batch 即 Full batch 的情况，右边是 Batch size 为1的情况，可以得到结果：左边的蓄力很长时间但效果很好，右边的每次时间很短但可能不太准确。<span class="label info"> Tips：对比大招和一技能的区别</span></p>
+<hr>
+<p>就结束蛮突然的… 后续… …</p>
+
+    </div>
+
+
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------<i class="fa fa-paw"></i>本文结束感谢您的阅读<i class="fa fa-paw"></i>-------------</div>
+    
+</div>
+
+     
+    </div>
+
+
+    
+    
+    
+        <div class="reward-container">
+  <div>请我喝杯奶茶吧～</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="xxx 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="xxx 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>xxx
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/" title="Machine Learning 2021 Spring - Day2">http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              
+              
+              <a href="/tags/MachineLearning/" rel="tag"><i class="fa fa-tag"></i> MachineLearning</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/04/%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" rel="prev" title="网络安全学习笔记（一）">
+      <i class="fa fa-chevron-left"></i> 网络安全学习笔记（一）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/" rel="next" title="配置MAC终端自动补全命令行">
+      配置MAC终端自动补全命令行 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Framework-of-ML"><span class="nav-text">Framework of ML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#General-Guide"><span class="nav-text">General Guide</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#model-bias"><span class="nav-text">model bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#optimization"><span class="nav-text">optimization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Bias-v-s-Optimization-Issue"><span class="nav-text">Model Bias v.s. Optimization Issue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Overfitting"><span class="nav-text">Overfitting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mismatch"><span class="nav-text">Mismatch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E8%AE%AD%E7%BB%83%E4%B8%8D%E8%B5%B7%E6%9D%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-text">类神经网络训练不起来怎么办？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Local-Minima-v-s-Saddle-Point"><span class="nav-text">Local Minima v.s. Saddle Point</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-v-s-Momentum"><span class="nav-text">Batch v.s. Momentum</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="xxx"
+      src="/images/xin.jpg">
+  <p class="site-author-name" itemprop="name">xxx</p>
+  <div class="site-description" itemprop="description"> Be happy. </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xinkjung" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xinkjung" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:xinkjung@163.com" title="E-Mail → mailto:xinkjung@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://instagram.com/xinkjung" title="Instagram → https:&#x2F;&#x2F;instagram.com&#x2F;xinkjung" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i>Instagram</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xxx</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

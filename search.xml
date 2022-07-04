@@ -218,6 +218,8 @@
 <li>本地相对路径：将 <code>_config.yml</code> 文件中的配置项 <code>post_asset_folder</code> 设为 <code>true</code> 后，新建文章时会自动在 <code>source/_posts</code> 中会生成文章 <code>post_name.md</code> 和同名文件夹 <code>post_name</code> ，将图片资源放在文章自己的目录 <code>post_name</code> 中，文章就可以使用相对路径引用图片资源了，这时 <code>url</code> 为 <code>name.jpg</code></li>
 </ul>
 <p>插入的图标皆为 <a href="http://www.fontawesome.com.cn/">FontAwesome图标</a> 库中的，将代码 <code>fa fa-bolt</code> 替换为对应图标名称即可。</p>
+<span class="label [info]">基于Hexo实现的博客，在文章中插入`<span id="more"></span>`标记即可实现部分首页显示</span>
+
 <h3 id="Hexo-常用命令"><a href="#Hexo-常用命令" class="headerlink" title="Hexo 常用命令"></a>Hexo 常用命令</h3><blockquote>
 <p>基本命令</p>
 </blockquote>
@@ -479,6 +481,9 @@
 <p>在公式 $ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</p>
 <h3 id="数学公式-LaTex-基本元素语法"><a href="#数学公式-LaTex-基本元素语法" class="headerlink" title="数学公式 LaTex 基本元素语法"></a>数学公式 LaTex 基本元素语法</h3><p>待续。。。</p>
 ]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
       <tags>
         <tag>Hexo</tag>
         <tag>Blog</tag>
@@ -678,7 +683,7 @@
 <p>比如用户 <code>user</code> 拷贝 <code>xxx.xxx.xxx.xxx</code> 服务器上 <code>data.py</code> 文件夹到本地桌面，执行命令：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp user@xxx.xxx.xxx.xxx:/home/user/Desktop/data.py /Users/user/Desktop</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-Mac-拷贝本地文件到服务器"><a href="#2-Mac-拷贝本地文件到服务器" class="headerlink" title="2. Mac 拷贝本地文件到服务器"></a>2. Mac 拷贝本地文件到服务器</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
+<h4 id="2-Mac-拷贝本地文件到服务器"><a href="#2-Mac-拷贝本地文件到服务器" class="headerlink" title="2. Mac 拷贝本地文件到服务器"></a>2. Mac 拷贝本地文件到服务器</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp A路径 用户名@IP地址:B路径</span><br></pre></td></tr></table></figure>
 <p>比如用户 <code>user</code> 拷贝本地文件 <code>a.jpg</code> 到 <code>xxx.xxx.xxx.xxx</code> 服务器上作为 <code>b.jpg</code>，执行命令：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp /Users/xxx/Desktop/a.jpg user@xxx.xxx.xxx.xxx:/home/user/Desktop/Data/b.jpg</span><br></pre></td></tr></table></figure>
 
@@ -1091,6 +1096,419 @@ $ hexo d # == hexo deploy 上传
       <tags>
         <tag>笔记</tag>
         <tag>侧信道</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kali Linux 笔记整理</title>
+    <url>/2022/07/04/Kali-Linux-%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
+
+<p>!(1.root切换)[kali切换root用户]</p>
+<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
+
+<p>下载docker引擎并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p>接下来安装docker-compose并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
+
+<p>下载vulhub：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
+
+<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Machine Learning 2021 Spring - Day1</title>
+    <url>/2021/09/06/Machine-Learning-2021-Spring-Day1/</url>
+    <content><![CDATA[<h2 id="一、机器学习基本概念"><a href="#一、机器学习基本概念" class="headerlink" title="一、机器学习基本概念"></a>一、机器学习基本概念</h2><blockquote class="blockquote-center">
+            <i class="fa fa-quote-left"></i>
+            <p>Machine Learning  $\approx$  Looking for Function</p>
+
+            <i class="fa fa-quote-right"></i>
+          </blockquote>
+
+<p>机器学习就是让机器具备找一个函数式的能力，即一种实现人工智能的方法</p>
+<h3 id="Different-types-of-Functions"><a href="#Different-types-of-Functions" class="headerlink" title="Different types of Functions"></a>Different types of Functions</h3><p><strong><u>Regression</u></strong>: outputs a scalar.  它的输出是一个数值。</p>
+<p><strong><u>Classification</u></strong>: outputs the correct one from given options(classes).  从设定好的选项里面选择一个当作输出。</p>
+<p><strong><u>Structured Learning</u></strong>: create something with structure(image, document).   机器学会创造这件事。</p>
+<h3 id="Linear-Models-之机器学习找函数式的过程-——-三个步骤"><a href="#Linear-Models-之机器学习找函数式的过程-——-三个步骤" class="headerlink" title="Linear Models 之机器学习找函数式的过程 —— 三个步骤"></a>Linear Models 之机器学习找函数式的过程 —— 三个步骤</h3><blockquote>
+<ol>
+<li>Function with Unknown Parameters</li>
+</ol>
+</blockquote>
+<p>写出一个带有未知参数的函数式F， <strong>Model</strong>  $y = b + wx_1$ </p>
+<ul>
+<li>$y$ : Model, no. of views on 2/26</li>
+<li>$x_1$ : feature, no. of views on 2/25</li>
+<li>$w$ : weight, unkown parameters(learned from data)</li>
+<li>$b$ : bias, unkown parameters(learned from data)</li>
+</ul>
+<blockquote>
+<ol start="2">
+<li>Define Loss from Traning Data</li>
+</ol>
+</blockquote>
+<p>定义一个loss函数，输入是Model里面的参数 </p>
+<p><i class="fa fa-arrow-circle-right"></i> Loss is a function of parameters  $L(b, w)$</p>
+<p><i class="fa fa-arrow-circle-right"></i> Loss means how good a set of values is.  当未知参数被设定时，评估输出的这笔数值好还是不好</p>
+<p>对每一次的预测估计都有 $e = \mid y - \widehat{y} \mid$<br>最后计算得到结果 <strong>Loss</strong>  $L = \frac{1}{N} \sum_{i=1}^{n}{e_n} $</p>
+<ul>
+<li>$\widehat{y}$ : label, 真实的值（正确的数值）</li>
+<li>$e_i$ : 每次估测的值与正确的值之间的差距（有不同的计算方法）</li>
+<li>$N$ : 训练资料的总个数</li>
+<li>$L$ : 每一笔训练资料的误差，L越大代表这组参数越不好，L越小代表现在这组参数越好</li>
+</ul>
+<p>采用哪种方法来衡量距离e根据个人需求和对任务的理解来进行选择，这里选择<code>MAE</code></p>
+<p>$\bullet$  $e = \mid y - \widehat{y} \mid$    , L is mean absolute error(MAE)</p>
+<p>$\bullet$  $e = (y - \widehat{y})^2$          , L is mean square error(MSE)</p>
+<span class="label info">如果 $y$ 和 $\widehat{y}$ 都是几率分布的话可能会选择 `Cross- entropy`</span>
+
+<p>尝试不同的参数来计算各参数对应Loss而画出一个图叫 <code>Error Surface</code> （可以是1D或2D，即一个或两个参数可变）</p>
+<blockquote>
+<ol start="3">
+<li>Optimization</li>
+</ol>
+</blockquote>
+<p>解决一个最佳化的问题，找到最佳的w和b使得loss最小 </p>
+<p>$$w^*, b^* = arg\ min_{w,b}\ L $$</p>
+<p><strong><u>Gradient Descent</u></strong>  <span class="label primary">（一个参数的情况）</span></p>
+<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $w^0$</p>
+<p><i class="fa fa-chevron-right"></i> Compute $\frac{\partial{L}}{\partial{w}}\vert_{w=w^0}$ ,<br>计算在$w=w^0$的时候w这个参数对Loss的微分是多少，即在error surface这一个点的切线斜率</p>
+<ul>
+<li>Negative $\Rightarrow$ Increase w , 斜率为负数则增大w，就可以使loss的值变小</li>
+<li>Positive $\Rightarrow$ Decrease w , 斜率为正数则减小w，可以让loss的值变小</li>
+</ul>
+<p>$$w^1 - w^0 = \eta * \frac{\partial{L}}{\partial{w}}|_{w=w^0}$$</p>
+<p><i class="fa fa-chevron-right"></i> Update $w$ iteratively</p>
+<ul>
+<li>$\eta$ : learnign rate, 学习速率（自己设定，值大学习快），当微分值为0时就不再更新参数</li>
+<li>hyperparameters: 机器学习中需要自己设定的参数    </li>
+</ul>
+<span class="label warning">这个方法可能存在local minima并不是我们想要的global minima的问题</span>
+
+<p><strong><u>Gradient Descent</u></strong>  <span class="label primary">（两个参数的情况）</span></p>
+<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $w^0$, $b^0$</p>
+<p><i class="fa fa-chevron-right"></i> Compute<br>$\eta \frac{\partial{L}}{\partial{w}} \vert_{w=w^0,b=b^0}$ ,<br>$\eta \frac{\partial{L}}{\partial{b}} \vert_{w=w^0,b=b^0}$ ,<br>计算在$w=w^0,\ b=b^0$的位置w这个参数对Loss的微分是多少以及在$w=w^0,\ b=b^0$的位置w这个参数对Loss的微分是多少</p>
+<p><i class="fa fa-chevron-right"></i> Update $w$ and $b$ iteratively</p>
+<p>$$w^1 =  w^0 - \eta \frac{\partial{L}}{\partial{w}}|_{w=w^0,b=b^0}$$</p>
+<p>$$b^1 =  b^0 - \eta \frac{\partial{L}}{\partial{b}}|_{w=w^0,b=b^0}$$</p>
+<div class="note info">
+            <p>机器学习找函数式的以上三个步骤合起来称为 <em><strong><u>Training</u></strong></em> </p>
+          </div>
+
+<p>也就是说用旧的一些真实的数据训练的模型来预测之后可能的模型结果。</p>
+<span class="label info">通常一个模型的修改往往来自于对这个模型的理解，也就是`Domain Knowledg`</span>
+
+<p>观察我们随便乱写得到的真实模型发现每7天一个周期循环，所以写一个新模型 $y = b + \sum_{j=1}^7 w_jx_j$ ，发现sum求和数量依次增多后会达到一个饱和，误差率不再减小</p>
+<div class="note info">
+            <p>feature <code>x</code> * weight <code>w</code> + bias <code>b</code> 模型称作  <em><strong><u>Linear models</u></strong></em> </p>
+          </div>
+
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/1.LinearModels.png" alt="Linear Models"></p>
+<h3 id="New-Model-More-Features"><a href="#New-Model-More-Features" class="headerlink" title="New Model : More Features"></a>New Model : More Features</h3><p>但是linear models过于简单且有一定的限制，这个东西叫做 <em><strong>Model Bias</strong></em> ，由此产生了一个更复杂且含有未知参数的function</p>
+<p>All Piecewise Linear Curves = constant + sum of a set</p>
+<blockquote>
+<p>Sigmoid Function —— S型曲线</p>
+</blockquote>
+<p>曲折的直线函数可以看作一条曲线，而实际上sigmoid function 就是一个S型的曲线，它可以由一个函数式来表示</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/2.sigmoid.png" alt="Sigmoid Function"></p>
+<p>$$<br>\begin{align}<br>y &amp; = c \ \frac{1}{1+e^{-(b+wx_1)}}  \<br>&amp; = c \ sigmoid \ (b+wx_1) \<br>\end{align}<br>$$</p>
+<p>曲折的直线函数也可以由一个常量和一些线段的集合来表示</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/3.redcurve.png" alt="Sigmoid Function - sum of a set + constant"></p>
+<p>$$<br>\begin{align}<br>y &amp; = b + \sum_j w_jx_j  \<br>y &amp; = b + \sum_i c_i \ sigmoid \ (b_i + \sum_j w_{i,j}x_j)  \<br>\end{align}<br>$$</p>
+<p>其实函数式只有一些细微的差别，下面深入解析一下这个sigmoid function</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/4.sigmoid_1.png" alt="sigmoid 解析"></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/5.sigmoid_2.png" alt="sigmoid 解析"></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/6.sigmoid_3.png" alt="sigmoid 解析"></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/7.sigmoid_4.png" alt="sigmoid 解析"></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/8.sigmoid_5.png" alt="sigmoid 解析"></p>
+<h3 id="Back-to-ML-Framework"><a href="#Back-to-ML-Framework" class="headerlink" title="Back to ML Framework"></a>Back to ML Framework</h3><blockquote>
+<p>Step 1: function with unknown</p>
+</blockquote>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/9.newmodel.png" alt="function with unknown"></p>
+<blockquote>
+<p>Step 2: define loss from traning data</p>
+</blockquote>
+<p><i class="fa fa-arrow-circle-right"></i> Loss is a function of parameters  $L(\theta)$</p>
+<p><i class="fa fa-arrow-circle-right"></i> Loss means how good a set of values is. </p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/10.newmodel_loss.png" alt="Loss"></p>
+<p>得到结果 <strong>Loss</strong>  $L = \frac{1}{N} \sum_ne_n $</p>
+<blockquote>
+<p>Step 3: optimization</p>
+</blockquote>
+<p>$$<br>\begin{align}<br>\theta &amp;=<br>    \begin{bmatrix}<br>        \theta_1 \<br>        \theta_2 \<br>        \theta_3 \<br>         \vdots  \<br>    \end{bmatrix}<br>\end{align}<br>$$</p>
+<p>$$\theta^* = arg\ min_\theta\ L $$</p>
+<p><i class="fa fa-chevron-right"></i> (Randomly) Pick an initial value $\theta^0$</p>
+<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^0) $</p>
+<p>$$<br>g_{gradient} = \begin{bmatrix}<br>                \frac{\partial L} {\partial \theta_1} |<em>{\theta = \theta^0} \<br>                \frac{\partial L} {\partial \theta_2} |</em>{\theta = \theta^0} \<br>                \vdots<br>               \end{bmatrix} \</p>
+<p>$$</p>
+<p>计算所有参数 $\theta^1、\theta^2、\theta^3$ 在 $\theta^0$ 的位置对 $L$ 的微分作为Gradient 向量。</p>
+<p>$$<br>\begin{bmatrix}<br>    \theta_1^1 \<br>    \theta_2^1 \<br>      \vdots   \<br>\end{bmatrix}<br> =<br>\begin{bmatrix}<br>    \theta_1^0 \<br>    \theta_2^0 \<br>      \vdots   \<br>\end{bmatrix}<br> -<br>\begin{bmatrix}<br>    \eta  \frac{\partial{L}}{\partial{\theta_1}}|<em>{\theta=\theta^0} \<br>    \eta  \frac{\partial{L}}{\partial{\theta_2}}|</em>{\theta=\theta^0} \<br>      \vdots   \<br>\end{bmatrix}<br>$$</p>
+<p><strong>Update</strong>  $ \theta^1 \leftarrow \theta^0 - \eta g $</p>
+<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^1) $</p>
+<p><strong>Update</strong> $ \theta^2 \leftarrow \theta^1 - \eta g $</p>
+<p><i class="fa fa-chevron-right"></i> Compute $ g =  \nabla L (\theta^2) $</p>
+<p><strong>Update</strong> $ \theta^3 \leftarrow \theta^2 - \eta g $</p>
+<p>以此类推，通常做到不想做之后停下来</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/11.optimization_of_newmodel.png" alt="optimization"></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/12.Example.png" alt="Example"></p>
+<h3 id="Deep-Learning"><a href="#Deep-Learning" class="headerlink" title="Deep Learning"></a>Deep Learning</h3><blockquote>
+<p>Sigmoid ➡️ ReLU （Rectified Linear Unit ）</p>
+</blockquote>
+<p>除了sigmoid ，也可以使用<code>ReLU</code>函数</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/13.ReLU.png" alt="Sigmoid-ReLU"></p>
+<p>$$<br>y  = b + \sum_{2i} c_i \ max \ (0, b_i + \sum_j w_{i,j}x_j)<br>$$</p>
+<blockquote>
+<p> Activation function</p>
+</blockquote>
+<p>我们称 sigmoid 和 max 为 <code>Activation function</code></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/14.ActivationFunction.png" alt="Activation function"></p>
+<blockquote>
+<p>Hyperparameters</p>
+</blockquote>
+<p>这些生成的可控的参数就称之为<code>Hyperparameters</code></p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/15.Hyperparameters.png" alt="Hyperparameters"></p>
+<blockquote>
+<p>Neutral Network</p>
+</blockquote>
+<p>我们将激活函数称为Neuron神经元，复合而成就生称了<code>Neutral Network</code>神经网络</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/16.NeutralNetwork.png" alt="Neutral Network"></p>
+<blockquote>
+<p>Deep Learning</p>
+</blockquote>
+<p>每一层神经元就称为hidden layer隐藏层，由很多层组成的神经网络我们叫它<code>Deep Learning</code>深度学习</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/17.DeepLearning.png" alt="Deep Learning"></p>
+<blockquote>
+<p>Overfitting</p>
+</blockquote>
+<p>但有时候使用更多的层数并没有更好的效率，训练集准确率高了但实际预测数据集准确率很低，这是因为达到了<code>Overfitting</code>过拟合。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/18.Overfitting.png" alt="Overfitting"></p>
+<h3 id="To-Learn-More-Three-Steps-for-Deep-Learning"><a href="#To-Learn-More-Three-Steps-for-Deep-Learning" class="headerlink" title="To Learn More - Three Steps for Deep Learning"></a>To Learn More - Three Steps for Deep Learning</h3><blockquote>
+<p>Step 1: define a set of function</p>
+</blockquote>
+<p>这个function其实就是Neural Network，然后将这些Neural Network用不同的方式连接起来，比如<code>Fully Connect Feedforward Network</code>，就是将前一层和后一层的每个神经元都互相连接起来。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/19.FullyConnectFeedforwardNetwork_example1.png" alt="Example 1 - Fully Connect Feedforward Network"></p>
+<p>对于每条线和每个点，我们给它们添加上weight和bias的值，然后带入公式 $y=b+wx$ 计算，再通过sigmoid function的结果就是输出。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/20.FullyConnectFeedforwardNetwork_example2.png" alt="Example 1 - Fully Connect Feedforward Network"></p>
+<p>通常来讲，我们会有很多排neuron，每一排neuron里面可能会有很多个neuron，在layer和layer之间的neuron，是两两互相连接的，layer1的neuron的output就是所有layer2的neuron<br>的input，layer2的neuron的nput就是所有layer1的output。整个Network需要一个input，这个input就是一个vector， 对layer1的每一个neuron来说，它的input就是input layer的每一个dimension。最后假设第L排有M个neuron的话，这M个layer L的输出就是最后的output，组成一个vector。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/21.FullyConnectFeedforwardNetwork.png" alt="Fully Connect Feedforward Network"></p>
+<div class="note info">
+            <p>Deep = Many hidden layers</p>
+          </div>
+
+<p>Network的运作我们常常会用<code>Matrix Operation</code>来表示</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/22.MatrixOperation_1.png" alt="Matrix Operation"></p>
+<p>对于一整个neural network，我们也可以使用<code>Matrix Operation</code>这样表示</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/23.MatrixOperation_2.png" alt="Matrix Operation"></p>
+<p>比如手写数字识别，对于一个neural network我们也可以将最后一层output当作一个<code>multiclass classifier</code>，然后对其添加softMax，最后输出就是每一个数字的概率。</p>
+<blockquote>
+<p>Step 2: goodness of function</p>
+</blockquote>
+<p>假设给定了一组参数，要做手写数字辨识，我有一张image跟它的label，于是现在的target就是一个10维的vector，只有在第一纬对应到数字1的地方它的值为1，其他都是0。将image的pixel输入，得到一组输出y，然后计算 $y$ 跟 $\widehat y$ 之间的 <code>cross entropy</code> ，接下来就是要调整network的参数使得这个 cross entropy 的值越小越好。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/24.CrossEntropy.png" alt="Cross Entropy"></p>
+<p>而实际上我们会对一大堆data进行training，将每个数据的cross entropy加起来得到一个<code>total loss L</code>，就是如何 minimize 这个 loss L的问题了。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/25.TotalLoss.png" alt="Total Loss"></p>
+<blockquote>
+<p>Step 3: pick the best function</p>
+</blockquote>
+<p>采用 <code>Gradient Descent</code> 方法找到最优，像之前一样计算微分得到gradient向量，然后更新参数，不断反复进行这个process。</p>
+<p><img src="/2021/09/06/Machine-Learning-2021-Spring-Day1/26.GradientDescent.png" alt="Gradient Descent - pick the best function"></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>MachineLearning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Machine Learning 2021 Spring - Day2</title>
+    <url>/2022/07/04/Machine-Learning-2021-Spring-Day2/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
+<p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>
+<h2 id="General-Guide"><a href="#General-Guide" class="headerlink" title="General Guide"></a>General Guide</h2><p>按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/3.GeneralGuide.png" alt="General Guide"></p>
+<p>如果发现你的 training data 的 loss 很大，显然它在训练资料上面也没有学好，然后接下来分析是什么原因造成了在训练资料上没有学好呢？这边有两个可能：</p>
+<h3 id="model-bias"><a href="#model-bias" class="headerlink" title="model bias"></a>model bias</h3><p>就好比在一个根本没有针的大海里捞针。</p>
+<ul>
+<li><p>由 model 过于简单而造成</p>
+</li>
+<li><p>解决方案：重新定义 model 使其更加灵活</p>
+</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/4.Solution.png" alt="Solution"></p>
+<h3 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h3><p>这就好像是在大海捞针，但你不能找到它。</p>
+<ul>
+<li>巨大的损失也并不只是 model bias 造成的，也有别的可能，比如 optimization</li>
+</ul>
+<h3 id="Model-Bias-v-s-Optimization-Issue"><a href="#Model-Bias-v-s-Optimization-Issue" class="headerlink" title="Model Bias v.s. Optimization Issue"></a>Model Bias v.s. Optimization Issue</h3><ul>
+<li>Ganing the insights from comparison</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/5.OptimizationIssue.png" alt="Optimization Issue"></p>
+<ul>
+<li>Start from shallower networks(or other models), which are easier to optimize.</li>
+<li>If deeper networks do not obtain smaller loss on <strong>traning data</strong> ,then there is optimization issue.</li>
+<li>Solution: More powerful optimization technology(next lecture)…</li>
+</ul>
+<h3 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a>Overfitting</h3><ul>
+<li>训练集数据的损失小，而测试集数据的损失大 </li>
+</ul>
+<p>举一个特殊的极端例子，function 的 $x$ 当作输入的时候，比对其有没有出现在训练资料里面，如果有，就直接把他对应的 $\widehat y$ 当作输出，；如果没有，则输出一个随机的值。 这个例子的训练资料的损失就是0，而测试集数据的损失却很大。</p>
+<p>如果 model 自由度很大的话，会造成训练资料上的结果好，但是测试资料上的 loss 很大。</p>
+<ul>
+<li>解决方法：增加训练资料 ；给模型一些限制<ul>
+<li>Less parameters(or deeplearning,less neurons), sharing parameters</li>
+<li>Less features</li>
+<li>Early stopping</li>
+<li>Regularization</li>
+<li>Dropout (deeplearning)</li>
+</ul>
+</li>
+</ul>
+<p>但是对于更多特征或更多参数的复杂的 model，会造成越复杂training loss越小，但testing loss经过最低值后会变大的情况，这时选择中间合适的点来作为model。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/6.Bias-ConplexityTradeOff.png" alt="Bias-ComplexityTradeOff"> </p>
+<p>也可以对 training set 进行一个划分，划成 training 和 validation 数据集，然后计算损失误差值，取平均值再选择最好的一个用于 testing set 的训练。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/7.N-foldCrossValidation.png" alt="N-foldCrossValidation"></p>
+<h3 id="Mismatch"><a href="#Mismatch" class="headerlink" title="Mismatch"></a>Mismatch</h3><ul>
+<li>另一种错误的形式：模型认为根据以往数据应该是最低点，但实际不是而形成的不匹配</li>
+<li>训练资料和测试资料分布不同</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/8.Mismatch.png" alt="Mismatch"></p>
+<h2 id="类神经网络训练不起来怎么办？"><a href="#类神经网络训练不起来怎么办？" class="headerlink" title="类神经网络训练不起来怎么办？"></a>类神经网络训练不起来怎么办？</h2><p>当参数对 loss 的微分为0的时候，gradient descent 就没有办法再 update 参数了，这时 training 就停下来了。</p>
+<ul>
+<li>local minima (局部最小值): gradient is close to zero，没有解决办法</li>
+<li>saddle point (鞍点): gradient is close to zero，可以找到方法使 loss 更低</li>
+<li>critical point: gradient 为0的点的统称</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/9.CriticalPoint.png" alt="Critical Point"></p>
+<h3 id="Local-Minima-v-s-Saddle-Point"><a href="#Local-Minima-v-s-Saddle-Point" class="headerlink" title="Local Minima v.s. Saddle Point"></a>Local Minima v.s. Saddle Point</h3><p>我们可以通过 minimum ratio 的比例大小来判断具体是局部最小值还是鞍点：</p>
+<ul>
+<li>如果所有 eigen value 都是正的，代表这个 critical point 是 local minima</li>
+<li>如果 eigen value 有正有负，代表是 saddle point</li>
+</ul>
+<p>ps:但我们实际上会发现几乎找不到完全所有 eigen value 都是正的 critical point</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/10.EmpiricalStudy.png" alt="Empirical Study"></p>
+<p>经验来讲，local minima 并不那么常见，多数时候训练到一定时候发现 gradient 很小了，参数也不 update 往往是因为卡在了 saddle point 。</p>
+<h3 id="Batch-v-s-Momentum"><a href="#Batch-v-s-Momentum" class="headerlink" title="Batch v.s. Momentum"></a>Batch v.s. Momentum</h3><blockquote>
+<p>Batch</p>
+</blockquote>
+<p>先来回顾一下 Optimization with Batch:<br>    每一个 Batch 的大小就是一个大B（一大笔资料），每次 update 参数时，就是拿大B出来计算 loss 和 gradient 。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png" alt="Review: Optimization with Batch"></p>
+<ul>
+<li>所有的 Batch 看过一遍，叫做一个 Epoch</li>
+<li>在每一个 Epoch 开始之前，会分一次 Batch ，而且每一次 Epoch 的 Batch 都不一样（重新划分），哪些资料在同一个 Batch 里面每一个 Epoch 都不一样这件事情，叫做 Shuffle </li>
+</ul>
+<span class="label info"> Tips：将Shuffle理解为洗牌，Epoch理解为发牌</span>
+
+<p>这里举两个极端的例子来看看我们为什么要使用 Batch 以及 Batch 对 training 带来了什么样的帮助</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png" alt="Small Batch v.s. Large Batch"></p>
+<p>上图中可以看到，左边是不使用 Batch 即 Full batch 的情况，右边是 Batch size 为1的情况，可以得到结果：左边的蓄力很长时间但效果很好，右边的每次时间很短但可能不太准确。<span class="label info"> Tips：对比大招和一技能的区别</span></p>
+<hr>
+<p>就结束蛮突然的… 后续… …</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>MachineLearning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络安全学习笔记（一）</title>
+    <url>/2022/07/04/%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
+<li>确定范围：测试目标的范围，IP、域名、内外网</li>
+<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
+<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
+<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
+</ol>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
+<li>方式：主动扫描、开放搜索等</li>
+<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
+<li>基础信息：IP、网段、域名、端口</li>
+<li>系统信息：操作系统版本</li>
+<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
+<li>版本信息：所有这些探测到的东西的版本</li>
+<li>服务信息</li>
+<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
+<li>防护信息：试着看能否探测到防护设备</li>
+</ol>
+<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
+<ol>
+<li>方法：<ul>
+<li>漏扫、AWVS、IBM appscan等</li>
+<li>结合漏洞去exploit-db等位置找利用</li>
+<li>网上寻找验证poc</li>
+</ul>
+</li>
+<li>内容：<ul>
+<li>系统漏洞：系统没有及时打补丁</li>
+<li>Webserver漏洞：Webserver配置问题</li>
+<li>Web应用漏洞：Web应用开发问题</li>
+<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
+<li>通信安全：明文传输、token在cookie中传输等</li>
+</ul>
+</li>
+</ol>
+<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
+<ul>
+<li>自动化验证：结合自动化扫描工具提供的结果</li>
+<li>手工验证：根据公开资源进行验证</li>
+<li>试验验证：自己搭建模拟环境进行验证</li>
+<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
+<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
+</ul>
+<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
+<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
+<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
+<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
+</ol>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>笔记</tag>
+        <tag>网络安全</tag>
+        <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置MAC终端自动补全命令行</title>
+    <url>/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
+    <content><![CDATA[<ol>
+<li>打开终端，在命令行输入 <code>nano .inputrc</code> 然后回车运行会进入一个编辑页面</li>
+<li>将下列语句输入到文件中：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set completion-ignore-case on</span><br><span class="line">set show-all-if-ambiguous on</span><br><span class="line">TAB: menu-complete</span><br></pre></td></tr></table></figure>
+<img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
+<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
+</ol>
+<hr>
+<p><strong>参考链接</strong></p>
+<p><a href="https://blog.csdn.net/qq_41134710/article/details/118573124">如何配置MAC的终端自动补全命令行</a></p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
       </tags>
   </entry>
 </search>
