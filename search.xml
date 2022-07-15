@@ -707,7 +707,6 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -1094,7 +1093,6 @@ $ hexo d # == hexo deploy 上传
         <category>学习</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
         <tag>侧信道</tag>
       </tags>
   </entry>
@@ -1126,7 +1124,6 @@ $ hexo d # == hexo deploy 上传
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>笔记</tag>
       </tags>
   </entry>
   <entry>
@@ -1430,9 +1427,32 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>网络安全学习笔记（一）</title>
-    <url>/2022/07/04/%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
+    <title>配置MAC终端自动补全命令行</title>
+    <url>/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
+    <content><![CDATA[<ol>
+<li>打开终端，在命令行输入 <code>nano .inputrc</code> 然后回车运行会进入一个编辑页面</li>
+<li>将下列语句输入到文件中：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set completion-ignore-case on</span><br><span class="line">set show-all-if-ambiguous on</span><br><span class="line">TAB: menu-complete</span><br></pre></td></tr></table></figure>
+<img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
+<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
+</ol>
+<hr>
+<p><strong>参考链接</strong></p>
+<p><a href="https://blog.csdn.net/qq_41134710/article/details/118573124">如何配置MAC的终端自动补全命令行</a></p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网站渗透测试流程</title>
+    <url>/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+
+
+<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
 <li>确定范围：测试目标的范围，IP、域名、内外网</li>
 <li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
 <li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
@@ -1486,29 +1506,8 @@ $ hexo d # == hexo deploy 上传
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
         <tag>网络安全</tag>
         <tag>渗透</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>配置MAC终端自动补全命令行</title>
-    <url>/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
-    <content><![CDATA[<ol>
-<li>打开终端，在命令行输入 <code>nano .inputrc</code> 然后回车运行会进入一个编辑页面</li>
-<li>将下列语句输入到文件中：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set completion-ignore-case on</span><br><span class="line">set show-all-if-ambiguous on</span><br><span class="line">TAB: menu-complete</span><br></pre></td></tr></table></figure>
-<img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
-<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
-</ol>
-<hr>
-<p><strong>参考链接</strong></p>
-<p><a href="https://blog.csdn.net/qq_41134710/article/details/118573124">如何配置MAC的终端自动补全命令行</a></p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>Mac</tag>
       </tags>
   </entry>
 </search>

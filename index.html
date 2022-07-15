@@ -439,7 +439,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/04/%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/xin.jpg">
@@ -453,7 +453,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/07/04/%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/" class="post-title-link" itemprop="url">网络安全学习笔记（一）</a>
+            <a href="/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">网站渗透测试流程</a>
         </h2>
 
         <div class="post-meta">
@@ -462,10 +462,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-04 17:02:37。 / 修改时间：18:17:42。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:02:37+08:00">2022-07-04</time>
+              <time title="创建时间：2022-07-04 17:02:37。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:02:37+08:00">2022-07-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-15 19:26:09。" itemprop="dateModified" datetime="2022-07-15T19:26:09+08:00">2022-07-15</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -487,15 +493,59 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>简记网站渗透测试流程</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/04/%E5%AE%89%E5%85%A8%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%88%E4%B8%80%EF%BC%89/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <span id="more"></span>
+
+
+<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
+<li>确定范围：测试目标的范围，IP、域名、内外网</li>
+<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
+<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
+<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
+</ol>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
+<li>方式：主动扫描、开放搜索等</li>
+<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
+<li>基础信息：IP、网段、域名、端口</li>
+<li>系统信息：操作系统版本</li>
+<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
+<li>版本信息：所有这些探测到的东西的版本</li>
+<li>服务信息</li>
+<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
+<li>防护信息：试着看能否探测到防护设备</li>
+</ol>
+<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
+<ol>
+<li>方法：<ul>
+<li>漏扫、AWVS、IBM appscan等</li>
+<li>结合漏洞去exploit-db等位置找利用</li>
+<li>网上寻找验证poc</li>
+</ul>
+</li>
+<li>内容：<ul>
+<li>系统漏洞：系统没有及时打补丁</li>
+<li>Webserver漏洞：Webserver配置问题</li>
+<li>Web应用漏洞：Web应用开发问题</li>
+<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
+<li>通信安全：明文传输、token在cookie中传输等</li>
+</ul>
+</li>
+</ol>
+<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
+<ul>
+<li>自动化验证：结合自动化扫描工具提供的结果</li>
+<li>手工验证：根据公开资源进行验证</li>
+<li>试验验证：自己搭建模拟环境进行验证</li>
+<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
+<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
+</ul>
+<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
+<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
+<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
+<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
+</ol>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
+
       
     </div>
 
@@ -543,10 +593,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-04 17:02:24。 / 修改时间：18:17:34。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:02:24+08:00">2022-07-04</time>
+              <time title="创建时间：2022-07-04 17:02:24。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:02:24+08:00">2022-07-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-15 19:26:23。" itemprop="dateModified" datetime="2022-07-15T19:26:23+08:00">2022-07-15</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -719,7 +775,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-04 16:46:36。" itemprop="dateModified" datetime="2022-07-04T16:46:36+08:00">2022-07-04</time>
+                <time title="修改时间：2022-07-15 19:26:46。" itemprop="dateModified" datetime="2022-07-15T19:26:46+08:00">2022-07-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -972,10 +1028,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-08-24 17:31:37。 / 修改时间：17:34:25。" itemprop="dateCreated datePublished" datetime="2021-08-24T17:31:37+08:00">2021-08-24</time>
+              <time title="创建时间：2021-08-24 17:31:37。" itemprop="dateCreated datePublished" datetime="2021-08-24T17:31:37+08:00">2021-08-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-15 19:27:19。" itemprop="dateModified" datetime="2022-07-15T19:27:19+08:00">2022-07-15</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1197,7 +1259,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
