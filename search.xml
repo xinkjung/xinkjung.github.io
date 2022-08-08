@@ -742,9 +742,7 @@
   <entry>
     <title>Machine Learning 2021 Spring - Day2</title>
     <url>/2022/07/04/Machine-Learning-2021-Spring-Day2/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
+    <content><![CDATA[<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
 <p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
 <p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
 <p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>

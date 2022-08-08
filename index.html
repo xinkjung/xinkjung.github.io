@@ -304,10 +304,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-04 17:11:09。 / 修改时间：18:19:34。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:11:09+08:00">2022-07-04</time>
+              <time title="创建时间：2022-07-04 17:11:09。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:11:09+08:00">2022-07-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-08 15:27:48。" itemprop="dateModified" datetime="2022-08-08T15:27:48+08:00">2022-08-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -329,92 +335,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
-<p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>
-<h2 id="General-Guide"><a href="#General-Guide" class="headerlink" title="General Guide"></a>General Guide</h2><p>按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/3.GeneralGuide.png" alt="General Guide"></p>
-<p>如果发现你的 training data 的 loss 很大，显然它在训练资料上面也没有学好，然后接下来分析是什么原因造成了在训练资料上没有学好呢？这边有两个可能：</p>
-<h3 id="model-bias"><a href="#model-bias" class="headerlink" title="model bias"></a>model bias</h3><p>就好比在一个根本没有针的大海里捞针。</p>
-<ul>
-<li><p>由 model 过于简单而造成</p>
-</li>
-<li><p>解决方案：重新定义 model 使其更加灵活</p>
-</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/4.Solution.png" alt="Solution"></p>
-<h3 id="optimization"><a href="#optimization" class="headerlink" title="optimization"></a>optimization</h3><p>这就好像是在大海捞针，但你不能找到它。</p>
-<ul>
-<li>巨大的损失也并不只是 model bias 造成的，也有别的可能，比如 optimization</li>
-</ul>
-<h3 id="Model-Bias-v-s-Optimization-Issue"><a href="#Model-Bias-v-s-Optimization-Issue" class="headerlink" title="Model Bias v.s. Optimization Issue"></a>Model Bias v.s. Optimization Issue</h3><ul>
-<li>Ganing the insights from comparison</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/5.OptimizationIssue.png" alt="Optimization Issue"></p>
-<ul>
-<li>Start from shallower networks(or other models), which are easier to optimize.</li>
-<li>If deeper networks do not obtain smaller loss on <strong>traning data</strong> ,then there is optimization issue.</li>
-<li>Solution: More powerful optimization technology(next lecture)…</li>
-</ul>
-<h3 id="Overfitting"><a href="#Overfitting" class="headerlink" title="Overfitting"></a>Overfitting</h3><ul>
-<li>训练集数据的损失小，而测试集数据的损失大 </li>
-</ul>
-<p>举一个特殊的极端例子，function 的 $x$ 当作输入的时候，比对其有没有出现在训练资料里面，如果有，就直接把他对应的 $\widehat y$ 当作输出，；如果没有，则输出一个随机的值。 这个例子的训练资料的损失就是0，而测试集数据的损失却很大。</p>
-<p>如果 model 自由度很大的话，会造成训练资料上的结果好，但是测试资料上的 loss 很大。</p>
-<ul>
-<li>解决方法：增加训练资料 ；给模型一些限制<ul>
-<li>Less parameters(or deeplearning,less neurons), sharing parameters</li>
-<li>Less features</li>
-<li>Early stopping</li>
-<li>Regularization</li>
-<li>Dropout (deeplearning)</li>
-</ul>
-</li>
-</ul>
-<p>但是对于更多特征或更多参数的复杂的 model，会造成越复杂training loss越小，但testing loss经过最低值后会变大的情况，这时选择中间合适的点来作为model。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/6.Bias-ConplexityTradeOff.png" alt="Bias-ComplexityTradeOff"> </p>
-<p>也可以对 training set 进行一个划分，划成 training 和 validation 数据集，然后计算损失误差值，取平均值再选择最好的一个用于 testing set 的训练。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/7.N-foldCrossValidation.png" alt="N-foldCrossValidation"></p>
-<h3 id="Mismatch"><a href="#Mismatch" class="headerlink" title="Mismatch"></a>Mismatch</h3><ul>
-<li>另一种错误的形式：模型认为根据以往数据应该是最低点，但实际不是而形成的不匹配</li>
-<li>训练资料和测试资料分布不同</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/8.Mismatch.png" alt="Mismatch"></p>
-<h2 id="类神经网络训练不起来怎么办？"><a href="#类神经网络训练不起来怎么办？" class="headerlink" title="类神经网络训练不起来怎么办？"></a>类神经网络训练不起来怎么办？</h2><p>当参数对 loss 的微分为0的时候，gradient descent 就没有办法再 update 参数了，这时 training 就停下来了。</p>
-<ul>
-<li>local minima (局部最小值): gradient is close to zero，没有解决办法</li>
-<li>saddle point (鞍点): gradient is close to zero，可以找到方法使 loss 更低</li>
-<li>critical point: gradient 为0的点的统称</li>
-</ul>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/9.CriticalPoint.png" alt="Critical Point"></p>
-<h3 id="Local-Minima-v-s-Saddle-Point"><a href="#Local-Minima-v-s-Saddle-Point" class="headerlink" title="Local Minima v.s. Saddle Point"></a>Local Minima v.s. Saddle Point</h3><p>我们可以通过 minimum ratio 的比例大小来判断具体是局部最小值还是鞍点：</p>
-<ul>
-<li>如果所有 eigen value 都是正的，代表这个 critical point 是 local minima</li>
-<li>如果 eigen value 有正有负，代表是 saddle point</li>
-</ul>
-<p>ps:但我们实际上会发现几乎找不到完全所有 eigen value 都是正的 critical point</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/10.EmpiricalStudy.png" alt="Empirical Study"></p>
-<p>经验来讲，local minima 并不那么常见，多数时候训练到一定时候发现 gradient 很小了，参数也不 update 往往是因为卡在了 saddle point 。</p>
-<h3 id="Batch-v-s-Momentum"><a href="#Batch-v-s-Momentum" class="headerlink" title="Batch v.s. Momentum"></a>Batch v.s. Momentum</h3><blockquote>
-<p>Batch</p>
-</blockquote>
-<p>先来回顾一下 Optimization with Batch:<br>    每一个 Batch 的大小就是一个大B（一大笔资料），每次 update 参数时，就是拿大B出来计算 loss 和 gradient 。</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png" alt="Review: Optimization with Batch"></p>
-<ul>
-<li>所有的 Batch 看过一遍，叫做一个 Epoch</li>
-<li>在每一个 Epoch 开始之前，会分一次 Batch ，而且每一次 Epoch 的 Batch 都不一样（重新划分），哪些资料在同一个 Batch 里面每一个 Epoch 都不一样这件事情，叫做 Shuffle </li>
-</ul>
-<span class="label info"> Tips：将Shuffle理解为洗牌，Epoch理解为发牌</span>
-
-<p>这里举两个极端的例子来看看我们为什么要使用 Batch 以及 Batch 对 training 带来了什么样的帮助</p>
-<p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png" alt="Small Batch v.s. Large Batch"></p>
-<p>上图中可以看到，左边是不使用 Batch 即 Full batch 的情况，右边是 Batch size 为1的情况，可以得到结果：左边的蓄力很长时间但效果很好，右边的每次时间很短但可能不太准确。<span class="label info"> Tips：对比大招和一技能的区别</span></p>
-<hr>
-<p>就结束蛮突然的… 后续… …</p>
-
+          <p>接着学习！</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/04/Machine-Learning-2021-Spring-Day2/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -470,7 +399,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-15 19:26:09。" itemprop="dateModified" datetime="2022-07-15T19:26:09+08:00">2022-07-15</time>
+                <time title="修改时间：2022-08-08 15:28:28。" itemprop="dateModified" datetime="2022-08-08T15:28:28+08:00">2022-08-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -493,59 +422,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <span id="more"></span>
-
-
-<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
-<li>确定范围：测试目标的范围，IP、域名、内外网</li>
-<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
-<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
-<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
-</ol>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
-<li>方式：主动扫描、开放搜索等</li>
-<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
-<li>基础信息：IP、网段、域名、端口</li>
-<li>系统信息：操作系统版本</li>
-<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
-<li>版本信息：所有这些探测到的东西的版本</li>
-<li>服务信息</li>
-<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
-<li>防护信息：试着看能否探测到防护设备</li>
-</ol>
-<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
-<ol>
-<li>方法：<ul>
-<li>漏扫、AWVS、IBM appscan等</li>
-<li>结合漏洞去exploit-db等位置找利用</li>
-<li>网上寻找验证poc</li>
-</ul>
-</li>
-<li>内容：<ul>
-<li>系统漏洞：系统没有及时打补丁</li>
-<li>Webserver漏洞：Webserver配置问题</li>
-<li>Web应用漏洞：Web应用开发问题</li>
-<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
-<li>通信安全：明文传输、token在cookie中传输等</li>
-</ul>
-</li>
-</ol>
-<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
-<ul>
-<li>自动化验证：结合自动化扫描工具提供的结果</li>
-<li>手工验证：根据公开资源进行验证</li>
-<li>试验验证：自己搭建模拟环境进行验证</li>
-<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
-<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
-</ul>
-<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
-<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
-<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
-<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
-</ol>
-<hr>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
-
+          <p>网站渗透测试流程简记</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -862,7 +747,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-04 18:17:07。" itemprop="dateModified" datetime="2022-07-04T18:17:07+08:00">2022-07-04</time>
+                <time title="修改时间：2022-08-08 15:27:13。" itemprop="dateModified" datetime="2022-08-08T15:27:13+08:00">2022-08-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">

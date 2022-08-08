@@ -23,12 +23,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":3,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Framework of ML通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。  就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：  General Guide按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：  如果发现你的 training data 的 l">
+  <meta name="description" content="接着学习！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Machine Learning 2021 Spring - Day2">
 <meta property="og:url" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/index.html">
 <meta property="og:site_name" content="xinkjung&#39;s Blog">
-<meta property="og:description" content="Framework of ML通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。  就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：  General Guide按照下图的流程依次检查 training data 的 loss，然后根据实际来判别属于哪种情况：  如果发现你的 training data 的 l">
+<meta property="og:description" content="接着学习！">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png">
 <meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png">
@@ -43,7 +43,7 @@
 <meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/11.OptimizationWithBatch.png">
 <meta property="og:image" content="http://example.com/2022/07/04/Machine-Learning-2021-Spring-Day2/12.SmallBatchVSLargeBatch.png">
 <meta property="article:published_time" content="2022-07-04T09:11:09.000Z">
-<meta property="article:modified_time" content="2022-07-04T10:19:34.214Z">
+<meta property="article:modified_time" content="2022-08-08T07:27:48.293Z">
 <meta property="article:author" content="xxx">
 <meta property="article:tag" content="MachineLearning">
 <meta name="twitter:card" content="summary">
@@ -239,10 +239,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-07-04 17:11:09。 / 修改时间：18:19:34。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:11:09+08:00">2022-07-04</time>
+              <time title="创建时间：2022-07-04 17:11:09。" itemprop="dateCreated datePublished" datetime="2022-07-04T17:11:09+08:00">2022-07-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-08 15:27:48。" itemprop="dateModified" datetime="2022-08-08T15:27:48+08:00">2022-08-08</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -261,6 +267,7 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span id="busuanzi_value_page_pv"></span>
             </span>
+            <div class="post-description">接着学习！</div>
 
         </div>
       </header>
@@ -271,9 +278,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <span id="more"></span>
-
-<h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
+        <h2 id="Framework-of-ML"><a href="#Framework-of-ML" class="headerlink" title="Framework of ML"></a>Framework of ML</h2><p>通过三个步骤对训练数据集进行训练，然后带入模型对测试数据集进行训练，最终得到结果。</p>
 <p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/1.FrameworkofML.png" alt="Framework of ML"></p>
 <p>就比如以下四个例子，对输入数据 $x$ 进行识别，得到真实标签 $ \widehat y $ 的值：</p>
 <p><img src="/2022/07/04/Machine-Learning-2021-Spring-Day2/2.DataRecognition.png" alt="Data Recognition"></p>
