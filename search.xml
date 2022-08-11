@@ -1508,4 +1508,26 @@ $ hexo d # == hexo deploy 上传
         <tag>Mac</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Mac查看隐藏文件</title>
+    <url>/2022/08/11/Mac%E6%9F%A5%E7%9C%8B%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="方式一：在终端运行命令显示隐藏文件"><a href="#方式一：在终端运行命令显示隐藏文件" class="headerlink" title="方式一：在终端运行命令显示隐藏文件"></a>方式一：在终端运行命令显示隐藏文件</h3><p>在电脑桌面点击左侧的图标，接着在启动台里面搜索终端，点击黑色的图标启动终端：</p>
+<ul>
+<li>Mac显示“隐藏文件”命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">defaults write com.apple.finder AppleShowAllFiles -bool true</span><br></pre></td></tr></table></figure></li>
+<li>Mac隐藏“隐藏文件”命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">defaults write com.apple.finder AppleShowAllFiles -bool false</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="方式二：快捷键显示隐藏文件"><a href="#方式二：快捷键显示隐藏文件" class="headerlink" title="方式二：快捷键显示隐藏文件"></a>方式二：快捷键显示隐藏文件</h3><p>在 Finder 打开想要查看隐藏文件的文件夹:</p>
+<ul>
+<li>显示隐藏文件快捷键: <code>Command + Shift + .</code></li>
+<li>恢复隐藏文件的话再次按: <code>Shift + Command + .</code> <span class="label [warning]">此方法适用于macOS Sierra或以上的系统</span></li>
+</ul>
+<h3 id="用第三方应用程序-Funter-显示隐藏文件"><a href="#用第三方应用程序-Funter-显示隐藏文件" class="headerlink" title="用第三方应用程序 Funter 显示隐藏文件"></a>用第三方应用程序 Funter 显示隐藏文件</h3><p>Funter 是 Mac 上的一款高级文件隐藏工具，支持在 Finder 中切换隐藏文件的可见性。<br>用 Funter 显示隐藏文件的操作过程很简单，启动 Funter，单击菜单栏中的显示隐藏文件，打开查找器，在那里你会看到你的隐藏文件们。</p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+      </tags>
+  </entry>
 </search>
