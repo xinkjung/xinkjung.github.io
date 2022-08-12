@@ -1490,12 +1490,12 @@ $ hexo d # == hexo deploy 上传
   </entry>
   <entry>
     <title>配置MAC终端自动补全命令行</title>
-    <url>/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
+    <url>/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
     <content><![CDATA[<ol>
 <li>打开终端，在命令行输入 <code>nano .inputrc</code> 然后回车运行会进入一个编辑页面</li>
 <li>将下列语句输入到文件中：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set completion-ignore-case on</span><br><span class="line">set show-all-if-ambiguous on</span><br><span class="line">TAB: menu-complete</span><br></pre></td></tr></table></figure>
-<img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
-<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/07/04/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
+<img src="/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
+<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
 </ol>
 <hr>
 <p><strong>参考链接</strong></p>
@@ -1528,6 +1528,21 @@ $ hexo d # == hexo deploy 上传
       </categories>
       <tags>
         <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Hexo部署Github时页面显示问题</title>
+    <url>/2022/08/12/%E8%A7%A3%E5%86%B3Hexo%E9%83%A8%E7%BD%B2Github%E6%97%B6%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>检查 <code>_config.yml</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:xinkjung  # 仓库地址</span><br><span class="line">  branch: master  # hexo </span><br></pre></td></tr></table></figure>
+
+<p>发现不知道什么时候改为了 <code>hexo</code> ，文件都上传到 <code>hexo</code> 目录下去了，修改为 <code>master</code> 即可。</p>
+<p>然后执行命令 <code>hexo clean</code>、<code>hexo d -g</code>尝试，这样就成功解决了。</p>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+        <tag>Github</tag>
       </tags>
   </entry>
 </search>
