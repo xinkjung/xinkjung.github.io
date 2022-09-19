@@ -1793,6 +1793,8 @@ $ hexo d # == hexo deploy 上传
 </li>
 <li><p>攻击者截获了从A发向B的数据，然后又从早些时候所截获的数据中提取出部分信息重新发往B，这种攻击方法称为    D<br>A. 暴力破解<br>B. 中间人攻击<br>C. 拒绝服务攻击<br>D. 重放攻击</p>
 </li>
+<li><p>数据完整性指的是    C<br>A. 保护网络中各系统之间交换的数据，防止因数据被截获而造成泄密<br>B.提供连接实体身份的鉴别<br>C. 防止非法实体对用户的主动攻击，保证数据接受方收到的信息与发送方发送的信息一致<br>D.确保数据是由合法实体发出的 </p>
+</li>
 </ol>
 <h4 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h4><ol>
 <li>如何防止DLL劫持</li>
@@ -2499,6 +2501,47 @@ $ hexo d # == hexo deploy 上传
       </categories>
       <tags>
         <tag>网络安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字节跳动 笔试题目</title>
+    <url>/2022/09/19/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8-%E7%AC%94%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h3 id="单选"><a href="#单选" class="headerlink" title="单选"></a>单选</h3><ol>
+<li><p>网页返回500状态码时，以下说法正确的是    A<br> A. 服务器上发生错误<br> B. 请求的资源不在服务器上<br> C. 服务器拒绝请求<br> D. 请求的资源要求身份验证</p>
+</li>
+<li><p>网页无法访问时会出现什么状态码    C<br> A. 200<br> B. 302<br> C. 401<br> D. 404</p>
+</li>
+<li><p>当访问web网站的某个网页资源不存在时，将会返回什么状态码    D<br> A. 200<br> B. 302<br> C. 401<br> D. 404</p>
+</li>
+<li><p>IPSecVPN安全技术没有用到    D<br> A.端口映射技术<br> B.隧道技术<br> C.加密技术<br> D.入侵检测技术</p>
+</li>
+<li><p>下列选项中关于数据库事务的特性描述正确的是    D<br> A. 事务允许继续分割<br> B. 多个事务在执行事务前后对同一个数据读取的结果是不同的<br> C. 一个事务对数据库中数据的改变是暂时的<br> D. 并发访问数据库时，各并发事务之间数据库是独立的 </p>
+</li>
+</ol>
+<h3 id="多选"><a href="#多选" class="headerlink" title="多选"></a>多选</h3><ol>
+<li><p>哪些Linux命令可以用来查看进程信息    ABC<br> A. ps<br> B. top<br> C. pstree<br> D. ls</p>
+</li>
+<li><p>关于数据库锁，以下说法正确的是    AD<br> A. 数据库系统锁分为独占锁、共享锁和更新锁三种<br> B. 数据库需要通过特定机制确保死锁不会发生<br> C. 在表级锁锁定期间，其它进程无法对该表进行写操作，但可以执行读操作<br> D. 行级锁在多线程中相比页级锁更不容易产生锁定冲突</p>
+</li>
+</ol>
+<h3 id="编程"><a href="#编程" class="headerlink" title="编程"></a>编程</h3><ol>
+<li>飞行棋</li>
+</ol>
+<p><strong>题目：</strong> 输入一组飞行棋棋子序号，对其进行分组，要求：<br>1⃣️ 每组包含五个棋子<br>2⃣️ 每个棋子只能分在一个组<br>3⃣️ 每组棋子序号相同</p>
+<p><strong>测试用例：</strong><br>输入： 1 2 3 4 5<br>输出：false<br>【分析】 只能分为一个组，但棋子序号不同所以无法成功分组</p>
+<p>输入： 1 1 1 1 2 1 2 2 2 2<br>输出： true<br>【分析】 可以成功分为两个组，分别为[1,1,1,1,1]、[2,2,2,2,2] </p>
+<p><strong>代码：</strong> （通过率90%）</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    // 输入</span><br><span class="line">    int x, n=0;  //n 输入个数</span><br><span class="line">    int a[] = &#123;0&#125;;  // a[] 输入棋子序号数组</span><br><span class="line">    while(scanf(&quot;%d&quot;, &amp;x) != EOF)&#123;</span><br><span class="line">        a[n] = x;</span><br><span class="line">        n += 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //划分</span><br><span class="line">    int num = n / 5;  //可以分组个数</span><br><span class="line">    int tmp[] = &#123;0&#125;;  //记录每个分组的棋子序号</span><br><span class="line">    tmp[0] = a[0];</span><br><span class="line">    </span><br><span class="line">    for(int i=0; i&lt;n; i++)&#123;</span><br><span class="line">        for(int j=0; j&lt;n; j++)&#123;</span><br><span class="line">            if(a[j] != tmp[i])&#123;</span><br><span class="line">                tmp[i+1] = a[j];</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //判定分组</span><br><span class="line">    if(num == sizeof(tmp))&#123;</span><br><span class="line">        printf(&quot;true&quot;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        printf(&quot;false&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>金字塔（很好 一看就不会 都没仔细读题）</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>测试</tag>
+        <tag>开发</tag>
       </tags>
   </entry>
 </search>
