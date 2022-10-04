@@ -2395,6 +2395,36 @@ $ hexo d # == hexo deploy 上传
 </ol>
 <p>凡是结合了HTML以外的如Java、VB、VC等高级程序设计语言和数据库技术进行的网页编程技术生成的网页都是动态网页，能与后台数据库进行交互，数据传递。</p>
 <p>通常以.aspx、.asp、.jsp、.php、.perl、.cgi 等形式为后缀，并且在动态网页网址中有一个标志性的符号——“?”。</p>
+<h3 id="卫士通-密码应用软件工程师-校招笔试"><a href="#卫士通-密码应用软件工程师-校招笔试" class="headerlink" title="卫士通 密码应用软件工程师 校招笔试"></a>卫士通 密码应用软件工程师 校招笔试</h3><h2 id="单选-1"><a href="#单选-1" class="headerlink" title="单选"></a>单选</h2><h2 id="填空"><a href="#填空" class="headerlink" title="填空"></a>填空</h2><h2 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h2><h2 id="多选"><a href="#多选" class="headerlink" title="多选"></a>多选</h2><h2 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h2><ol>
+<li><p>简单自我介绍</p>
+</li>
+<li><p>侧信道安全哪些攻击方式？ 能量分析攻击原理？</p>
+<ul>
+<li>故障注入、模版攻击、能量分析攻击（SPA、CPA、DPA）</li>
+<li>侧信道能量信息泄漏</li>
+</ul>
+</li>
+<li><p>《密码学》 hash 和 HMac 区别？机制不同？</p>
+</li>
+<li><p>《密码学》 SM2签名 和 SM3算法 简述</p>
+</li>
+<li><p>《C语言》 A函数定义一个静态变量，B函数能用吗？ 头文件定义了全局变量，A程序和B程序都调用头文件中的全局变量可以吗？</p>
+<ul>
+<li>不能，因为静态变量定义在A函数里面，不能跨函数调用，静态变量的内存在执行完就释放了，除非这个变量在主函数内</li>
+<li>不能，</li>
+</ul>
+</li>
+<li><p>《Python》 字典定义的方法？  与json字典区别</p>
+<ul>
+<li>{}、关键字；</li>
+<li></li>
+</ul>
+</li>
+<li><p>《操作系统》 进程和线程区别？</p>
+</li>
+<li><p>芯片和加密智能卡哪个泄漏更多？</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>笔试</category>
@@ -2441,6 +2471,9 @@ $ hexo d # == hexo deploy 上传
 <li>金字塔（很好 一看就不会 都没仔细读题）</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>笔试</category>
+      </categories>
       <tags>
         <tag>测试</tag>
         <tag>开发</tag>
@@ -2510,6 +2543,9 @@ $ hexo d # == hexo deploy 上传
 <p><strong>测试样例</strong><br>输入：<br>5<br>5 -3 3 -1 1<br>输出：<br>8 7</p>
 <p><strong>代码</strong> （样例通过但最终只有23%）</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">    // 输入</span><br><span class="line">    int n;</span><br><span class="line">    int tmp;</span><br><span class="line">    if(scanf(&quot;%d&quot;, &amp;tmp) != EOF)</span><br><span class="line">      n = tmp;</span><br><span class="line">    int x[] = &#123;&#125;;</span><br><span class="line">    for(int i=0; i&lt;n; i++)&#123;</span><br><span class="line">      scanf(&quot;%d&quot;, &amp;x[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //计算</span><br><span class="line">    int white=0, black=0;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">      int num=1;</span><br><span class="line">      num *= x[i];</span><br><span class="line">      for(int j=i+1; j&lt;n; j++)&#123;</span><br><span class="line">        num *= x[j];</span><br><span class="line">        if(num &gt; 0)&#123;</span><br><span class="line">          white = white + 1;</span><br><span class="line">        &#125;else if(num &lt; 0)&#123;</span><br><span class="line">          black = black +1;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0; i&lt;n; i++)&#123;</span><br><span class="line">      if(x[i] &gt; 0)&#123;</span><br><span class="line">        white = white + 1;</span><br><span class="line">      &#125;else if(x[i] &lt; 0)&#123;</span><br><span class="line">        black = black +1;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    // 输出</span><br><span class="line">    printf(&quot;%d %d&quot;, black, white);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>笔试</category>
+      </categories>
       <tags>
         <tag>测试</tag>
         <tag>开发</tag>
@@ -2612,6 +2648,194 @@ $ hexo d # == hexo deploy 上传
       </categories>
       <tags>
         <tag>Mac</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构算法题分析</title>
+    <url>/2022/10/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%86%E6%9E%90/</url>
+    <content><![CDATA[<h2 id="数据结构入门"><a href="#数据结构入门" class="headerlink" title="数据结构入门"></a>数据结构入门</h2><h3 id="第1天-数组"><a href="#第1天-数组" class="headerlink" title="第1天 数组"></a>第1天 数组</h3><h4 id="217-存在重复元素-【简单】"><a href="#217-存在重复元素-【简单】" class="headerlink" title="217.存在重复元素 【简单】"></a>217.存在重复元素 【简单】</h4><blockquote>
+<p>题目描述 </p>
+</blockquote>
+<p>给你一个整数数组 <code>nums</code> 。如果任一值在数组中出现 <strong>至少两次</strong> ，返回 <code>true</code> ；如果数组中每个元素互不相同，返回 <code>false</code> 。</p>
+<p><strong>示例 1：</strong><br><code>输入：nums = [1,2,3,1] 输出：true</code></p>
+<p><strong>示例 2：</strong><br><code>输入：nums = [1,2,3,4] 输出：false</code></p>
+<p><strong>示例 3：</strong><br><code>输入：nums = [1,1,1,3,3,4,3,2,4,2] 输出：true</code></p>
+<blockquote>
+<p>代码</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">containsDuplicate</span>(<span class="params">self, nums</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: bool</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(nums) != <span class="built_in">len</span>(<span class="built_in">set</span>(nums)):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>分析</p>
+</blockquote>
+<p>利用python中的set()方法可以实现将对象去重（即去掉数组中重复的元素），比较去重前后的对象长度即可</p>
+<h4 id="53-最大子数组和-【中等】"><a href="#53-最大子数组和-【中等】" class="headerlink" title="53.最大子数组和 【中等】"></a>53.最大子数组和 【中等】</h4><blockquote>
+<p>题目描述</p>
+</blockquote>
+<p>给你一个整数数组 <code>nums</code> ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。</p>
+<p><strong>子数组</strong> 是数组中的一个连续部分。</p>
+<p><strong>示例 1：</strong><br><code>输入：nums = [-2,1,-3,4,-1,2,1,-5,4] 输出：6 解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。</code></p>
+<p><strong>示例 2：</strong><br><code>输入：nums = [1] 输出：1</code></p>
+<p><strong>示例 3：</strong><br><code>输入：nums = [5,4,-1,7,8] 输出：23</code></p>
+<blockquote>
+<p>代码</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxSubArray</span>(<span class="params">self, nums</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        res = nums[<span class="number">0</span>]    <span class="comment"># 累加结果，记录当前最大值</span></span><br><span class="line">        pre = <span class="number">0</span>          <span class="comment"># 判断负数不做相加（当下一个数为负数时立刻放弃，重新计算）</span></span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> pre &gt; <span class="number">0</span>:</span><br><span class="line">                pre += n</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                pre = n</span><br><span class="line">            res = <span class="built_in">max</span>(pre, res)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>分析</p>
+</blockquote>
+<p>采用<strong>贪心算法</strong>，解题思路：</p>
+<ul>
+<li>局部最优： 从第一个元素开始向后遍历，当“连续累加和”为负数时，说明前面这些数只能成为后边数的累赘，因此从下一个元素重新开始（即pre初始化为0）继续向后累加</li>
+<li>全局最优：选取最大“连续和”</li>
+</ul>
+<p>局部最优的情况下，记录最大的“连续和”，就可以推出全局最优。</p>
+<p>代码：遍历 <code>nums</code>，从头开始用 <code>pre</code> 累积，如果 <code>pre</code> 一旦加上 <code>nums[i]</code> 变为负数，那么就应该从 <code>nums[i+1]</code> 开始从 0 累积了，因为已经变为负数的 <code>pre</code>，只会拖累总和，相当于是用<code>res</code> 记录最大子序和区间和（变相的算是调整了终止位置）</p>
+<p>这里需要注意的是：遍历每个元素都会让pre和res比较取二者最大值作为新的res（遍历完整个序列，就代表找到了全局最优res），操作完这个步骤后再判断是否pre需要初始化</p>
+<p><img src="/2022/10/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%86%E6%9E%90/53.gif"></p>
+]]></content>
+      <tags>
+        <tag>数据结构</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>软件测试</title>
+    <url>/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<h2 id="软件测试的定义和分类"><a href="#软件测试的定义和分类" class="headerlink" title="软件测试的定义和分类"></a>软件测试的定义和分类</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><strong>软件</strong> 就是 <span class="label danger">计算机程序、程序所用数据及有关文档资料的合集</span>。分为两大类：<strong>系统软件</strong>和<strong>应用软件</strong>。</p>
+<ul>
+<li><strong>系统软件：</strong> 就是生成、准备和执行其他程序所需要的一组文件和程序。如操作系统Windows、数据库SQL Server、驱动程序（网卡/声卡）、Java语言系统编译环境等。</li>
+<li><strong>应用软件：</strong> 计算机用户为了解决某些具体问题而购买、开发或研制的各种程序或软件包。如APP、QQ、微信等。</li>
+</ul>
+<p>一般软件测试的对象是指应用软件的程序、程序所用数据及其资料合集。</p>
+<p><strong>应用软件架构</strong> 一般分为 <strong>C/S(客户端/服务器)</strong> 与 <strong>B/S(浏览器/服务器)</strong> 架构，它们之间的主要区别是是否需要单独安装/更新客户端。</p>
+<ul>
+<li><strong>C/S(Client- Server)：</strong> 需要安装客户端才能使用，缺点是每次更新都需要更新客户端与服务端。比如超市收银系统每次更新每台电脑都需要重装客户端，导致花费大量人力物力，重启也会导致业务中断。</li>
+<li><strong>B/S(Browser-Server)：</strong> 只需要浏览器即可访问服务，优点是只须更新服务器即可，用户主动性比较高。比如天猫、淘宝等。</li>
+</ul>
+<p>平时手机上使用的APP就属于移动端C/S架构。</p>
+<p><strong>软件测试</strong> 就是使用  <span class="label danger">人工或自动</span> 手段来运行或测试某个系统的过程，其目的在于检测软件它是否满足规定的需求或弄清预期结果与实际结果之间的差别。</p>
+<p><strong>为什么要做软件测试？目的是什么？</strong></p>
+<ol>
+<li>为了发现程序（软件）存在的代码或业务逻辑错误（功能问题、bug、熟悉产品需求）</li>
+<li>为了检验产品是否符合用户需求，满足质量要求（用户需求、质量需求）</li>
+<li>为了提高用户的体验（流畅度、性能范畴）</li>
+</ol>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ol>
+<li><strong>按方法分：</strong> 黑盒测试、白盒测试、灰盒测试</li>
+</ol>
+<ul>
+<li><p>黑盒测试：把软件比作一个“黑匣子”，不考虑具体是内部代码是如何实现的，只考虑外部功能的运行，检查软件的输入和输出是否匹配。</p>
+</li>
+<li><p>白盒测试：检查软件的代码（逻辑）、函数和方法等内部结构。</p>
+</li>
+<li><p>灰盒测试：介于白盒和灰盒测试之间，既可以根据外部暴露出的功能进行检测，也可以参考内部的代码结构。</p>
+</li>
+</ul>
+<ol start="2">
+<li><strong>按方向分：</strong>  <span class="label danger">功能测试、性能测试、安全测试、界面测试、兼容性测试、易用性测试</span></li>
+</ol>
+<p>（1）功能测试：测试产品的功能，测试业务逻辑，以确定是否满足设计需求。</p>
+<p>（2）性能测试：分为客户端测试和服务器端测试（一般默认是服务器端测试）。</p>
+<ul>
+<li>客户端性能测试：启动速度、消耗资源（CPU、内存、硬盘、流量、电量）</li>
+<li>服务端性能测试（默认）：压力测试、负载测试、并发测试</li>
+<li>压力测试：获取系统正确运行的上限，检查软件在瞬间峰值的情况下是否能够正确运行（通过多线程模拟）</li>
+<li>负载测试：在峰值的持续压力下运行软件，看软件的承载极限达到什么程度</li>
+<li>并发测试：检查在并发条件下，会不会出现数据错乱的情况（比如淘宝秒杀）</li>
+</ul>
+<p>（3）安全测试：流量攻击、渗透、SQL注入、跨域攻击、爆破、劫持。</p>
+<ul>
+<li><p>流量攻击：模拟大量用户访问服务器，不进行任何有效操作，无端消耗服务器资源。</p>
+</li>
+<li><p>渗透测试：发现软件系统中存在的漏洞，判断系统的安全性。</p>
+</li>
+<li><p>SQL注入：通过数据库的关键字进行异常操作，恶意执行不相干的SQL命令。</p>
+</li>
+<li><p>跨域攻击：诱导用户访问非法网站，利用会话信息模拟请求，盗取和篡改数据。（比如qq盗号）</p>
+</li>
+<li><p>暴力破解：写相应的脚本，用穷举法不断尝试破解对方的信息。</p>
+</li>
+<li><p>劫持：比如通过不安全的wifi连接，进行表单提交的操作，造成数据泄露。（还有网页广告弹窗等）</p>
+</li>
+</ul>
+<p>（4）界面测试：通过用户界面 (UI, User-interface) 测试来核实用户与软件的交互，检验用户界面的功能模块的布局是否合理、整体风格是否一致、各个控件的放置位置是否符合客户使用习惯。（与需求文档中原型图Demo、UI切图对比）</p>
+<p>（5）兼容性测试：检查软件之间能否正确地进行交互和共享信息，检查硬件、软件、数据库、浏览器、操作系统、新老版本数据兼容。</p>
+<ul>
+<li><p>向前兼容与向后兼容：向前兼容是指可以使用软件的未来版本，向后兼容是指可以使用软件的以前版本。</p>
+</li>
+<li><p>不同版本间的兼容：实现测试平台和应用软件多个版本之间能够正常工作</p>
+</li>
+<li><p>标准和规范：适用于软件平台的标准和规范有两个级别：高级标准和低级标准。</p>
+</li>
+<li><p>数据共享兼容：在应用程序之间共享数据，要求支持并遵守公开的标准，允许用户与其他软件无障碍的传输数据。</p>
+</li>
+</ul>
+<p>（6）易用性测试：检查用户使用软件时是否感觉方便，比如是否最多点击鼠标三次就可以达到用户的目的。（可用性是指是否可以使用，而易用性是指是否方便使用）</p>
+<ol start="3">
+<li><strong>按阶段分：</strong> 单元测试、集成测试、系统测试、验收测试、α测试、β测试</li>
+</ol>
+<ul>
+<li><p>单元测试：最小模块的测试，可以是对代码、函数、方法进行白盒测试，一般由开发人员执行。</p>
+</li>
+<li><p>集成测试：主要是测试接口，所以也叫接口测试。（接口：模块与模块之间数据交换的通道。）</p>
+</li>
+<li><p>系统测试：对系统的功能、性能、安全、UI、稳定性、易用性、兼容性等进行测试。</p>
+</li>
+<li><p>验收测试：软件发布之前进行的测试，这是测试的最后一个阶段，也叫交付测试，评估产品是否可以发布。</p>
+</li>
+<li><p>α测试：产品内测。</p>
+</li>
+<li><p>β测试：产品公测。</p>
+</li>
+</ul>
+<ol start="4">
+<li><strong>按对象分：</strong> web测试、app测试、小程序测试、车联网测试、物联网测试</li>
+</ol>
+<p>测试方法与测试对象无关，测试流程基本都是通用的。</p>
+<ol start="5">
+<li><strong>按状态分：</strong> 动态测试、静态测试（测试对象软件是否运行）</li>
+</ol>
+<ul>
+<li><p>动态测试：运行软件，判断软件运行结果与预期结果的差异，检查软件的正确性。（黑盒测试）</p>
+</li>
+<li><p>静态测试：不运行软件，检查软件代码、方法、函数、文档的正确性。（白盒测试）</p>
+</li>
+</ul>
+<ol start="6">
+<li><strong>按手段分</strong>： 手工测试、自动化测试</li>
+</ol>
+<ul>
+<li>手工测试：通过人为的逻辑判断检验当前的软件运行结果、代码、文档等是否正确</li>
+<li>自动化测试：通过测试管理工具或脚本对象来实现自动判断当前当前的软件运行结果、代码、文档等是否正确（有一定局限性）</li>
+</ul>
+<ol start="7">
+<li><strong>其他：</strong> 回归测试，冒烟测试、探索性测试/自由测试（测试思维）</li>
+</ol>
+<ul>
+<li>回归测试：检查开发有没有把bug修改好，重新测试一遍，并检查其他未修改模块是否被影响，以保持正确性。</li>
+<li>冒烟测试：测试前的测试，检查开发是否进行自测（验证产品核心业务功能），软件是否具有可测试性。</li>
+<li>探索性测试：发散测试，事先不进行计划和设计，一般由有经验的测试人员根据实际情况、自身经验以及对系统的认识来进行测试。</li>
+</ul>
+<img src="/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/1.png" class>
+
+<img src="/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/2.png" class>
+
+
+
+
+
+
+
+<h2 id="软件的生命周期"><a href="#软件的生命周期" class="headerlink" title="软件的生命周期"></a>软件的生命周期</h2><h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>测试</tag>
       </tags>
   </entry>
 </search>
