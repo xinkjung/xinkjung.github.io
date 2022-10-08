@@ -2740,21 +2740,114 @@ $ hexo d # == hexo deploy 上传
 </blockquote>
 <p>相当于对 nums1 数组从第 m+1 个元素开始进行赋值 nums2 数组，也就是把 nums2 数组拼接到nums1 数组后，然后对其排序即可。</p>
 <p>python可以直接使用sort()函数进行非递减顺序排序。</p>
-<h3 id="第3天"><a href="#第3天" class="headerlink" title="第3天"></a>第3天</h3><h4 id="【】"><a href="#【】" class="headerlink" title=". 【】"></a>. 【】</h4><blockquote>
+<h3 id="第3天-数组"><a href="#第3天-数组" class="headerlink" title="第3天 数组"></a>第3天 数组</h3><h4 id="350-两个数组的交集-II-【简单】"><a href="#350-两个数组的交集-II-【简单】" class="headerlink" title="350. 两个数组的交集 II 【简单】"></a>350. 两个数组的交集 II 【简单】</h4><blockquote>
 <p>题目描述</p>
 </blockquote>
-<p>dd</p>
+<p>给你两个整数数组 <code>nums1</code> 和 <code>nums2</code> ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。</p>
+<p><strong>示例 1：</strong><br><code>输入：nums1 = [1,2,2,1], nums2 = [2,2] 输出：[2,2]</code></p>
+<p><strong>示例 2:</strong><br><code>输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4] 输出：[4,9]</code></p>
 <blockquote>
 <p>代码</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">11</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">intersect</span>(<span class="params">self, nums1, nums2</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type nums1: List[int]</span></span><br><span class="line"><span class="string">        :type nums2: List[int]</span></span><br><span class="line"><span class="string">        :rtype: List[int]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> nums1:</span><br><span class="line">            <span class="keyword">if</span> n <span class="keyword">in</span> nums2 <span class="keyword">and</span> res.count(n) &lt; nums2.count(n):</span><br><span class="line">                res.append(n)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
 
 
 <blockquote>
 <p>分析</p>
 </blockquote>
-<p>11</p>
-<h4 id="【】-1"><a href="#【】-1" class="headerlink" title=". 【】"></a>. 【】</h4>]]></content>
+<p>python可以直接判断数据是否存在于数组内，这里注意不论是从 nums1 开始向 nums2 中比较数字还是反过来，最终结果里数字出现的数字都不能超过两个数组中的最小次数，所以在加入 res 时，要判断res 中的次数是否小于另一个数组中的次数。</p>
+<h4 id="121-买卖股票的最佳时机-【简单】"><a href="#121-买卖股票的最佳时机-【简单】" class="headerlink" title="121. 买卖股票的最佳时机 【简单】"></a>121. 买卖股票的最佳时机 【简单】</h4><blockquote>
+<p>题目描述</p>
+</blockquote>
+<p>给定一个数组 <code>prices</code> ，它的第 <code>i</code> 个元素 <code>prices[i]</code> 表示一支给定股票第 <code>i</code> 天的价格。</p>
+<p>你只能选择 <strong>某一天</strong> 买入这只股票，并选择在 <strong>未来的某一个不同的日子</strong> 卖出该股票。设计一个算法来计算你所能获取的最大利润。</p>
+<p>返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 <code>0</code> 。</p>
+<p><strong>示例 1：</strong><br><code>输入：[7,1,5,3,6,4] 输出：5 解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。      注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。</code></p>
+<p><strong>示例 2：</strong><br><code>输入：prices = [7,6,4,3,1] 输出：0 解释：在这种情况下, 没有交易完成, 所以最大利润为 0。</code></p>
+<blockquote>
+<p>代码</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span>(<span class="params">self, prices</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type prices: List[int]</span></span><br><span class="line"><span class="string">        :rtype: int</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        base = prices[<span class="number">0</span>]</span><br><span class="line">        benefit = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(prices)):</span><br><span class="line">            <span class="keyword">if</span> base &gt; prices[i]:</span><br><span class="line">                base = prices[i]</span><br><span class="line">            <span class="keyword">if</span> base &lt; prices[i]:</span><br><span class="line">                benefit = <span class="built_in">max</span>(benefit,prices[i]-base)</span><br><span class="line">        <span class="keyword">return</span> benefit</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>分析</p>
+</blockquote>
+<p>和 第1天《53.最大子数组和》类似，采用一个变量来得到当前<strong>局部最优解</strong>，最后遍历完即可得到全局最优解。</p>
+<p>注意需保证买的时候尽量低、卖的时候尽量高，且先买、后卖。</p>
+<p>定义买价 base ，和利润 benefit 。</p>
+<ul>
+<li>每次遇到一个价格，先算出对应的利润（假设先买的是第一个），拿新价格卖出时的利润与旧价格卖出的利润（刚开始是0）相比较，取较大的值（如果新价格小于base，那么benefit就保持不变）。</li>
+<li>然后就是看新价格与base，取较小者，如果小于就买入（期望后边能遇到价格高能卖出更高的利润），如果大于，就保持现在的买入价base不变。</li>
+<li>然后到下一个价格，重复计算出利润，并取较大者，循环之前的步骤。</li>
+</ul>
+<p>这样的算法不会出现买入前卖出的情况，因为始终是当前价格与当前最低价差值与已有利润比较来得到最大利润，当前价格与当前最低价比较得到新的最低价，保证了总是拿后边的高价减去前面的低价，只要当前的价格高于后边的价格，就不会出现买入前卖出的情况。</p>
+<h3 id="第4天-数组"><a href="#第4天-数组" class="headerlink" title="第4天 数组"></a>第4天 数组</h3><h4 id="566-重塑矩阵-【简单】"><a href="#566-重塑矩阵-【简单】" class="headerlink" title="566. 重塑矩阵 【简单】"></a>566. 重塑矩阵 【简单】</h4><blockquote>
+<p>题目描述</p>
+</blockquote>
+<p>在 <code>MATLAB</code> 中，有一个非常有用的函数 <code>reshape</code> ，它可以将一个 <code>m x n</code> 矩阵重塑为另一个大小不同（<code>r x c</code>）的新矩阵，但保留其原始数据。</p>
+<p>给你一个由二维数组 <code>mat</code> 表示的 <code>m x n</code> 矩阵，以及两个正整数 <code>r</code> 和 <code>c</code> ，分别表示想要的重构的矩阵的行数和列数。</p>
+<p>重构后的矩阵需要将原始矩阵的所有元素以相同的 <strong>行遍历顺序</strong> 填充。</p>
+<p>如果具有给定参数的 <code>reshape</code> 操作是可行且合理的，则输出新的重塑矩阵；否则，输出原始矩阵。</p>
+<p><strong>示例 1：</strong><br><code>输入：mat = [[1,2],[3,4]], r = 1, c = 4 输出：[[1,2,3,4]]</code></p>
+<p><strong>示例 2</strong><br><code>输入：mat = [[1,2],[3,4]], r = 2, c = 4 输出：[[1,2],[3,4]]</code></p>
+<blockquote>
+<p>代码</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">matrixReshape</span>(<span class="params">self, mat, r, c</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :type mat: List[List[int]]</span></span><br><span class="line"><span class="string">        :type r: int</span></span><br><span class="line"><span class="string">        :type c: int</span></span><br><span class="line"><span class="string">        :rtype: List[List[int]]</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">if</span> r*c != <span class="built_in">len</span>(mat[<span class="number">0</span>])*<span class="built_in">len</span>(mat):</span><br><span class="line">            <span class="keyword">return</span> mat</span><br><span class="line">        </span><br><span class="line">        mat = [j <span class="keyword">for</span> i <span class="keyword">in</span> mat <span class="keyword">for</span> j <span class="keyword">in</span> i]</span><br><span class="line">        res = [[<span class="number">0</span>]*c <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(r)]</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(r):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(c):</span><br><span class="line">                res[i][j] = mat[index]</span><br><span class="line">                index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>分析</p>
+</blockquote>
+<p>首先判断 r * c 是否与原矩阵大小 m * n 一致，不一致直接返回原矩阵 mat；</p>
+<p>然后重塑 mat 矩阵，将其化为一维扁平数组，创建 r*c 的矩阵，然后按次序填充。</p>
+<h4 id="118-杨辉三角-【简单】"><a href="#118-杨辉三角-【简单】" class="headerlink" title="118. 杨辉三角 【简单】"></a>118. 杨辉三角 【简单】</h4><blockquote>
+<p>题目描述</p>
+</blockquote>
+<p>给定一个非负整数 <code>numRows</code>，生成「杨辉三角」的前 <code>numRows</code> 行。</p>
+<p>在「杨辉三角」中，每个数是它左上方和右上方的数的和。</p>
+<img src="/2022/10/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%86%E6%9E%90/10/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AE%97%E6%B3%95%E9%A2%98%E5%88%86%E6%9E%90/118.gif" class>
+
+<p><strong>示例 1:</strong><br><code>输入: numRows = 5 输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]</code></p>
+<p><strong>示例 2:</strong><br><code>输入: numRows = 1 输出: [[1]]</code></p>
+<blockquote>
+<p>代码</p>
+</blockquote>
+<pre><code class="python">res = []
+        for i in range(numRows): #循环i次，添加i个[]
+            res.append([])
+            for j in range(0,i+1):
+                if j == 0 or i==j:  #杨辉三角的特点：j==0和i==j时都等于1 
+                    res[i].append(1)
+                else:#例如2 ，2等于上一层的两个1之和
+                    res[i].append(res[i-1][j-1]+res[i-1][j])
+        return res
+
+
+&gt; 分析
+
+运用2个循环，首先添加i个[]（i行），根据杨辉三角的特点，列数为行数+1
+
+* 当j==0和i==j时都等于1，第i行数据列表添加1
+* 否则 第i行第j个元素添加为上一层前一个和后一个的和
+
+
+
+### 第5天
+
+####  【】
+
+&gt; 题目描述
+
+&gt; 代码
+
+&gt; 分析
+
+
+
+</code></pre>
+]]></content>
       <tags>
         <tag>数据结构</tag>
         <tag>算法</tag>
@@ -2892,12 +2985,12 @@ $ hexo d # == hexo deploy 上传
 <h3 id="生命周期模型"><a href="#生命周期模型" class="headerlink" title="生命周期模型"></a>生命周期模型</h3><p><strong>一、问题的定义及规划</strong></p>
 <p>确定软件的开发目的及其可行性，制定项目总体开发计划。</p>
 <p><strong>二、需求分析</strong></p>
-<p>在确定软件开发可行的情况下，对软件需要实现的各个功能进行详细分析，明确客户的需求（需求评审——产品、开发、测试），输出 <span class="label danger">需求规格说明书最终版</span>（原型图）。</p>
+<p>在确定软件开发可行的情况下，对软件需要实现的各个功能进行详细分析，明确客户的需求（需求评审——产品、开发、测试），输出 <strong>需求规格说明书最终版</strong> （原型图）。</p>
 <p><strong>三、设计（开发）</strong></p>
 <p>把需求分析得到的结果转换为软件结构和数据结构，形成系统架构。</p>
 <ul>
-<li><span class="label danger">概要设计</span>：主要是架构的实现，指搭建架构、表述各模块功能、模块接口和数据传递的实现等项事务。</li>
-<li><span class="label danger">详细设计</span>：对概要设计中表述的各模块进行深入分析等，其中需要包含数据库设计说明。</li>
+<li><strong>概要设计</strong>：主要是架构的实现，指搭建架构、表述各模块功能、模块接口和数据传递的实现等项事务。</li>
+<li><strong>详细设计</strong>：对概要设计中表述的各模块进行深入分析等，其中需要包含数据库设计说明。</li>
 </ul>
 <p><strong>四、编码</strong></p>
 <p>按照详细设计好的模块功能表，编程人员写出计算机可运行的程序代码。</p>
@@ -2905,15 +2998,20 @@ $ hexo d # == hexo deploy 上传
 
 <p><strong>五、软件测试</strong> 【重点】</p>
 <p>软件设计完成后要经过严密的测试，以发现软件在整个设计过程中存在的问题并加以纠正。</p>
-<p>测试方法主要有黑盒测试、白盒测试两种，建立详细的测试计划并严格按照计划执行。</p>
+<p>测试方法主要有<strong>黑盒测试</strong>、<strong>白盒测试</strong>两种，建立详细的测试计划并严格按照计划执行。</p>
 <ul>
-<li>单元测试：主要是测试程序代码，为的是确保各单位</li>
-<li>集成测试：</li>
-<li>系统测试：</li>
-<li>验收测试：</li>
+<li><strong>单元测试</strong>：主要是测试程序代码，为的是确保各单位模块被正确的编译，比如有具体到模块的测试，也有具体到类、函数、方法的测试等。 —— 开发自测（白盒测试）</li>
+<li><strong>集成测试</strong>：单元测试后，将各单元组合成完整的体系，测试软件单位之间的接口是否正确、数据能否正常传递。 —— 接口测试</li>
+<li><strong>系统测试</strong>：把软件系统搭建起来，按照软件规格说明书中所要求，测试软件其性能、功能、界面、安全等是否和用户需求相符合，在系统中运行是否存在漏洞等。 —— 最重要、常见的(Web, app)</li>
+<li><strong>验收测试</strong>：主要就是用户在拿到软件的时候，在使用现场，会根据前边所提到的需求，以及规格说明书来做相应测试，以确定软件达到符合效果的。 —— UAT（用户，产品（领导）），有依据有用例</li>
 </ul>
-<p><strong>六、运行维护</strong></p>
-<p>软件维护是软件生命周期持续时间最长的阶段。</p>
+<p>之后进行 内测 —— 公测 —— 预发布环境、生产环境部署测试 （紧急修复，回滚原版本）—— 上线发布</p>
+<p><strong>六、运行维护</strong>（项目）</p>
+<p>软件维护是软件生命周期持续时间<strong>最长的</strong>阶段。在软件开发完成并投入使用后，由于多方面的原因，软件不能继续适应用户的需求，要延续软件的使用寿命，就必须对软件进行维护。软件的维护主要包括两个方面：</p>
+<ul>
+<li><strong>纠错性维护</strong> ：bug 修复，修改代码 —— 新版本</li>
+<li><strong>改进性维护</strong> ： 优化、完善、改良 —— 新版本</li>
+</ul>
 <img src="/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/4.png" class>
 
 
@@ -2931,7 +3029,7 @@ $ hexo d # == hexo deploy 上传
 
 
 
-<h4 id="V模型"><a href="#V模型" class="headerlink" title="V模型"></a>V模型</h4><p> 快速应用开发（RAD, Rap Application Development）模型是软件开发过程中的一个重要模型，因其模型结构图形似字母V又称V模型。</p>
+<h4 id="V-模型"><a href="#V-模型" class="headerlink" title="V 模型"></a>V 模型</h4><p> 快速应用开发（RAD, Rap Application Development）模型是软件开发过程中的一个重要模型，因其模型结构图形似字母V又称V模型。</p>
 <ul>
 <li><p>它通过开发和测试同时进行的方式来缩短开发周期，提高开发效率。</p>
 </li>
@@ -2942,7 +3040,7 @@ $ hexo d # == hexo deploy 上传
 
 
 
-<p>==可扩展其他模型：==</p>
+<h4 id="敏捷开发模型"><a href="#敏捷开发模型" class="headerlink" title="敏捷开发模型"></a>敏捷开发模型</h4><p>==可扩展其他模型：==</p>
 ]]></content>
       <categories>
         <category>笔记</category>
