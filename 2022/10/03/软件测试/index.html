@@ -36,8 +36,9 @@
 <meta property="og:image" content="http://example.com/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/4.png">
 <meta property="og:image" content="http://example.com/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/5.png">
 <meta property="og:image" content="http://example.com/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/6.png">
+<meta property="og:image" content="http://example.com/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/7.png">
 <meta property="article:published_time" content="2022-10-03T09:13:32.000Z">
-<meta property="article:modified_time" content="2022-10-07T03:15:06.180Z">
+<meta property="article:modified_time" content="2022-10-18T12:57:50.260Z">
 <meta property="article:author" content="xxx">
 <meta property="article:tag" content="测试">
 <meta name="twitter:card" content="summary">
@@ -241,7 +242,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-07 11:15:06。" itemprop="dateModified" datetime="2022-10-07T11:15:06+08:00">2022-10-07</time>
+                <time title="修改时间：2022-10-18 20:57:50。" itemprop="dateModified" datetime="2022-10-18T20:57:50+08:00">2022-10-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,24 +296,37 @@
 <li><strong>按方法分：</strong> 黑盒测试、白盒测试、灰盒测试</li>
 </ol>
 <ul>
-<li><p>黑盒测试：把软件比作一个“黑匣子”，不考虑具体是内部代码是如何实现的，只考虑外部功能的运行，检查软件的输入和输出是否匹配。</p>
+<li><p>黑盒测试：把软件比作一个“黑匣子”，不考虑具体是内部代码是如何实现的，只考虑外部功能的运行，检查软件的输入和输出是否匹配。 </p>
 </li>
 <li><p>白盒测试：检查软件的代码（逻辑）、函数和方法等内部结构。</p>
 </li>
 <li><p>灰盒测试：介于白盒和灰盒测试之间，既可以根据外部暴露出的功能进行检测，也可以参考内部的代码结构。</p>
 </li>
 </ul>
+<p>黑盒测试主要的方法有：等价类划分法、边界值分析法、错误推测法、因果图法、决策表法、场景法、正交试验设计法等。</p>
+<p>白盒测试的主要方法有：逻辑覆盖（语句覆盖、判定覆盖、条件覆盖、判定/条件覆盖、条件组合覆盖、路径覆盖），基本路径测试等。</p>
+<p><code>边界值法既可以用于黑盒测试用例，也可以用于白盒测试用例</code></p>
 <ol start="2">
 <li><strong>按方向分：</strong>  <span class="label danger">功能测试、性能测试、安全测试、界面测试、兼容性测试、易用性测试</span></li>
 </ol>
 <p>（1）功能测试：测试产品的功能，测试业务逻辑，以确定是否满足设计需求。</p>
 <p>（2）性能测试：分为客户端测试和服务器端测试（一般默认是服务器端测试）。</p>
 <ul>
-<li>客户端性能测试：启动速度、消耗资源（CPU、内存、硬盘、流量、电量）</li>
-<li>服务端性能测试（默认）：压力测试、负载测试、并发测试</li>
-<li>压力测试：获取系统正确运行的上限，检查软件在瞬间峰值的情况下是否能够正确运行（通过多线程模拟）</li>
-<li>负载测试：在峰值的持续压力下运行软件，看软件的承载极限达到什么程度</li>
-<li>并发测试：检查在并发条件下，会不会出现数据错乱的情况（比如淘宝秒杀）</li>
+<li><p>客户端性能测试：启动速度、消耗资源（CPU、内存、硬盘、流量、电量）</p>
+</li>
+<li><p>服务端性能测试（默认）：压力测试、负载测试、并发测试</p>
+</li>
+<li><p>压力测试：获取系统正确运行的上限，检查软件在瞬间峰值的情况下是否能够正确运行（通过多线程模拟）</p>
+</li>
+<li><p>负载测试：在峰值的持续压力下运行软件，看软件的承载极限达到什么程度。（在一定的工作负荷下，系统的负荷及响应时间）</p>
+</li>
+<li><p>并发测试：检查在并发条件下，会不会出现数据错乱的情况（比如淘宝秒杀）</p>
+</li>
+<li><p>强度测试：在一定的负荷条件下，在较长时间跨度内的系统连续运行给系统性能所造成的影响。</p>
+</li>
+<li><p>容量测试：容量测试目的是通过测试预先分析出反映软件系统应用特征的某项指标的极限值（如最大并发用户数、数据库记录数等），系统在其极限值状态下没有出现任何软件故障或还能保持主要功能正常运行。容量测试还将确定测试对象在给定时间内能够持续处理的最大负载或工作量。</p>
+<p><strong>目的</strong>是使系统承受超额的数据容量来发现它是否能够正确处理，是面向数据的，并且它的目的是显示系统可以处理目标内确定的数据容量。</p>
+</li>
 </ul>
 <p>（3）安全测试：流量攻击、渗透、SQL注入、跨域攻击、爆破、劫持。</p>
 <ul>
@@ -397,7 +411,7 @@
 
 
 
-<h2 id="软件的生命周期"><a href="#软件的生命周期" class="headerlink" title="软件的生命周期"></a>软件的生命周期</h2><h3 id="生命周期定义"><a href="#生命周期定义" class="headerlink" title="生命周期定义"></a>生命周期定义</h3><p><strong>软件生命周期</strong>（SDLC, System Development Life Cycle）是 <span class="label danger">软件开始研制到最终废弃不用</span> 所经历的各个阶段。—— <strong>软件开发模型</strong></p>
+<h2 id="软件测试的生命周期及流程"><a href="#软件测试的生命周期及流程" class="headerlink" title="软件测试的生命周期及流程"></a>软件测试的生命周期及流程</h2><h3 id="生命周期定义"><a href="#生命周期定义" class="headerlink" title="生命周期定义"></a>生命周期定义</h3><p><strong>软件生命周期</strong>（SDLC, System Development Life Cycle）是 <span class="label danger">软件开始研制到最终废弃不用</span> 所经历的各个阶段。—— <strong>软件开发模型</strong></p>
 <h3 id="生命周期模型"><a href="#生命周期模型" class="headerlink" title="生命周期模型"></a>生命周期模型</h3><p><strong>一、问题的定义及规划</strong></p>
 <p>确定软件的开发目的及其可行性，制定项目总体开发计划。</p>
 <p><strong>二、需求分析</strong></p>
@@ -421,7 +435,7 @@
 <li><strong>系统测试</strong>：把软件系统搭建起来，按照软件规格说明书中所要求，测试软件其性能、功能、界面、安全等是否和用户需求相符合，在系统中运行是否存在漏洞等。 —— 最重要、常见的(Web, app)</li>
 <li><strong>验收测试</strong>：主要就是用户在拿到软件的时候，在使用现场，会根据前边所提到的需求，以及规格说明书来做相应测试，以确定软件达到符合效果的。 —— UAT（用户，产品（领导）），有依据有用例</li>
 </ul>
-<p>之后进行 内测 —— 公测 —— 预发布环境、生产环境部署测试 （紧急修复，回滚原版本）—— 上线发布</p>
+<p>之后进行 <strong>内测</strong> ——<strong>公测</strong> —— <strong>预发布环境、生产环境部署测试 （紧急修复，回滚原版本）</strong> —— <strong>上线发布</strong></p>
 <p><strong>六、运行维护</strong>（项目）</p>
 <p>软件维护是软件生命周期持续时间<strong>最长的</strong>阶段。在软件开发完成并投入使用后，由于多方面的原因，软件不能继续适应用户的需求，要延续软件的使用寿命，就必须对软件进行维护。软件的维护主要包括两个方面：</p>
 <ul>
@@ -456,7 +470,211 @@
 
 
 
-<h4 id="敏捷开发模型"><a href="#敏捷开发模型" class="headerlink" title="敏捷开发模型"></a>敏捷开发模型</h4><p>==可扩展其他模型：==</p>
+<h4 id="敏捷开发模型"><a href="#敏捷开发模型" class="headerlink" title="敏捷开发模型"></a>敏捷开发模型</h4><p>1990年随着互联网发展兴起，是一种<strong>以人为核心、快速迭代、循序渐进</strong>的开发方法。强调以人为本、专注于交付对客户有价值的软件。是一个用开发和维持复杂产品的框架。</p>
+<ul>
+<li><p>就是把一个大项目分为多个相互联系但可独立运行的小项目，并分别完成（需要做回归测试），在此过程中软件一直处于可使用状态。</p>
+</li>
+<li><p>项目周期（迭代周期）短：1个月、2周、1周</p>
+</li>
+<li><p>优点：弱化文档、加强人之间沟通（快速高效处理）</p>
+</li>
+</ul>
+<h4 id="可扩展其他模型："><a href="#可扩展其他模型：" class="headerlink" title="==可扩展其他模型：=="></a>==可扩展其他模型：==</h4><h5 id="DevOps开发模型：（现在）"><a href="#DevOps开发模型：（现在）" class="headerlink" title="DevOps开发模型：（现在）"></a>DevOps开发模型：（现在）</h5><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45735355/article/details/120450264">DevOps</a>方法就是基于对更好的协作和更快的交付的需求而产生的。DevOps允许用较少复杂问题的持续软件交付来修复和更快地解决问题。</p>
+<p>DevOps是一种软件开发方法，涉及软件在整个开发生命周期中的持续开发，持续测试，持续集成，持续部署和持续监控。 这些活动只能在DevOps中实现，而不是敏捷或瀑布，这就是为什么顶级互联网公司选择DevOps作为其业务目标的前进方向。 DevOps是在较短的开发周期内开发高质量软件的首选方法，可以提高客户满意度。</p>
+<h3 id="软件测试工作流程"><a href="#软件测试工作流程" class="headerlink" title="软件测试工作流程"></a>软件测试工作流程</h3><img src="/2022/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/10/03/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/7.png" class>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="牛客题目补充知识"><a href="#牛客题目补充知识" class="headerlink" title="牛客题目补充知识"></a>牛客题目补充知识</h2><h3 id="系统集成测试包括哪些过程？"><a href="#系统集成测试包括哪些过程？" class="headerlink" title="系统集成测试包括哪些过程？"></a>系统集成测试包括哪些过程？</h3><p><strong>系统集成测试</strong>主要包括以下过程：</p>
+<ol>
+<li>构建的确认过程。 </li>
+<li>补丁的确认过程。 </li>
+<li>系统集成测试测试组提交过程。 </li>
+<li>测试用例设计过程。 </li>
+<li>测试代码编写过程。 </li>
+<li>Bug的报告过程。 </li>
+<li>每周/每两周的构建过程。 </li>
+<li>点对点的测试过程。 </li>
+<li>组内培训过程。</li>
+</ol>
+<h3 id="软件调试技术有哪些"><a href="#软件调试技术有哪些" class="headerlink" title="软件调试技术有哪些"></a>软件调试技术有哪些</h3><p><strong>软件调试技术：</strong> </p>
+<ul>
+<li><p>试探法（强行排错法）</p>
+</li>
+<li><p>回溯法：人工沿着程序的控制流程往跟踪代码，直到找出错误根源为止</p>
+</li>
+<li><p>对分查找法：缩小错误的范围</p>
+</li>
+<li><p>归纳演绎</p>
+</li>
+<li><p>原因排除法</p>
+</li>
+</ul>
+<h3 id="软件测试详细流程"><a href="#软件测试详细流程" class="headerlink" title="软件测试详细流程"></a>软件测试详细流程</h3><p>（1）单元测试、集成测试、确认测试、系统测试、发版测试</p>
+<h3 id="测试对应参考什么文档？"><a href="#测试对应参考什么文档？" class="headerlink" title="测试对应参考什么文档？"></a>测试对应参考什么文档？</h3><ul>
+<li>单元测试，详细设计文档</li>
+<li>集成测试，概括设计文档</li>
+<li>系统测试，系统设计文档</li>
+</ul>
+<h3 id="自顶向下测试和自底向上测试"><a href="#自顶向下测试和自底向上测试" class="headerlink" title="自顶向下测试和自底向上测试"></a>自顶向下测试和自底向上测试</h3><ul>
+<li><strong>自顶向下测试</strong>：是从程序的初始模块开始测试。</li>
+</ul>
+<p>​    （1）该方***在早期发现顶层的错误。</p>
+<p>​    （2）早期的程序框架可以进行演示</p>
+<p>​    （3）需要开发桩模块辅助测试。有些甚至需要多个桩模块辅助，加大了桩模块本来的错误影响。</p>
+<p>​    （4）测试完一个上层模块后，挑选哪个模块作为下一个测试模块，以及测试的顺序没有唯一的界定标准。</p>
+<p>​    <strong>优点</strong>：较早地验证了主要控制和判断点；按深度优先可以首先实现和验证一个完整的软件功能；功能较早证实，带来信心；只需一个驱动，减少驱动器开发的费用；支持故障隔离。</p>
+<p>​    <strong>缺点</strong>：柱的开发量大；底层验证被推迟；底层组件测试不充分。</p>
+<ul>
+<li><strong>自底向上测试</strong>：是从程序的底层模块开始测试。</li>
+</ul>
+<p>​    （1）I/O操作可以提前测试，更好提交测试用例。</p>
+<p>​    （2）测试后比较容易观察输出。</p>
+<p>​    （3）需要开发驱动模块。</p>
+<p>​    （4）直到最后一个模块提交，程序才能完整的系统测试。</p>
+<p>​    <strong>优点</strong>：对底层组件行为较早验证；工作最初可以并行集成，比自顶向下效率高；减少了桩的工作量；支持故障隔离。</p>
+<p>​    <strong>缺点</strong>：驱动的开发工作量大；对高层的验证被推迟，设计上的错误不能被及时发现。</p>
+<h3 id="测试用工具"><a href="#测试用工具" class="headerlink" title="测试用工具"></a>测试用工具</h3><ul>
+<li>LoadRunner-负载压力测试：预测系统性能。</li>
+<li>JMeter+Badboy：基于JAVA的压力测试工具，Badboy用来进行脚本的录制</li>
+<li>功能测试：通过自动录制、检测和回放用户的应用操作。将输出记录同预先给定的记录比较。</li>
+<li>Junit：白盒测试工具：针对代码测试</li>
+<li>测试管理工具：对测试需求、计划、用例、实施进行管理</li>
+<li>测试辅助工具：本身不执行，可以生成测试数据，为测试提供数据准备</li>
+<li>负载压力测试：LoadRunner:预测系统行为和性能的工业标准级负载测试工具。模拟上千万用户同时实施并发操作，来实时监控可能发生的问题。</li>
+<li>功能测试： QTP(quicktest professional):自动测试工具</li>
+<li>白盒测试：C++ TEST（做C和C++的白盒测试）、JUnit（Java白盒测试）</li>
+<li>缺陷管理工具：Mantis、BugFree、QC、TD</li>
+<li>用例管理工具：TestLink、QC</li>
+<li>测试辅助工具：SVN</li>
+</ul>
+<h3 id="LoadRunner-包括哪些部分？"><a href="#LoadRunner-包括哪些部分？" class="headerlink" title="LoadRunner 包括哪些部分？"></a>LoadRunner 包括哪些部分？</h3><p><strong>LoadRunner</strong> 是一种预测系统行为和性能的负载测试工具。通过以模拟上千万用户实施并发负载及实时性能监测的方式来确认和查找问题， 可适用于各种体系架构的自动负载测试，能预测系统行为并评估系统性能。</p>
+<p>其测试组件有:</p>
+<ul>
+<li><p>1.VuGen Load Generator（虚拟用户生成器）用于捕获最终用户业务流程和创建自动性能测试脚本 （也称为虚拟用户脚本）。</p>
+</li>
+<li><p>2.Controller （控制器）用于组织、驱动、管理和监控负载测试。</p>
+</li>
+<li><p>3.Analysis （分析器）有助于您查看、分析和比较性能结果。</p>
+</li>
+</ul>
+<h3 id="代码走查"><a href="#代码走查" class="headerlink" title="代码走查"></a>代码走查</h3><p>研发需要对自己的代码审核， 检查代码的正确性，这个过程我们称为<strong>代码走查</strong></p>
+<p><strong>代码走查</strong>由编写代码的程序员来进行检查和组织讨论等。</p>
+<h3 id="无效等价类与有效等价类"><a href="#无效等价类与有效等价类" class="headerlink" title="无效等价类与有效等价类"></a>无效等价类与有效等价类</h3><p><strong>有效等价类</strong> ： 指对于程序规格说明来说，是合理的、有意义的输入数据构成的集合。</p>
+<ul>
+<li>对于具体的问题，无效等价类至少应有一个，也可能有多个。</li>
+<li>从满足的两个条件中，修改其中的一个条件为不满足的，那么这个一个满足，和另一个不满足的条件就是无效等价类。 两个条件都满足为有效等价类。</li>
+</ul>
+<p><strong>无效等价类</strong> ： 和有效等价类相反，无效等价类是指对于软件规格说明而言，没有意义的、不合理的输入数据集合。</p>
+<h3 id="对手机（软件）的测试"><a href="#对手机（软件）的测试" class="headerlink" title="对手机（软件）的测试"></a>对手机（软件）的测试</h3><p>针对手机应用软件的系统测试，我们通常从如下几个角度开展：</p>
+<ul>
+<li>功能模块测试</li>
+<li>交叉事件测试</li>
+<li>压力测试</li>
+<li>容量测试</li>
+<li>兼容性测试</li>
+<li>易用性/用户体验测试</li>
+</ul>
+<p>对手机可以施加的压力测试类型主要有：</p>
+<ul>
+<li>存储压力</li>
+<li>边界压力、</li>
+<li>响应能力压力</li>
+<li>网络流量压力</li>
+</ul>
+<h3 id="单元测试工具合集"><a href="#单元测试工具合集" class="headerlink" title="单元测试工具合集"></a>单元测试工具合集</h3><p><strong>单元测试工具集合:</strong></p>
+<ul>
+<li><p><strong>Parasoft jtest</strong>  </p>
+<p>第一个自动化Java单元<strong>测试</strong>工具</p>
+</li>
+<li><p><strong>Parasoft C++Test</strong>  </p>
+<p>是<strong>单元测试</strong>和静态分析工具，自动测试C和C＋＋类别、功能或组件.</p>
+</li>
+<li><p><strong>Parasoft .TEST</strong>  </p>
+<p><strong>是单元测试和静态分析工具，自动测试写在Microsoft?.NET框架的类别</strong></p>
+</li>
+<li><p><strong>Parasoft Insure++</strong> </p>
+<p>是一个自动化的内存错误、内存泄漏的精确检测工具。</p>
+</li>
+<li><p><strong>Parasoft CodeWizard</strong> </p>
+<p>是高级C/C++源代码分析工具，采用三百种以上行业相关的编码准则，自动识别编译器未检测到的危险的编码构造。</p>
+</li>
+<li><p><strong>DevPartner Studio Professional</strong> </p>
+<p>是针对软件开发小组使用 Microsoft Visual C++，Microsoft Visual Basic，Java,ASP 或 HTML 设计的一套紧密配合的调试，测试和管理工具。</p>
+</li>
+<li><p><strong>Rational Purify</strong> </p>
+<p>是一个面向VC, VB或者Java开发的测试Visual C/C++ 和Java代码中与内存有关的错误，确保整个应用程序的质量和可靠性。</p>
+</li>
+<li><p><strong>Rational Quantify</strong></p>
+</li>
+</ul>
+<p>​    是一个面向VC、VB 或者Java开发的测试性能瓶颈检测工具，它可以自动检测出影响程序段执行速度的程序性能瓶颈，提供参数分析表等等直观表格。</p>
+<ul>
+<li><strong>Rational PureCoverage</strong></li>
+</ul>
+<p>​    是一个面向VC、VB或者Java开发的测试覆盖程度检测工具，它可以自动检测你的测试完整性和那些无法达到的部分。</p>
+<h3 id="自动化测试的目的"><a href="#自动化测试的目的" class="headerlink" title="自动化测试的目的"></a>自动化测试的目的</h3><p>自动化测试的目的就是为了提高效率，释放人力做分析设计等工作，但不能减少工作量，代码编译阶段还是需要人为操作，并不能提高可靠性。</p>
+<h3 id="静态分析与动态分析"><a href="#静态分析与动态分析" class="headerlink" title="静态分析与动态分析"></a>静态分析与动态分析</h3><p><strong>动态分析：</strong> 运行软件代码（被测软件动态执行）之后才能检测出来的缺陷，比如内存泄漏。</p>
+<p><strong>静态分析：</strong>可以在运行软件代码（程序）之前的早期阶段检测可能的缺陷。</p>
+<p>​    可以由<strong>机器完成</strong>，以自动“遍历”源代码并检测不合规规则。经典的例子是一个编译器，它可以找到词汇，句法甚至一些语义错误。</p>
+<p>​    也可以由<strong>审查代码的人执行</strong>，以确保使用正确的编码标准和约定来构建程序，这通常称为<strong>代码审查</strong>，由同行开发人员（编写代码的开发人员以外的人）完成。比如当开发人员分析代码时，分析代码行、适当的嵌套、函数调用次数、循环复杂性等……</p>
+<h3 id="测试驱动开发"><a href="#测试驱动开发" class="headerlink" title="测试驱动开发"></a>测试驱动开发</h3><p><strong>测试驱动开发</strong>是敏捷开发中的一项核心实践和技术，也是一种设计方法论。</p>
+<ul>
+<li><p>TDD的<strong>原理</strong>是在开发功能代码之前，先编写单元测试用例代码，测试代码确定需要编写什么产品代码。</p>
+</li>
+<li><p>TDD的<strong>基本思路</strong>就是通过测试来推动整个开发得进行，但测试驱动开发并不只是单纯的测试工作，而是把需求分析，设计，质量控制量化的过程。</p>
+</li>
+<li><p>TDD的<strong>重要目的</strong>不仅仅是测试软件，测试工作保证代码质量仅仅是其中一部分，而且是在开发过程中帮助客户和程序员去除模棱两可的需求。</p>
+</li>
+<li><p>TDD首先<strong>考虑使用需求</strong>（对象、功能、过程、接口等），主要是编写测试用例框架对功能的过程和接口进行设计，而测试框架可以持续进行验证。</p>
+</li>
+<li><p>TDD虽是敏捷方法的核心实践，但不只适用于XP（Extreme Programming），同样可以适用于敏感词开发方法和过程。</p>
+</li>
+<li><p><strong>优点：</strong>在任意一个开发节点都可以拿出一个可以使用，含少量bug并具一定功能的产品。</p>
+</li>
+<li><p><strong>缺点：</strong>增加代码量。测试代码是系统代码的两倍或更多。</p>
+</li>
+</ul>
+<h3 id="圈复杂度"><a href="#圈复杂度" class="headerlink" title="圈复杂度"></a>圈复杂度</h3><p>在软件测试中，<strong>圈复杂度（Cyclomatic complexity）：</strong>代码逻辑复杂度的度量，提供了被测代码的路径数量。圈复杂度可通过系统控制流图的判断节点数目算出。</p>
+<p><strong>基本路径V（G</strong>）：</p>
+<ul>
+<li>V（G）=P+1 （P是判定节点）</li>
+<li>V（G）=D （D是区域数）</li>
+<li>V（G）=E-N+2（E是边的条数，N是节点数）</li>
+</ul>
+<p>【例】某人事管理系统能管理员工的基本信息、家庭信息、学历信息、职称信息等。其中，家庭信息管理模块导出的控制流图中包含9个判断节点，那么，该模块的圈复杂度为 ____<em><strong>10</strong></em> </p>
+<h3 id="白盒测试的方法"><a href="#白盒测试的方法" class="headerlink" title="白盒测试的方法"></a>白盒测试的方法</h3><p>白盒测试的<strong>测试方法</strong>有： 代码检查法、静态结构分析法、静态质量度量法、 逻辑覆盖法、基本路径测试法、 域测试 、符号测试、 路径覆盖和程序变异。</p>
+<p>白盒测试法的<strong>覆盖标准</strong>有： 逻辑覆盖 、循环覆盖和基本路径测试。</p>
+<p>六种覆盖方法中，<strong>覆盖准则由弱到强</strong>依次是语句覆盖、判定覆盖（分支覆盖）、条件覆盖、判定/条件覆盖、条件组合覆盖、路径覆盖。</p>
+<ul>
+<li><p><strong>语句覆盖</strong>是使得程序中每个语句至少被执行一次；</p>
+</li>
+<li><p><strong>判定覆盖</strong>是使得程序中的每个分支至少都通过一次；</p>
+</li>
+<li><p><strong>条件覆盖</strong>是使得判定中的每个条件获得各种可能的结果；</p>
+</li>
+<li><p><strong>判定/条件覆盖</strong>是使得判定中的每个条件取到各种可能的值，并使每个判定取到各种可能的结果；</p>
+</li>
+<li><p><strong>条件组合覆盖</strong>是使得每个判定中条件的各种可能组合都至少出现一次；</p>
+</li>
+<li><p><strong>路径覆盖</strong>是使得程序的每条可能路径都至少执行一次（如果程序图中有环，则要求每个环至少经过一次）</p>
+</li>
+</ul>
+<h3 id="软件测试的各测试内容"><a href="#软件测试的各测试内容" class="headerlink" title="软件测试的各测试内容"></a>软件测试的各测试内容</h3><p><strong>单元测试</strong>以白盒为主，测试单元内部独立路径、逻辑结构、规范等；</p>
+<p><strong>集成测试</strong>也是以白盒为主黑盒辅助，注重测试模块间接口数据传递，参数的个数、属性和顺序的正确性；</p>
+<p><strong>系统测试</strong>主要是内容及技术接口与路径测试、功能测试、健壮性测试、性能测试、用户界面测试、信息安全测试、压力测试、可靠性测试、安装/反安装测试</p>
+<p>​        系统测试、验收测试都是<strong>功能测试</strong>（黑盒测试），而单元测试、集成测试属于<strong>逻辑测试</strong>（白盒测试）</p>
+<p><strong>界面元素</strong>测试包括：窗口测试、菜单测试、图标测试、文字测试、鼠标测试</p>
 
     </div>
 
@@ -592,7 +810,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB"><span class="nav-text">软件测试的定义和分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-text">软件的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%AE%9A%E4%B9%89"><span class="nav-text">生命周期定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B"><span class="nav-text">生命周期模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%80%91%E5%B8%83%E5%9E%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B"><span class="nav-text">瀑布型生命周期模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#V-%E6%A8%A1%E5%9E%8B"><span class="nav-text">V 模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-text">敏捷开发模型</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%86%E7%B1%BB"><span class="nav-text">软件测试的定义和分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-text">定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB"><span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%8F%8A%E6%B5%81%E7%A8%8B"><span class="nav-text">软件测试的生命周期及流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E5%AE%9A%E4%B9%89"><span class="nav-text">生命周期定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B"><span class="nav-text">生命周期模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%80%91%E5%B8%83%E5%9E%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%A8%A1%E5%9E%8B"><span class="nav-text">瀑布型生命周期模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#V-%E6%A8%A1%E5%9E%8B"><span class="nav-text">V 模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%8F%E6%8D%B7%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-text">敏捷开发模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E6%89%A9%E5%B1%95%E5%85%B6%E4%BB%96%E6%A8%A1%E5%9E%8B%EF%BC%9A"><span class="nav-text">&#x3D;&#x3D;可扩展其他模型：&#x3D;&#x3D;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DevOps%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9E%8B%EF%BC%9A%EF%BC%88%E7%8E%B0%E5%9C%A8%EF%BC%89"><span class="nav-text">DevOps开发模型：（现在）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-text">软件测试工作流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%9B%E5%AE%A2%E9%A2%98%E7%9B%AE%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86"><span class="nav-text">牛客题目补充知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90%E6%B5%8B%E8%AF%95%E5%8C%85%E6%8B%AC%E5%93%AA%E4%BA%9B%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-text">系统集成测试包括哪些过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-text">软件调试技术有哪些</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E8%AF%A6%E7%BB%86%E6%B5%81%E7%A8%8B"><span class="nav-text">软件测试详细流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%AF%B9%E5%BA%94%E5%8F%82%E8%80%83%E4%BB%80%E4%B9%88%E6%96%87%E6%A1%A3%EF%BC%9F"><span class="nav-text">测试对应参考什么文档？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B%E6%B5%8B%E8%AF%95%E5%92%8C%E8%87%AA%E5%BA%95%E5%90%91%E4%B8%8A%E6%B5%8B%E8%AF%95"><span class="nav-text">自顶向下测试和自底向上测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-text">测试用工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadRunner-%E5%8C%85%E6%8B%AC%E5%93%AA%E4%BA%9B%E9%83%A8%E5%88%86%EF%BC%9F"><span class="nav-text">LoadRunner 包括哪些部分？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%B5%B0%E6%9F%A5"><span class="nav-text">代码走查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E6%95%88%E7%AD%89%E4%BB%B7%E7%B1%BB%E4%B8%8E%E6%9C%89%E6%95%88%E7%AD%89%E4%BB%B7%E7%B1%BB"><span class="nav-text">无效等价类与有效等价类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%89%8B%E6%9C%BA%EF%BC%88%E8%BD%AF%E4%BB%B6%EF%BC%89%E7%9A%84%E6%B5%8B%E8%AF%95"><span class="nav-text">对手机（软件）的测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7%E5%90%88%E9%9B%86"><span class="nav-text">单元测试工具合集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="nav-text">自动化测试的目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%88%86%E6%9E%90%E4%B8%8E%E5%8A%A8%E6%80%81%E5%88%86%E6%9E%90"><span class="nav-text">静态分析与动态分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91"><span class="nav-text">测试驱动开发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%88%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-text">圈复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BD%E7%9B%92%E6%B5%8B%E8%AF%95%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-text">白盒测试的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E7%9A%84%E5%90%84%E6%B5%8B%E8%AF%95%E5%86%85%E5%AE%B9"><span class="nav-text">软件测试的各测试内容</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
